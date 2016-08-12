@@ -1,3 +1,8 @@
 # C2CCC.github.io
 
-preserved for my blog
+CCC's blog [here][]
+
+
+
+
+[here]: http://C2CCC.space
