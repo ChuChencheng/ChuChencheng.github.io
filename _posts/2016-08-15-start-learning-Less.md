@@ -14,6 +14,60 @@ title: 初学Less
 * Client-side usage（客户端使用）
 * Server-side usage（服务端使用）
 
+# 使用Less
+
+## Server-side usage
+
+### npm安装
+
+```bash
+npm install -g less
+```
+
+### 命令行使用
+
+输出到`stdout`，直接在控制台显示
+
+```bash
+lessc styles.less
+```
+
+保存为文件
+
+```bash
+lessc styles.less styles.css
+```
+
+如果需要压缩，要先安装clean-css插件，然后执行命令
+
+```bash
+lessc --clean-css styles.less styles.min.css
+```
+
+### 在代码中使用
+
+```javascript
+var less = require('less');
+
+less.render('.class { width: (1 + 1) }', function (e, output) {
+    console.log(output.css);
+});
+```
+
+## Client-side usage
+
+link中的rel设置成`stylesheet/less`
+先引入less文件，再引入less.js脚本
+
+```html
+<link rel="stylesheet/less" type="text/css" href="styles.less" />
+<script src="less.js" type="text/javascript"></script>
+```
+
+下载[less.js][]
+
+**需要注意的是，在浏览器中使用Less虽然入门简单、开发便捷，但在实际项目中因为要考虑性能问题，一般推荐在服务端用node.js或其他第三方工具使用**
+
 # 语言特性
 
 ## Variables
@@ -321,64 +375,6 @@ import 可以导入其他文件，如果是.less文件，可以不写后缀
 @import "library";  // library.less
 @import "typo.css";
 ```
-
-
-:dog: :dog: :dog: :dog: :dog: :dog: <font style="font-size:5px;">没错 我是分割线</font> :dog: :dog: :dog: :dog: :dog: :dog:
-
-
-# 使用Less
-
-## Server-side usage
-
-### npm安装
-
-```bash
-npm install -g less
-```
-
-### 命令行使用
-
-输出到`stdout`，直接在控制台显示
-
-```bash
-lessc styles.less
-```
-
-保存为文件
-
-```bash
-lessc styles.less styles.css
-```
-
-如果需要压缩，要先安装clean-css插件，然后执行命令
-
-```bash
-lessc --clean-css styles.less styles.min.css
-```
-
-### 在代码中使用
-
-```javascript
-var less = require('less');
-
-less.render('.class { width: (1 + 1) }', function (e, output) {
-    console.log(output.css);
-});
-```
-
-## Client-side usage
-
-link中的rel设置成`stylesheet/less`
-先引入less文件，再引入less.js脚本
-
-```html
-<link rel="stylesheet/less" type="text/css" href="styles.less" />
-<script src="less.js" type="text/javascript"></script>
-```
-
-下载[less.js][]
-
-**需要注意的是，在浏览器中使用Less虽然入门简单、开发便捷，但在实际项目中因为要考虑性能问题，一般推荐在服务端用node.js或其他第三方工具使用**
 
 # 参考
 
