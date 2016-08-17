@@ -3,7 +3,6 @@ layout: default
 title: 通过Gulp使用Browsersync实现浏览器实时响应文件更改
 ---
 
-[TOC]
 {:toc}
 
 # Gulp是什么鬼

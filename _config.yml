@@ -6,3 +6,4 @@ highlighter: rouge
 kramdown:
   input: GFM
   auto_ids: true
+  toc_levels: 1..6
