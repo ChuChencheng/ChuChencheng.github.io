@@ -1,9 +1,10 @@
 ---
-layout: default
+layout: post
 title: 初学Less
 ---
 
-[TOC]
+* 目录
+{:toc}
 
 **Less在CSS语法的基础上进行了扩展，主要包含：**
 

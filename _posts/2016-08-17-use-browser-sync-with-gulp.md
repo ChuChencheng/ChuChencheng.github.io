@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: 通过Gulp使用Browsersync实现浏览器实时响应文件更改
 ---
 

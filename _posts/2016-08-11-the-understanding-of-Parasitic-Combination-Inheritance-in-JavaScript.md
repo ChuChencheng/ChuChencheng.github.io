@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: JavaScript对寄生组合式继承的理解
 ---
 

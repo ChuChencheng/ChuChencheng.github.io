@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: JavaScript笔记——引用类型之Object类型和Function类型
 ---
 
