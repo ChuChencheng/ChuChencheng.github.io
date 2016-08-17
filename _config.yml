@@ -1,3 +1,6 @@
 baseurl: /
 permalink: pretty
 markdown: kramdown
+
+kramdown:
+  input: GFM
