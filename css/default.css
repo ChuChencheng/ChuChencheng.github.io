@@ -7,7 +7,7 @@ img {
     width: 100%;
 }
 
-.markdown-toc {
+#markdown-toc {
     position: fixed;
     left: 10px;
     top: 150px;
