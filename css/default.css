@@ -1,8 +1,14 @@
 .content {
     margin: 0 auto;
-    max-width: 95%;
+    max-width: 80%;
 }
 
 img {
     width: 100%;
+}
+
+.toc {
+    position: fixed;
+    left: 10px;
+    top: 20px;
 }
