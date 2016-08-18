@@ -1,7 +1,6 @@
 .content {
     margin: 0 auto;
-    max-width: 95%;
-    display: box;
+    max-width: 75%;
 }
 
 img {
@@ -11,10 +10,6 @@ img {
 #markdown-toc {
     position: fixed;
     max-width: 200px;
-    left: 0px;
+    right: 0px;
     top: 150px;
-}
-
-.article-main {
-    box-flex: 1;
 }
