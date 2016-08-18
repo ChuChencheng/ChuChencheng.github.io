@@ -4,18 +4,5 @@ layout: default
 
 <div class="back-home"><a href="{{ site.baseurl }}">← 回主页</a></div>
 <div class="content">
-<div class="article-main">
 {{ content }}
 </div>
-</div>
-
-<!--Check if toc exists-->
-<script type="text/javascript">
-    $(document).ready(function(){
-        if($('#markdown-toc').length>0){
-            var toc = $('#markdown-toc').prop('outerHTML');
-            $('#markdown-toc').remove();
-            $('.content').prepend(toc);
-        }
-    });
-</script>

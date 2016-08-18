@@ -1,3 +1,7 @@
+body {
+    background-color: rgb(242, 247, 250);
+}
+
 .content {
     margin: 0 auto;
     max-width: 75%;
@@ -7,9 +11,18 @@ img {
     width: 100%;
 }
 
-#markdown-toc {
-    position: fixed;
-    max-width: 200px;
-    right: 0px;
-    top: 150px;
+a {
+    text-decoration: none;
+    color: #07C;
+    border-bottom: 1px dotted #07C;
+}
+
+a:hover {
+    border-bottom: 1px solid #07C;
+}
+
+ul {}
+
+li {
+    margin-bottom: 5px;
 }
