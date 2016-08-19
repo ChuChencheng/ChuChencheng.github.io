@@ -85,7 +85,7 @@ UI控制界面默认启动在http://localhost:3001
 
 # 参考
 
-* [一点| gulp详细入门教程][]
+* [一点\| gulp详细入门教程][]
 * [Browsersync + Gulp.js][] 
 
 
