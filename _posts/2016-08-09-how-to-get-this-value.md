@@ -175,8 +175,8 @@ console.log(o.f(), o.g());  //37, azerty
 
 # 参考
 
-[this - JavaScript | MDN][]
-[Javascript 严格模式详解][]
+* [this - JavaScript | MDN][]
+* [Javascript 严格模式详解][]
 
 
 

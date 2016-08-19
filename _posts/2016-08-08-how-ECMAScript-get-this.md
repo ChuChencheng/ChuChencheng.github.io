@@ -117,7 +117,7 @@ cond(no)->op4->op5->op2
 
 # 参考
 
-[ECMAScript® 2015 Language Specification][reference]
+* [ECMAScript® 2015 Language Specification][reference]
 
 
 

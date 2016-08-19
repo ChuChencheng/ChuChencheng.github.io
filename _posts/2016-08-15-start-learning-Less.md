@@ -379,8 +379,8 @@ import 可以导入其他文件，如果是.less文件，可以不写后缀
 
 # 参考
 
-[lesscss.org][]
-[前端构建：Less入了个门][]
+* [lesscss.org][]
+* [前端构建：Less入了个门][]
 
 
 

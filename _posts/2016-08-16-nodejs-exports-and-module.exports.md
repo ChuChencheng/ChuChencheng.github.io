@@ -44,8 +44,8 @@ console.log(rocker.name);  //undefined
 
 参考：
 
-[Node.js Module – exports vs module.exports][]
-[exports 和 module.exports 的区别][]
+* [Node.js Module – exports vs module.exports][]
+* [exports 和 module.exports 的区别][]
 
 
 [Node.js Module – exports vs module.exports]: http://www.hacksparrow.com/node-js-exports-vs-module-exports.html
