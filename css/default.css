@@ -1,3 +1,24 @@
+@font-face {
+  font-family: 'socialicons';
+  src: url('../font/socialicons.eot');
+  /* IE9*/
+  src: url('../font/socialicons.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('../font/socialicons.woff') format('woff'), /* chrome、firefox */ url('../font/socialicons.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('../font/socialicons.svg#iconfont') format('svg');
+  /* iOS 4.1- */
+}
+.socialicons {
+  font-family: "socialicons" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+.social-list {
+  list-style-type: none;
+}
+.social-list li {
+  float: left;
+}
 body {
   background-color: #f2f7fa;
 }
@@ -29,6 +50,9 @@ button {
   border-radius: 5px;
   outline: none;
   font-size: 14px;
+}
+button {
+  cursor: pointer;
 }
 textarea {
   width: 600px;
@@ -97,7 +121,6 @@ select:focus {
   font-weight: bold;
   border: 1px solid #357ebd;
   background: #428bca;
-  cursor: pointer;
 }
 .add-comment button[type=submit]:hover {
   border: 1px solid #285e8e;
