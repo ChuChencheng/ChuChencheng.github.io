@@ -1,11 +1,8 @@
 body {
   background-color: #f2f7fa;
 }
-body > * {
-  margin: 0 10px;
-}
 .content {
-  margin: 0 auto;
+  margin: 0 10px;
   max-width: 75%;
 }
 img {
@@ -31,8 +28,8 @@ button {
   font-size: 14px;
 }
 textarea {
-  width: 520px;
-  height: 300px;
+  width: 600px;
+  height: 200px;
   text-indent: 1em;
   color: #555555;
   border: 1px solid #cccccc;
@@ -67,7 +64,7 @@ select:focus {
 .feedback,
 .comments,
 .add-comment {
-  margin: 0 auto;
+  margin: 0 10px;
   max-width: 75%;
 }
 /*feedback btn*/
@@ -75,6 +72,7 @@ select:focus {
   width: 50px;
   height: 50px;
   background-image: url('../img/diao.gif');
+  background-size: contain;
 }
 .diao:hover {
   border: 1px solid #285e8e;
@@ -83,12 +81,14 @@ select:focus {
   width: 50px;
   height: 50px;
   background-image: url('../img/mengbi.jpg');
+  background-size: contain;
 }
 .mengbi:hover {
   border: 1px solid #285e8e;
 }
 .add-comment form > * {
   display: block;
+  margin: 0 10px;
 }
 .add-comment button[type=submit] {
   width: 65px;

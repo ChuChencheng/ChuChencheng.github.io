@@ -2,12 +2,8 @@ body {
     background-color: rgb(242, 247, 250);
 }
 
-body>*{
-    margin: 0 10px;
-}
-
 .center(@maxWidth){
-    margin: 0 auto;
+    margin: 0 10px;
     max-width: @maxWidth;
 }
 
@@ -56,8 +52,8 @@ input, textarea, select, button{
 }
 
 textarea{
-    width: 520px;
-    height: 300px;
+    width: 600px;
+    height: 200px;
     .text();
 }
 
@@ -89,6 +85,7 @@ input, select{
     width: 50px;
     height: 50px;
     background-image: url(@bg);
+    background-size: contain;
     &:hover{
         border: 1px solid rgb(40, 94, 142);
     }
@@ -104,6 +101,7 @@ input, select{
 
 .add-comment form>*{
     display: block;
+    margin: 0 10px;
 }
 
 .add-comment button[type=submit]{
