@@ -3,16 +3,26 @@ layout: default
 ---
 
 <div class="back-home"><a href="{{ site.baseurl }}">← 回主页</a></div>
-<div class="content">
+<div class="content panel">
+<div class="panel-header">
+    <h1>{{ title }}</h1>
+</div>
 {{ content }}
 </div>
 
-<div class="feedback">
+<div class="feedback panel">
+<div class="panel-header">
+    <h1>反馈（建设中）</h1>
+</div>
     <p>看完这篇blog，你的感受是？</p>
     <button class="diao"></button>
     <button class="mengbi"></button>
 </div>
 
+<div class="comment-area panel">
+<div class="panel-header">
+    <h1>评论区（建设中）</h1>
+</div>
 <div class="comments"></div>
 <div class="add-comment">
     <form action="" method="post">
@@ -23,4 +33,5 @@ layout: default
         <label><input type="checkbox" name="remember">记住信息？</label>
         <button type="submit">必有高论</button>
     </form>
+</div>
 </div>
