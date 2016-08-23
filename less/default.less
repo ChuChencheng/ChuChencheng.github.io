@@ -3,7 +3,7 @@ body {
 }
 
 .center(@maxWidth){
-    margin: 0 10px;
+    margin: 10px auto;
     max-width: @maxWidth;
 }
 
@@ -57,16 +57,18 @@ textarea{
     .text();
 }
 
-input, select{
+input[type=text], select{
     width: 250px;
     height: 35px;
     .text();
 }
 
 .btn(){
-    width: 65px;
-    height: 30px;
+    width: 120px;
+    height: 45px;
     color: rgb(255, 255, 255);
+    font-size: 16px;
+    font-weight: bold;
     border: 1px solid rgb(53, 126, 189);
     background: rgb(66, 139, 202);
     cursor: pointer;
@@ -101,7 +103,7 @@ input, select{
 
 .add-comment form>*{
     display: block;
-    margin: 0 10px;
+    margin: 10px 0;
 }
 
 .add-comment button[type=submit]{
