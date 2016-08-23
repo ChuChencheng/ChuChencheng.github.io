@@ -1,28 +1,100 @@
+* {
+  padding: 0;
+  margin: 0;
+}
 body {
-    background-color: rgb(242, 247, 250);
+  background-color: #f2f7fa;
 }
-
 .content {
-    margin: 0 auto;
-    max-width: 75%;
+  margin: 0 auto;
+  max-width: 75%;
 }
-
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
-
 a {
-    text-decoration: none;
-    color: #07C;
-    border-bottom: 1px dotted #07C;
+  text-decoration: none;
+  color: #07C;
+  border-bottom: 1px dotted #07C;
 }
-
 a:hover {
-    border-bottom: 1px solid #07C;
+  border-bottom: 1px solid #07C;
 }
-
-ul {}
-
 li {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
+}
+input,
+textarea,
+select,
+button {
+  border-radius: 5px;
+  outline: none;
+  font-size: 14px;
+}
+textarea {
+  max-width: 520px;
+  max-height: 300px;
+  text-indent: 1em;
+  color: #555555;
+  border: 1px solid #cccccc;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+  -moz-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+textarea:focus {
+  border-color: #66afe9;
+  box-shadow: 0 0 8px #66afe9;
+  -webkit-box-shadow: 0 0 8px #66afe9;
+}
+input,
+select {
+  max-width: 250px;
+  height: 35px;
+  text-indent: 1em;
+  color: #555555;
+  border: 1px solid #cccccc;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+  -moz-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+input:focus,
+select:focus {
+  border-color: #66afe9;
+  box-shadow: 0 0 8px #66afe9;
+  -webkit-box-shadow: 0 0 8px #66afe9;
+}
+button {
+  width: 65px;
+  height: 30px;
+  color: #ffffff;
+  border: 1px solid #357ebd;
+  background: #428bca;
+  cursor: pointer;
+}
+button:hover {
+  border: 1px solid #285e8e;
+  background: #3071a9;
+}
+/*feedback btn*/
+.diao {
+  width: 50px;
+  height: 50px;
+  background-image: url('../img/diao.gif');
+}
+.mengbi {
+  width: 50px;
+  height: 50px;
+  background-image: url('../img/mengbi.jpg');
+}
+/*comments*/
+.comments {
+  margin: 0 auto;
+  max-width: 80%;
+}
+/*add-comment form*/
+.add-comment * {
+  margin: 0 auto;
+  max-width: 80%;
 }

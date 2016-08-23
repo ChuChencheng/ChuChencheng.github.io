@@ -6,3 +6,21 @@ layout: default
 <div class="content">
 {{ content }}
 </div>
+
+<div class="feedback">
+    <p>看完这篇blog，你的感受是？</p>
+    <button class="diao"></button>
+    <button class="mengbi"></button>
+</div>
+
+<div class="comments"></div>
+<div class="add-comment">
+    <form action="" method="post">
+        <textarea name="content" placeholder="留下你的见解"></textarea>
+        <input type="text" name="name" placeholder="姓名（必填）">
+        <input type="text" name="mail" placeholder="电邮（必填）">
+        <input type="text" name="site" placeholder="网址">
+        <label><input type="checkbox" name="remember">记住信息？</label>
+        <button>必有高论</button>
+    </form>
+</div>

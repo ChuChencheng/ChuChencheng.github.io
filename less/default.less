@@ -1,0 +1,106 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body {
+    background-color: rgb(242, 247, 250);
+}
+
+.center(@maxWidth){
+    margin: 0 auto;
+    max-width: @maxWidth;
+}
+
+.content {
+    .center(75%);
+}
+
+img {
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: #07C;
+    border-bottom: 1px dotted #07C;
+    &:hover{
+        border-bottom: 1px solid #07C;
+    }
+}
+
+ul {}
+
+li {
+    margin-bottom: 5px;
+}
+
+input, textarea, select, button{
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+}
+
+.text(){
+    text-indent: 1em;
+    color: rgb(85, 85, 85);
+    border: 1px solid rgb(204, 204, 204);
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+    -moz-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    &:focus{
+        border-color: rgb(102, 175, 233);
+        box-shadow: 0 0 8px rgb(102, 175, 233);
+        -webkit-box-shadow: 0 0 8px rgb(102, 175, 233);
+    }
+}
+
+textarea{
+    max-width: 520px;
+    max-height: 300px;
+    .text();
+}
+
+input, select{
+    max-width: 250px;
+    height: 35px;
+    .text();
+}
+
+button{
+    width: 65px;
+    height: 30px;
+    color: rgb(255, 255, 255);
+    border: 1px solid rgb(53, 126, 189);
+    background: rgb(66, 139, 202);
+    cursor: pointer;
+    &:hover{
+        border: 1px solid rgb(40, 94, 142);
+        background: rgb(48, 113, 169);
+    }
+}
+
+
+/*feedback btn*/
+.feedbackBtn(@bg){
+    width: 50px;
+    height: 50px;
+    background-image: url(@bg);
+}
+
+.diao{
+    .feedbackBtn('../img/diao.gif');
+}
+
+.mengbi{
+    .feedbackBtn('../img/mengbi.jpg');
+}
+
+/*comments*/
+.comments{
+    .center(80%);
+}
+/*add-comment form*/
+.add-comment *{
+    .center(80%);
+}

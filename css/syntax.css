@@ -1,3 +1,9 @@
+blockqoute{
+    padding: 0 20px;
+    color: #777;
+    border-left: 5px solid #ddd;
+}
+
 .highlight pre code * {
   white-space: nowrap;    // this sets all children inside to nowrap
 }
