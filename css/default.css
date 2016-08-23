@@ -14,10 +14,10 @@
   -moz-osx-font-smoothing: grayscale;
   border: none;
   color: #b4b4b4;
-  text-decoration: none;
 }
 .socialicons:hover {
   color: #357ebd;
+  border: none;
 }
 .social-list {
   list-style-type: none;
