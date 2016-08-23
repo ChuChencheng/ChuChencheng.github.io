@@ -73,7 +73,7 @@ select:focus {
   background-size: contain;
 }
 .diao:hover {
-  border: 1px solid #285e8e;
+  border: 1px solid #357ebd;
 }
 .mengbi {
   width: 50px;
@@ -83,7 +83,7 @@ select:focus {
   background-size: contain;
 }
 .mengbi:hover {
-  border: 1px solid #285e8e;
+  border: 1px solid #357ebd;
 }
 .add-comment form > * {
   display: block;
