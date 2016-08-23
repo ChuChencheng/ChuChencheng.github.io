@@ -1,7 +1,3 @@
-* {
-  padding: 0;
-  margin: 0;
-}
 body {
   background-color: #f2f7fa;
 }
@@ -65,17 +61,11 @@ select:focus {
   box-shadow: 0 0 8px #66afe9;
   -webkit-box-shadow: 0 0 8px #66afe9;
 }
-button {
-  width: 65px;
-  height: 30px;
-  color: #ffffff;
-  border: 1px solid #357ebd;
-  background: #428bca;
-  cursor: pointer;
-}
-button:hover {
-  border: 1px solid #285e8e;
-  background: #3071a9;
+.feedback,
+.comments,
+.add-comment {
+  margin: 0 auto;
+  max-width: 80%;
 }
 /*feedback btn*/
 .diao {
@@ -83,18 +73,14 @@ button:hover {
   height: 50px;
   background-image: url('../img/diao.gif');
 }
+.diao:hover {
+  border: 1px solid #285e8e;
+}
 .mengbi {
   width: 50px;
   height: 50px;
   background-image: url('../img/mengbi.jpg');
 }
-/*comments*/
-.comments {
-  margin: 0 auto;
-  max-width: 80%;
-}
-/*add-comment form*/
-.add-comment * {
-  margin: 0 auto;
-  max-width: 80%;
+.mengbi:hover {
+  border: 1px solid #285e8e;
 }
