@@ -2,6 +2,10 @@ body {
     background-color: rgb(242, 247, 250);
 }
 
+body>*{
+    margin: 0 10px;
+}
+
 .center(@maxWidth){
     margin: 0 auto;
     max-width: @maxWidth;
@@ -52,32 +56,32 @@ input, textarea, select, button{
 }
 
 textarea{
-    max-width: 520px;
-    max-height: 300px;
+    width: 520px;
+    height: 300px;
     .text();
 }
 
 input, select{
-    max-width: 250px;
+    width: 250px;
     height: 35px;
     .text();
 }
 
-// button{
-//     width: 65px;
-//     height: 30px;
-//     color: rgb(255, 255, 255);
-//     border: 1px solid rgb(53, 126, 189);
-//     background: rgb(66, 139, 202);
-//     cursor: pointer;
-//     &:hover{
-//         border: 1px solid rgb(40, 94, 142);
-//         background: rgb(48, 113, 169);
-//     }
-// }
+.btn(){
+    width: 65px;
+    height: 30px;
+    color: rgb(255, 255, 255);
+    border: 1px solid rgb(53, 126, 189);
+    background: rgb(66, 139, 202);
+    cursor: pointer;
+    &:hover{
+        border: 1px solid rgb(40, 94, 142);
+        background: rgb(48, 113, 169);
+    }
+}
 
 .feedback, .comments, .add-comment{
-    .center(80%);
+    .center(75%);
 }
 
 /*feedback btn*/
@@ -96,4 +100,12 @@ input, select{
 
 .mengbi{
     .feedbackBtn('../img/mengbi.jpg');
+}
+
+.add-comment form>*{
+    display: block;
+}
+
+.add-comment button[type=submit]{
+    .btn();
 }
