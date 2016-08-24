@@ -1,5 +1,4 @@
 ---
-layout: post
 title: ECMAScript中关于如何获取this的定义
 ---
 

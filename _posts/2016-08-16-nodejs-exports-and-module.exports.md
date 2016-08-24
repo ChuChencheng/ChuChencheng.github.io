@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Node.js exports与module.exports的关系
 ---
 

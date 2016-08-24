@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Node.js抓取系列
 ---
 

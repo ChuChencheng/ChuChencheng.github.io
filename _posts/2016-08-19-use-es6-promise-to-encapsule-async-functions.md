@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Node.js用ES6原生Promise对异步函数进行封装
 ---
 

@@ -1,5 +1,4 @@
 ---
-layout: post
 title: JavaScript笔记——this的取值
 ---
 
