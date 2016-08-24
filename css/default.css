@@ -95,6 +95,9 @@ select:focus {
   box-shadow: 0 0 8px #66afe9;
   -webkit-box-shadow: 0 0 8px #66afe9;
 }
+.hidden {
+  display: none;
+}
 /*feedback btn*/
 .diao {
   width: 50px;
