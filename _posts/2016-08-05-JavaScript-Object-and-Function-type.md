@@ -1,6 +1,4 @@
 ---
-layout: post
-title: JavaScript笔记——引用类型之Object类型和Function类型
 ---
 
 **《JavaScript高级程序设计》中介绍的几种JavaScript的引用类型，本文只记了Object跟Function类型**

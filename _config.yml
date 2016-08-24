@@ -7,3 +7,12 @@ kramdown:
   input: GFM
   auto_ids: true
   toc_levels: 1..6
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+
