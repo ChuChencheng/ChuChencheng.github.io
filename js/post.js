@@ -23,9 +23,9 @@ $.extend(PostEvents.prototype, {
   handleGetComments: function(e){
     var self = this;
     $.ajax({
-      url: this.url.getComments,
+      url: self.url.getComments,
       type: 'get',
-      data: this.title,
+      data: self.title,
       dataType: 'json'
     }).done(function(data){
       if(data.success){
