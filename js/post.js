@@ -13,9 +13,9 @@ $.extend(PostEvents.prototype, {
     this.attachEvents();
   },
   attachEvents: function(){
-    this.$window.on('load', this.handleGetComments);
-    this.$addCommentForm.on('submit', this.handleAddComment);
-    this.$feedbackBtn.on('click', this.handleFeedback);
+    this.$window.on('load', $.proxy(this.handleGetComments, this));
+    this.$addCommentForm.on('submit', $.proxy(this.handleAddComment, this));
+    this.$feedbackBtn.on('click', $.proxy(this.handleFeedback, this));
   },
   handleFeedback: function(e){
     console.log(e.target);
@@ -24,9 +24,9 @@ $.extend(PostEvents.prototype, {
     console.log(this);
     var self = this;
     $.ajax({
-      url: self.url.getComments,
+      url: this.url.getComments,
       type: 'get',
-      data: self.title,
+      data: this.title,
       dataType: 'json'
     }).done(function(data){
       if(data.success){
