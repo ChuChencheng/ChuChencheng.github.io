@@ -39,9 +39,12 @@ layout: default
 
 <script type="text/javascript" src="{{ 'js/post.js' | prepend: site.baseurl }}"></script>
 <script type="text/javascript">
-    window.url = {
-        feedback: '',
-        getComments: 'comments/getComments'
+    window.config = {
+        url: {
+            feedback: '/feedback',
+            getComments: 'comments/getComments'
+        },
+        title: {{ page.title }}
     }
     $(document).ready(function(){
         new PostEvents();

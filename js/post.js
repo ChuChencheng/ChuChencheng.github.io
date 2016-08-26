@@ -1,5 +1,6 @@
 var PostEvents = function(){
-  this.url = window.url;
+  this.url = window.config.url;
+  this.title = window.config.title;
   this.$window = $(window);
   this.$feedbackBtn = $('.feedback button');
   this.$addCommentForm = $('.add-comment form');
@@ -24,7 +25,7 @@ $.extend(PostEvents.prototype, {
     $.ajax({
       url: this.url.getComments,
       type: 'get',
-      data: {{ page.title }},
+      data: this.title,
       dataType: 'json'
     }).done(function(data){
       if(data.success){
