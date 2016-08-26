@@ -18,15 +18,21 @@ $.extend(PostEvents.prototype, {
     this.$feedbackBtn.on('click', $.proxy(this.handleFeedback, this));
   },
   handleFeedback: function(e){
-    console.log(e.target);
+    var feedback = $(e.target).attr('data-feedback');
+    console.log(feedback);
+    $.ajax({
+      url: this.url.feedback,
+      type: 'post',
+      data: {feedback: feedback},
+      dataType: 'json'
+    }).done(function(data){});
   },
   handleGetComments: function(e){
-    console.log(this);
     var self = this;
     $.ajax({
       url: this.url.getComments,
       type: 'get',
-      data: this.title,
+      data: {title: this.title},
       dataType: 'json'
     }).done(function(data){
       if(data.success){
