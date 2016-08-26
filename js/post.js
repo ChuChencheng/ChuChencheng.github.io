@@ -13,9 +13,9 @@ $.extend(PostEvents.prototype, {
     this.attachEvents();
   },
   attachEvents: function(){
-    this.$window.on('load', handleGetComments);
-    this.$addCommentForm.on('submit', handleAddComment);
-    this.$feedbackBtn.on('click', handleFeedback);
+    this.$window.on('load', this.handleGetComments);
+    this.$addCommentForm.on('submit', this.handleAddComment);
+    this.$feedbackBtn.on('click', this.handleFeedback);
   },
   handleFeedback: function(e){
     console.log(e.target);
