@@ -25,7 +25,7 @@ layout: default
 </div>
 <div class="comments"></div>
 <div class="add-comment">
-    <form action="" method="post">
+    <form action="/comments/addComment" method="post">
         <input class="hidden" type="text" name="title" value="{{ page.title }}">
         <textarea name="content" placeholder="留下你的见解" required="required"></textarea>
         <input type="text" name="name" placeholder="姓名（必填）" required="required">
@@ -42,7 +42,7 @@ layout: default
     window.config = {
         url: {
             feedback: '/feedback',
-            getComments: 'comments/getComments'
+            getComments: '/comments/getComments'
         },
         title: '{{ page.title }}'
     }
