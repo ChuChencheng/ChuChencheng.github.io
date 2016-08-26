@@ -21,6 +21,7 @@ $.extend(PostEvents.prototype, {
     console.log(e.target);
   },
   handleGetComments: function(e){
+    console.log(this);
     var self = this;
     $.ajax({
       url: self.url.getComments,
