@@ -1,3 +1,5 @@
+jQuery.support.cors = true;
+
 var PostEvents = function(){
   this.url = window.config.url;
   this.title = window.config.title;
