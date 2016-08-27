@@ -1,5 +1,6 @@
 var PostEvents = function(){
   this.url = window.config.url;
+  this.cors = 'http://api.c2ccc.space:3000';
   this.title = window.config.title;
   this.$window = $(window);
   this.$feedback = $('.feedback');
@@ -22,7 +23,7 @@ $.extend(PostEvents.prototype, {
     var self = this;
     var feedback = $(e.target).attr('data-feedback');
     $.ajax({
-      url: this.url.feedback,
+      url: this.cors + this.url.feedback,
       type: 'post',
       data: {title:this.title,feedback: feedback},
       dataType: 'json'
@@ -38,7 +39,7 @@ $.extend(PostEvents.prototype, {
   handleGetComments: function(e){
     var self = this;
     $.ajax({
-      url: this.url.getComments,
+      url: this.cors + this.url.getComments,
       type: 'get',
       data: {title: this.title},
       dataType: 'json'
@@ -59,7 +60,7 @@ $.extend(PostEvents.prototype, {
     var type = this.$addCommentForm.attr('method');
     var data = this.$addCommentForm.serialize();
     $.ajax({
-      url: url,
+      url: this.cors + url,
       type: type,
       data: data,
       dataType: 'json'

@@ -25,7 +25,7 @@ layout: default
 </div>
 <div class="comments"></div>
 <div class="add-comment">
-    <form action="http://api.c2ccc.space:3000/comments/addComment" method="post">
+    <form action="/comments/addComment" method="post">
         <input class="hidden" type="text" name="title" value="{{ page.title }}" disabled="disabled">
         <textarea name="content" placeholder="留下你的见解" required="required"></textarea>
         <input type="text" name="name" placeholder="姓名（必填）" required="required">
@@ -42,8 +42,8 @@ layout: default
     window.config = {
         url: {
             cors: 'http://api.c2ccc.space:3000'
-            feedback: this.cors + '/feedback',
-            getComments: this.cors + '/comments/getComments'
+            feedback: '/feedback',
+            getComments: '/comments/getComments'
         },
         title: '{{ page.title }}'
     }
