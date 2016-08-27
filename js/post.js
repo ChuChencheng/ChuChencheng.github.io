@@ -38,6 +38,7 @@ $.extend(PostEvents.prototype, {
   },
   handleGetComments: function(e){
     var self = this;
+    console.log(this.title);
     $.ajax({
       url: this.cors + this.url.getComments,
       type: 'get',
