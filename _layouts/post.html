@@ -26,7 +26,7 @@ layout: default
 <div class="comments"></div>
 <div class="add-comment">
     <form action="api.c2ccc.space:3000/comments/addComment" method="post">
-        <input class="hidden" type="text" name="title" value="{{ page.title }}">
+        <input class="hidden" type="text" name="title" value="{{ page.title }}" disabled="disabled">
         <textarea name="content" placeholder="留下你的见解" required="required"></textarea>
         <input type="text" name="name" placeholder="姓名（必填）" required="required">
         <input type="text" name="mail" placeholder="电邮（必填）" required="required">
