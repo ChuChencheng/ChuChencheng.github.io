@@ -45,7 +45,6 @@ $.extend(PostEvents.prototype, {
       dataType: 'json'
     }).done(function(data){
       if(data.success){
-        console.log(data);
         $.each(data.data, function(key, value){
           self.$comments.prepend(self.generateCommentHtml(value));
         });
