@@ -2,6 +2,7 @@ var PostEvents = function(){
   this.url = window.config.url;
   this.title = window.config.title;
   this.$window = $(window);
+  this.$feedback = $('.feedback');
   this.$feedbackBtn = $('.feedback button');
   this.$addCommentForm = $('.add-comment form');
   this.$comments = $('.comments');
@@ -18,14 +19,21 @@ $.extend(PostEvents.prototype, {
     this.$feedbackBtn.on('click', $.proxy(this.handleFeedback, this));
   },
   handleFeedback: function(e){
+    var self = this;
     var feedback = $(e.target).attr('data-feedback');
-    console.log(feedback);
     $.ajax({
       url: this.url.feedback,
       type: 'post',
-      data: {feedback: feedback},
+      data: {title:this.title,feedback: feedback},
       dataType: 'json'
-    }).done(function(data){});
+    }).done(function(data){
+      if(data.success){
+        self.$feedback.children('p').text('感谢您的反馈');
+        self.$feedbackBtn.remove();
+      }else{
+        console.log(data.msg);
+      }
+    });
   },
   handleGetComments: function(e){
     var self = this;
@@ -40,7 +48,7 @@ $.extend(PostEvents.prototype, {
           $comments.prepend(self.generateCommentHtml(value));
         });
       }else{
-        alert(data.msg);
+        console.log(data.msg);
       }
     });
   },
