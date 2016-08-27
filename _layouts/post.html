@@ -28,15 +28,16 @@ layout: default
     <form action="/comments/addComment" method="post">
         <input class="hidden" type="text" name="title" value="{{ page.title }}">
         <textarea name="content" placeholder="留下你的见解" required="required"></textarea>
-        <input type="text" name="name" placeholder="姓名（必填）" required="required">
-        <input type="text" name="email" placeholder="电邮（必填）" required="required">
-        <input type="text" name="site" placeholder="网址">
+        <input type="text" name="name" class="cookie" placeholder="姓名（必填）" required="required">
+        <input type="text" name="email" class="cookie" placeholder="电邮（必填）" required="required">
+        <input type="text" name="site" class="cookie" placeholder="网址">
         <label><input type="checkbox" name="remember">记住信息？</label>
         <button type="submit">必有高论</button>
     </form>
 </div>
 </div>
 
+<script type="text/javascript" src="{{ 'js/js.cookie.js' | prepend: site.baseurl }}"></script>
 <script type="text/javascript" src="{{ 'js/post.js' | prepend: site.baseurl }}"></script>
 <script type="text/javascript">
     window.config = {

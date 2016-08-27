@@ -38,7 +38,7 @@ $.extend(PostEvents.prototype, {
   },
   handleGetComments: function(e){
     var self = this;
-    console.log(this.title);
+    this.fillCookies(this.$addCommentForm);
     $.ajax({
       url: this.cors + this.url.getComments,
       type: 'get',
@@ -59,7 +59,12 @@ $.extend(PostEvents.prototype, {
     var self = this;
     var url = this.$addCommentForm.attr('action');
     var type = this.$addCommentForm.attr('method');
-    var data = this.$addCommentForm.serialize();
+    var data = this.$addCommentForm.serializeToObject();
+    if(data.remember){
+      Cookies.set('name', data.name);
+      Cookies.set('email', data.email);
+      Cookies.set('site', data.site);
+    }
     $.ajax({
       url: this.cors + url,
       type: type,
@@ -67,10 +72,24 @@ $.extend(PostEvents.prototype, {
       dataType: 'json'
     }).done(function(data){
       if(data.success){
+        self.clearForm(self.$addCommentForm);
+        self.fillCookies(self.$addCommentForm);
         self.$comments.prepend(self.generateCommentHtml($.extend({}, self.serializeToObject(self.$addCommentForm), data.data)));
       }else{
         alert(data.msg);
       }
+    });
+  },
+  clearForm: function($form){
+    $.each($form.children(), function(key, value){
+      if(!$(value).hasClass('hidden')){
+        $(value).val('');
+      }
+    });
+  },
+  fillCookies: function($form){
+    $.each($form.children('.cookie'), function(key, value){
+      $(value).val(Cookies.get($(value).attr('name')));
     });
   },
   generateCommentHtml: function(doc){
