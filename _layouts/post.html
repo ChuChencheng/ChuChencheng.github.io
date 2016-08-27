@@ -26,10 +26,10 @@ layout: default
 <div class="comments"></div>
 <div class="add-comment">
     <form action="/comments/addComment" method="post">
-        <input class="hidden" type="text" name="title" value="{{ page.title }}" disabled="disabled">
+        <input class="hidden" type="text" name="title" value="{{ page.title }}">
         <textarea name="content" placeholder="留下你的见解" required="required"></textarea>
         <input type="text" name="name" placeholder="姓名（必填）" required="required">
-        <input type="text" name="mail" placeholder="电邮（必填）" required="required">
+        <input type="text" name="email" placeholder="电邮（必填）" required="required">
         <input type="text" name="site" placeholder="网址">
         <label><input type="checkbox" name="remember">记住信息？</label>
         <button type="submit">必有高论</button>
