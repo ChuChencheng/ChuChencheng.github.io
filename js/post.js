@@ -66,8 +66,7 @@ $.extend(PostEvents.prototype, {
       dataType: 'json'
     }).done(function(data){
       if(data.success){
-        $.extend(data.doc, self.serializeToObject(self.$addCommentForm));
-        self.$comments.prepend(self.generateCommentHtml(data.doc));
+        self.$comments.prepend(self.generateCommentHtml($.extend({}, self.serializeToObject(self.$addCommentForm), data.doc)));
       }else{
         alert(data.msg);
       }
