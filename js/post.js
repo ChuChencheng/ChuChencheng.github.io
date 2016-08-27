@@ -46,7 +46,7 @@ $.extend(PostEvents.prototype, {
     }).done(function(data){
       if(data.success){
         $.each(data.docs, function(key, value){
-          $comments.prepend(self.generateCommentHtml(value));
+          self.$comments.prepend(self.generateCommentHtml(value));
         });
       }else{
         console.log(data.msg);
@@ -66,7 +66,7 @@ $.extend(PostEvents.prototype, {
       dataType: 'json'
     }).done(function(data){
       if(data.success){
-        $comments.prepend(self.generateCommentHtml($.extend(self.serializeToObject(self.$addCommentForm), data.doc)));
+        self.$comments.prepend(self.generateCommentHtml($.extend(self.serializeToObject(self.$addCommentForm), data.doc)));
       }else{
         alert(data.msg);
       }
