@@ -73,6 +73,7 @@ $.extend(PostEvents.prototype, {
     });
   },
   generateCommentHtml: function(doc){
+    console.log(doc);
     var id = doc.id,
         date = doc.date,
         content = doc.content,
