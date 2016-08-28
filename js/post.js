@@ -59,7 +59,7 @@ $.extend(PostEvents.prototype, {
     var self = this;
     var url = this.$addCommentForm.attr('action');
     var type = this.$addCommentForm.attr('method');
-    var data = serializeToObject(this.$addCommentForm);
+    var data = this.serializeToObject(this.$addCommentForm);
     if(data.remember){
       Cookies.set('name', data.name);
       Cookies.set('email', data.email);
