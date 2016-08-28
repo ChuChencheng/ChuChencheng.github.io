@@ -39,12 +39,12 @@ body {
 img {
   max-width: 100%;
 }
-a {
+a[href] {
   text-decoration: none;
   color: #07C;
   border-bottom: 1px dotted #07C;
 }
-a:hover {
+a[href]:hover {
   border-bottom: 1px solid #07C;
 }
 li {
