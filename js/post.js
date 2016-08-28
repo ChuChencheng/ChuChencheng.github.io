@@ -64,6 +64,12 @@ $.extend(PostEvents.prototype, {
       Cookies.set('name', data.name);
       Cookies.set('email', data.email);
       Cookies.set('site', data.site);
+      Cookies.set('remember', true);
+    } else {
+      Cookies.remove('name');
+      Cookies.remove('email');
+      Cookies.remove('site');
+      Cookies.remove('remember');
     }
     $.ajax({
       url: this.cors + url,
@@ -72,9 +78,9 @@ $.extend(PostEvents.prototype, {
       dataType: 'json'
     }).done(function(data){
       if(data.success){
-        self.fillCookies(self.$addCommentForm);
         self.$comments.prepend(self.generateCommentHtml($.extend({}, self.serializeToObject(self.$addCommentForm), data.data)));
         self.clearForm(self.$addCommentForm);
+        self.fillCookies(self.$addCommentForm);
       }else{
         alert(data.msg);
       }
@@ -91,6 +97,9 @@ $.extend(PostEvents.prototype, {
     $.each($form.children('.cookie'), function(key, value){
       $(value).val(Cookies.get($(value).attr('name')));
     });
+    if(Cookies.get('remember')){
+      $form.children('input[type=checkbox]').prop('checked', true);
+    }
   },
   generateCommentHtml: function(doc){
     var id = doc.id,
@@ -99,7 +108,7 @@ $.extend(PostEvents.prototype, {
         name = doc.name,
         email = doc.email,
         site = doc.site;
-    var html = '<div class="'+ (('' + id).length < 6 ? this.prefixZero(id, 6) : id) +'"><a href="'+ (site == null ? '' : site) +'"><span>'+ name +'</span></a><span>'+ date +'</span><pre><p>'+ content +'</p></pre></div>';
+    var html = '<div class="'+ (('' + id).length < 6 ? this.prefixZero(id, 6) : id) +'"><a '+ (site == null ? '' : 'href="' + site + '"') +'><span>'+ name +'</span></a><span>'+ date +'</span><pre><p>'+ content +'</p></pre></div>';
     return html;
   },
   serializeToObject: function($form){
