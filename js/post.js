@@ -108,7 +108,7 @@ $.extend(PostEvents.prototype, {
         name = doc.name,
         email = doc.email,
         site = doc.site;
-    var html = '<div class="'+ (('' + id).length < 6 ? this.prefixZero(id, 6) : id) +'"><a '+ (site == '' ? '' : 'href="' + site + '"') +'><span>'+ name +'</span></a><span>'+ date +'</span><pre><p>'+ content +'</p></pre></div>';
+    var html = '<div class="'+ (('' + id).length < 6 ? this.prefixZero(id, 6) : id) +'"><a '+ ((site == null || site == '') ? '' : 'href="' + site + '"') +'><span>'+ name +'</span></a><span>'+ date +'</span><pre><p>'+ content +'</p></pre></div>';
     return html;
   },
   serializeToObject: function($form){
