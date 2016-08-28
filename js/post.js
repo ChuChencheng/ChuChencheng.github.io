@@ -97,8 +97,8 @@ $.extend(PostEvents.prototype, {
     $.each($form.children('.cookie'), function(key, value){
       $(value).val(Cookies.get($(value).attr('name')));
     });
-    if(Cookies.get('remember') == 'true' || Cookies.get('remember') == true){
-      $form.children('input[type=checkbox]').prop('checked', true);
+    if(Cookies.get('remember')){
+      $form.find('input[type=checkbox]').prop('checked', true);
     }
   },
   generateCommentHtml: function(doc){
