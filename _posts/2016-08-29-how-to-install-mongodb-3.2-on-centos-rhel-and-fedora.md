@@ -1,5 +1,5 @@
 ---
-title: \[译\]如何在CentOS/RHEL & Fedora上安装MongoDB 3.2
+title: `译`如何在CentOS/RHEL & Fedora上安装MongoDB 3.2
 ---
 
 MongoDB（名称取自“huMONGOus“）是一个有着全面灵活的索引支持和丰富的查询的数据库。MongoDB通过GridFS提供强大的媒体存储。点击[这里](http://www.10gen.com/products/mongodb)获取MongoDB的更多信息

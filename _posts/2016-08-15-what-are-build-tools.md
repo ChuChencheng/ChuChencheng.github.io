@@ -1,5 +1,5 @@
 ---
-title: \\[译\\]什么是构建工具
+title: `译`什么是构建工具
 ---
 
 **stackoverflow上 [What is a build tool?] 的一个回答**
