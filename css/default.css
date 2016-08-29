@@ -8,6 +8,9 @@
 body {
   background-color: #f2f7fa;
 }
+pre {
+  overflow-y: auto;
+}
 .panel {
   margin: 30px auto;
   max-width: 75%;
