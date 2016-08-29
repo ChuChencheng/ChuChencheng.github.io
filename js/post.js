@@ -47,7 +47,7 @@ $.extend(PostEvents.prototype, {
     }).done(function(data){
       if(data.success){
         $.each(data.data, function(key, value){
-          self.$comments.prepend(self.generateCommentHtml(value));
+          self.$comments.append(self.generateCommentHtml(value));
         });
       }else{
         console.log(data.msg);
@@ -78,7 +78,8 @@ $.extend(PostEvents.prototype, {
       dataType: 'json'
     }).done(function(data){
       if(data.success){
-        self.$comments.prepend(self.generateCommentHtml($.extend({}, self.serializeToObject(self.$addCommentForm), data.data)));
+        alert('评论成功');
+        self.$comments.append(self.generateCommentHtml($.extend({}, self.serializeToObject(self.$addCommentForm), data.data)));
         self.clearForm(self.$addCommentForm);
         self.fillCookies(self.$addCommentForm);
       }else{
