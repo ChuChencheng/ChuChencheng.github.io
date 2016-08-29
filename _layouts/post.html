@@ -27,6 +27,7 @@ layout: default
 <div class="add-comment">
     <form action="/comments/addComment" method="post">
         <input class="hidden" type="text" name="title" value="{{ page.title }}">
+        <input class="hidden" type="text" name="url" value="{{ page.url | prepend: site.baseurl }}">
         <textarea name="content" placeholder="留下你的见解" required="required"></textarea>
         <input type="text" name="name" class="cookie" placeholder="姓名（必填）" required="required">
         <input type="text" name="email" class="cookie" placeholder="电邮（必填）" required="required">
