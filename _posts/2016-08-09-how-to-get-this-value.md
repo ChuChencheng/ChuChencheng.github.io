@@ -181,6 +181,6 @@ console.log(o.f(), o.g());  //37, azerty
 
 
 
-[this - JavaScript \| MDN]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this
+[this - JavaScript | MDN]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this
 [Javascript 严格模式详解]: http://www.ruanyifeng.com/blog/2013/01/javascript_strict_mode.html
 [ECMAScript中关于如何获取this的定义]: http://blog.csdn.net/azureternite/article/details/52153809

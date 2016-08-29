@@ -153,6 +153,6 @@ arr = htmlstring.match(reg);  //显然match()方法返回的是匹配结果的�
 
 [How do I ungzip (decompress) a NodeJS request's module gzip response body?]: http://stackoverflow.com/questions/12148948/how-do-i-ungzip-decompress-a-nodejs-requests-module-gzip-response-body
 [正则表达式30分钟入门教程]: http://www.jb51.net/tools/zhengze.html
-[RegExp - JavaScript \| MDN]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp
-[String.prototype.match() - JavaScript \| MDN]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/match
+[RegExp - JavaScript | MDN]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+[String.prototype.match() - JavaScript | MDN]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/match
 [NodeJS 中寻找可用的 HTMLParser]: https://cnodejs.org/topic/4fa0d3a1cc088b063a2e04a2
