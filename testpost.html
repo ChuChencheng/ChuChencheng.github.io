@@ -1,8 +1,32 @@
----
-title: CentOS 7部署Node.js+MongoDB：在VPS上从安装到Hello world
-categories: Linux
-tags: CentOS Node.js MongoDB VPS
----
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="前端|JavaScript|Node.js|技术博客">
+<meta name="title" content="{{ page.title }}">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title>test - CCC's blog</title>
+<link rel="stylesheet" href="css/syntax.css">
+<link rel="stylesheet" href="css/default.css">
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<nav class="panel">
+  <a class="nav-brand">CCC的博客</a>
+  <a href="#">Home</a>
+  <a href="#">Works</a>
+  <a href="#">About</a>
+</nav>
+
+<div class="content panel">
+<div class="panel-header">
+    <h1>CentOS 7部署Node.js+MongoDB：在VPS上从安装到Hello world</h1>
+    <div class="tags">
+      <span>JavaScript</span>
+      <span>前端</span>
+      <span>Node.js</span>
+    </div>
+</div>
 
 写好代码，花钱买了VPS，看着Charges一直上涨却无从下手？记一位新手司机从购买VPS到成功访问的过程
 
@@ -242,3 +266,55 @@ yum -y install vim
 [如何 停止node进程？ - CNode技术社区]: https://cnodejs.org/topic/510dd169df9e9fcc581cb97f
 [Linux下设置MongoDB开机自启动_Linux教程_Linux公社-Linux系统门户网站]: http://www.linuxidc.com/Linux/2011-07/39149.htm
 [Vim简明教程【CoolShell】 - 飘过的小牛 - 博客频道 - CSDN.NET]: http://blog.csdn.net/niushuai666/article/details/7275406
+
+</div>
+
+<div class="feedback panel">
+<div class="panel-header">
+    <h1>反馈</h1>
+</div>
+    <p>看完这篇blog，你的感受是？</p>
+    <button class="diao" data-feedback="diao"></button>
+    <button class="mengbi" data-feedback="mengbi"></button>
+</div>
+
+<div class="comment-area panel">
+<div class="panel-header">
+    <h1>评论区</h1>
+</div>
+<div class="comments"></div>
+<div class="add-comment">
+    <form action="/comments/addComment" method="post">
+        <input class="hidden" type="text" name="title" value="{{ page.title }}">
+        <input class="hidden" type="text" name="url" value="{{ page.url }}">
+        <textarea name="content" placeholder="留下你的见解" required="required"></textarea>
+        <input type="text" name="name" class="cookie" placeholder="姓名（必填）" required="required">
+        <input type="text" name="email" class="cookie" placeholder="电邮（必填）" required="required">
+        <input type="text" name="site" class="cookie" placeholder="网址">
+        <label><input type="checkbox" name="remember">记住信息？</label>
+        <button type="submit">必有高论</button>
+    </form>
+</div>
+</div>
+
+<script type="text/javascript" src="{{ 'js/js.cookie.js' | prepend: site.baseurl }}"></script>
+<script type="text/javascript" src="{{ 'js/post.js' | prepend: site.baseurl }}"></script>
+<script type="text/javascript">
+    window.config = {
+        url: {
+            feedback: '/feedback',
+            getComments: '/comments/getComments'
+        },
+        title: '{{ page.title }}'
+    }
+    $(document).ready(function(){
+        new PostEvents();
+    });
+</script>
+
+
+<div class="panel">
+  <span class="copyright">Copyright &copy; CCC</span>
+</div>
+</body>
+</html>

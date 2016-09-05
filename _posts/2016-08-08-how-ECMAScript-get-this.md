@@ -1,5 +1,7 @@
 ---
 title: ECMAScript中关于如何获取this的定义
+categories: 前端 JavaScript
+tags: ECMAScript JavaScript this
 ---
 
 **文章中一些名词的翻译存疑，没有查过正式的中文名称**

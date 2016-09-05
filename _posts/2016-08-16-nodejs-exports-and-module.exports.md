@@ -1,5 +1,7 @@
 ---
 title: Node.js exports与module.exports的关系
+categories: Node.js
+tags: Node.js module
 ---
 
 今天搜索module.exports时看到CNode社区上发的Hack Sparrow一篇相关文章的链接

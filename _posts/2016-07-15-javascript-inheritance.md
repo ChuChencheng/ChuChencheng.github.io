@@ -1,5 +1,7 @@
 ---
 title: JavaScript的几种继承方式
+categories: 前端 JavaScript
+tags: 前端 JavaScript 继承
 ---
 
 看《JavaScript高级程序设计》做的一些笔记

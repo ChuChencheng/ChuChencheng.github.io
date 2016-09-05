@@ -1,5 +1,7 @@
 ---
 title: dataTransfer.getData()在dragover,dragenter,dragleave中无法获取数据的问题
+categories: 前端
+tags: dataTransfer dragover
 ---
 
 做拖拽相关效果时，想在ondragover时给被拖拽元素添加一些样式，于是在dragover事件的函数中通过dataTransfer.getData()获取在dragstart中设置的数据，然而发现dataTransfer.getData()所返回的数据为空。

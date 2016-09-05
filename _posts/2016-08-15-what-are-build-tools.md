@@ -1,5 +1,7 @@
 ---
 title: (译)什么是构建工具
+categories: 构建工具
+tags: 构建工具 build-tools
 ---
 
 **stackoverflow上 [What is a build tool?] 的一个回答**

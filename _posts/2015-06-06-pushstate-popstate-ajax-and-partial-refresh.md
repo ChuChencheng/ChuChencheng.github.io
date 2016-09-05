@@ -1,5 +1,7 @@
 ---
 title: pushState()、popstate事件配合ajax实现浏览器前进后退页面局部刷新
+categories: 前端 JavaScript
+tags: 前端 pushState popstate
 ---
 
 最近研究pushState，看了网上的文章还是不怎么会用，于是自己摸索着理解使用，终于实现局部刷新同时前进后退。

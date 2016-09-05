@@ -1,5 +1,7 @@
 ---
 title: 通过Gulp使用Browsersync实现浏览器实时响应文件更改
+categories: 构建工具
+tags: gulp browsersync
 ---
 
 * 目录

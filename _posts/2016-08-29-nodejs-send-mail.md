@@ -1,5 +1,7 @@
 ---
 title: 用Node.js发送邮件
+categories: Node.js
+tags: Node.js 邮件
 ---
 
 **本文讲的是用Node.js通过一个开启smtp的已有的邮箱账号发送邮件，而不是如何创建一个邮件服务器**

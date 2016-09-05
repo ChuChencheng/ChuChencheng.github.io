@@ -1,5 +1,7 @@
 ---
 title: bootstrap如何给.list-group加上序号
+categories: 前端
+tags: bootstrap CSS .list-group
 ---
 
 在bootstrap中，我们可以使用不带任何class的<ol>跟<li>来创建一个有序列表，但是如果加上list-group类，样式有了，但列表前面的数字却没了。

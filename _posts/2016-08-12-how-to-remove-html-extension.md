@@ -1,5 +1,7 @@
 ---
 title: how to remove .html extension
+categories: jekyll
+tags: jekyll
 ---
 
 # {{ page.title }}

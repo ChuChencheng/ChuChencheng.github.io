@@ -1,5 +1,7 @@
 ---
 title: mongoose连接collection后自动加s的问题
+categories: MongoDB
+tags: mongoose MongoDB
 ---
 
 这两天折腾mongoose，发现数据成功写入集合了，但是在Terminal查询的时候却查不到

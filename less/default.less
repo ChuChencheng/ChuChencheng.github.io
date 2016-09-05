@@ -6,9 +6,13 @@
     url('../font/socialicons.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
     url('../font/socialicons.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
+//pre set
+*{
+    transition: all 0.2s;
+}
 
 body {
-    background-color: rgb(242, 247, 250);
+    background-color: #f2f7fa;
 }
 
 pre{
@@ -34,17 +38,22 @@ img {
 
 a[href] {
     text-decoration: none;
-    color: #07C;
-    border-bottom: 1px dotted #07C;
+    color: #000;
+    font-size: 16px;
+    border-bottom: 1px dotted #000;
     &:hover{
-        border-bottom: 1px solid #07C;
+        color: #666;
+        border-bottom: 1px solid #666;
     }
 }
 
-ul {}
+ul {
+    list-style-type: square;
+}
 
 li {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    line-height: 100%;
 }
 
 input, textarea, select, button{
@@ -102,6 +111,16 @@ input[type=text], select{
     display: none !important;
 }
 
+.copyright{
+    color: #666;
+    font-size: 11px;
+    display: block;
+    width: 100px;
+    margin: 0 auto;
+}
+
+//custom
+//index
 a.socialicons{
     font-family:"socialicons" !important;
     font-size: 30px;
@@ -110,11 +129,16 @@ a.socialicons{
     -webkit-text-stroke-width: 0.2px;
     -moz-osx-font-smoothing: grayscale;
     border-bottom: none;
-    color: rgb(180, 180, 180);
+    color: #666;
     &:hover{
-        color: rgb(53, 126, 189);
+        color: #000;
+        font-size: 40px;
         border-bottom: none;
     }
+}
+
+.post-list span{
+    color: #666;
 }
 
 .social-list{
@@ -125,6 +149,7 @@ a.socialicons{
     }
 }
 
+//post feedback and comment
 /*feedback btn*/
 .feedbackBtn(@bg){
     width: 50px;
@@ -152,4 +177,16 @@ a.socialicons{
 
 .add-comment button[type=submit]{
     .btn();
+}
+
+//post post
+.tags{
+    margin: 0 0 20px 0;
+    & span{
+        background: #ffffcc;
+        border-radius: 5px;
+        padding: 5px;
+        font-size: 12px;
+        color: #666;
+    }
 }

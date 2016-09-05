@@ -1,5 +1,7 @@
 ---
 title: CentOS利用postfix搭建邮件服务器
+categories: Linux
+tags: CentOS 邮件服务器 postfix
 ---
 
 之前我用nodemailer通过163邮箱来发送邮件，不过没过几天就一直ETIMEDOUT，不知道什么原因，想着还是自己搭一个来发邮件可能靠谱点（flag？）

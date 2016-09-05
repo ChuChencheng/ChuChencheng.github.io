@@ -1,5 +1,7 @@
 ---
 title: script标签不带属性与带async、defer的区别
+categories: 前端
+tags: 前端 JavaScript script
 ---
 
 `<script>`

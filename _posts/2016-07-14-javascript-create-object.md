@@ -1,5 +1,7 @@
 ---
 title: JavaScript创建对象的几种模式
+categories: 前端 JavaScript
+tags: 前端 JavaScript 对象
 ---
 
 看《JavaScript高级程序设计》做的一些笔记

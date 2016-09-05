@@ -1,5 +1,7 @@
 ---
 title: Node.js抓取网页
+categories: Node.js
+tags: Node.js 网页抓取
 ---
 
 前几天四六级成绩出来（然而我没考），用Node.js做了一个模拟表单提交并抓取数据的Web

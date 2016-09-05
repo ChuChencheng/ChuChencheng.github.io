@@ -1,5 +1,7 @@
 ---
 title: JavaScript笔记——this的取值
+categories: 前端 JavaScript
+tags: JavaScript this 函数
 ---
 
 **有关ECMAScript定义如何获取this请移步[ECMAScript中关于如何获取this的定义][]**

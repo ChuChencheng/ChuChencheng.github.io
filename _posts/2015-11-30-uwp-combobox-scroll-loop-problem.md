@@ -1,5 +1,7 @@
 ---
 title: UWP ComboBox下拉选项滚动循环问题
+categories: UWP
+tags: UWP ComboBox
 ---
 
 在UWP开发中遇到个小问题，ComboBox的Item太多的话，列表会重复，并且无限循环，Google了一下后发现这貌似是Metro应用的老问题了，由于ComboBox的Items使用的是CarouselPanel而导致的。

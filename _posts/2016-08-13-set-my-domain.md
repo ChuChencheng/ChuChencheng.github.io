@@ -1,5 +1,7 @@
 ---
 title: set my domain
+categories: personal
+tags: domain
 ---
 
 # 新域名启用

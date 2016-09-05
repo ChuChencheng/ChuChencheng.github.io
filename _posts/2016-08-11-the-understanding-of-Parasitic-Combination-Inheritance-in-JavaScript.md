@@ -1,5 +1,7 @@
 ---
 title: JavaScript对寄生组合式继承的理解
+categories: 前端 JavaScript
+tags: 前端 JavaScript 继承
 ---
 
 **有关JavaScript的几种继承方式请移步[JavaScript的几种继承方式][]**

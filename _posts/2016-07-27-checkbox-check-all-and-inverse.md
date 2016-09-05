@@ -1,5 +1,7 @@
 ---
 title: checkbox全选与反选
+categories: 前端
+tags: checkbox html JavaScript
 ---
 
 用原生js跟jquery实现checkbox全选反选的一个例子

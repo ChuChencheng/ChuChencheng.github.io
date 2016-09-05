@@ -1,5 +1,7 @@
 ---
 title: Node.js实现CORS跨域资源共享
+categories: Node.js 前端
+tags: CORS Node.js
 ---
 
 # 什么是CORS

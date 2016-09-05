@@ -1,5 +1,7 @@
 ---
 title: Node.js用ES6原生Promise对异步函数进行封装
+categories: Node.js JavaScript
+tags: Node.js 异步 Promise
 ---
 
 # Promise的概念
