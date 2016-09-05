@@ -56,7 +56,7 @@ $.extend(PostEvents.prototype, {
   },
   handleAddComment: function(e){
     e.preventDefault();
-    if(!this.formValidator($addCommentForm)){
+    if(!this.formValidator(this.$addCommentForm)){
       alert('阁下请务必留下姓名、电邮');
       return false;
     }
