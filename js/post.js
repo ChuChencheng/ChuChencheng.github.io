@@ -123,6 +123,6 @@ $.extend(PostEvents.prototype, {
     return Array(n - ('' + num).length + 1).join(0) + num;
   },
   getLocaleDate: function(date){
-    return new Date(Date.parse(date));
+    return new Date(Date.parse(date)).toLocaleString();
   }
 });
