@@ -56,15 +56,19 @@ $.extend(PostEvents.prototype, {
   },
   handleAddComment: function(e){
     e.preventDefault();
+    if(!this.formValidator($addCommentForm)){
+      alert('阁下请务必留下姓名、电邮');
+      return false;
+    }
     var self = this;
     var url = this.$addCommentForm.attr('action');
     var type = this.$addCommentForm.attr('method');
     var data = this.serializeToObject(this.$addCommentForm);
     if(data.remember){
-      Cookies.set('name', data.name);
-      Cookies.set('email', data.email);
-      Cookies.set('site', data.site);
-      Cookies.set('remember', true);
+      Cookies.set('name', data.name, { expires: 7 });
+      Cookies.set('email', data.email, { expires: 7 });
+      Cookies.set('site', data.site, { expires: 7 });
+      Cookies.set('remember', true, { expires: 7 });
     } else {
       Cookies.remove('name');
       Cookies.remove('email');
@@ -124,5 +128,15 @@ $.extend(PostEvents.prototype, {
   },
   getLocaleDate: function(date){
     return new Date(Date.parse(date)).toLocaleString();
+  },
+  formValidator: function($form){
+    var valid = true;
+    $form.children('[required]').each(function(){
+      if($(this).val() == ''){
+        valid = false;
+        return false;
+      }
+    });
+    return valid;
   }
 });
