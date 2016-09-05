@@ -159,6 +159,9 @@ a.socialicons:hover {
   border: 1px solid #285e8e;
   background: #3071a9;
 }
+.right {
+  float: right;
+}
 .tags {
   margin: 0 0 20px 0;
 }
