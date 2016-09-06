@@ -3,7 +3,7 @@
 {% include head.html %}
 <body>
 {% include header.html %}
-<div class="center {{ page.center }}">
+<div class="center{{ ' ' | append: page.center }}">
 {{ content }}
 </div>
 {% include footer.html %}
