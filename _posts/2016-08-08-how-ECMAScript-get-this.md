@@ -45,13 +45,13 @@ tags: ECMAScript JavaScript this
 
 ## GetThisBinding()
 
-> 	Return the value of this Environment Record’s this binding. Throws a ReferenceError if the this binding has not been initialized.
+> Return the value of this Environment Record’s this binding. Throws a ReferenceError if the this binding has not been initialized.
 
 返回Environment Record的this的绑定，如果未初始化绑定则抛出ReferenceError异常
 
 ## HasThisBinding()
 
-> 	Determine if an Environment Record establishes a this binding. Return true if it does and false if it does not.
+> Determine if an Environment Record establishes a this binding. Return true if it does and false if it does not.
 
 决定一个Environment Record是否建立了this绑定，是返回true，否则返回false
 

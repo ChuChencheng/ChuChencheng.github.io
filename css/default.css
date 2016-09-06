@@ -62,6 +62,12 @@ button {
   outline: none;
   font-size: 1.4rem;
 }
+p,
+pre,
+ol,
+ul {
+  font-size: 1.4rem;
+}
 button {
   cursor: pointer;
 }
