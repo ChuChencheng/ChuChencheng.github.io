@@ -65,8 +65,11 @@ button {
 p,
 pre,
 ol,
-ul {
-  font-size: 1.4rem;
+ul,
+span,
+em,
+strong {
+  font-size: 1.6rem;
 }
 button {
   cursor: pointer;
