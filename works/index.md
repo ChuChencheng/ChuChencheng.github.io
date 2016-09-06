@@ -1,6 +1,7 @@
 ---
 layout: default
 title: 作品
+center: panel
 ---
 
 # My works
