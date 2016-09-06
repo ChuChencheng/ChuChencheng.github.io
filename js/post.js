@@ -128,7 +128,7 @@ $.extend(PostEvents.prototype, {
   },
   getLocaleDate: function(date){
     var d = new Date(Date.parse(date));
-    return '' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+    return '' + d.getFullYear() + '-' + this.prefixZero((d.getMonth() + 1), 2) + '-' + this.prefixZero(d.getDate(), 2) + ' ' + this.prefixZero(d.getHours(), 2) + ':' + this.prefixZero(d.getMinutes(), 2) + ':' + this.prefixZero(d.getSeconds(), 2);
   },
   formValidator: function($form){
     var valid = true;
