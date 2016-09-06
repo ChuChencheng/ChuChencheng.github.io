@@ -12,6 +12,10 @@
     transition: all 0.2s;
 }
 
+html{
+    font-size: 62.5%;
+}
+
 body {
     background-color: #f2f7fa;
 }
@@ -21,13 +25,13 @@ pre{
 }
 
 hr{
-    height: 4px;
+    height: 0.4rem;
     border: 0 none;
     background-color: #e7e7e7;
 }
 
 .center(@maxWidth){
-    margin: 30px auto;
+    margin: 3rem auto;
     max-width: @maxWidth;
 }
 
@@ -40,7 +44,7 @@ hr{
 }
 
 .panel-header{
-    border-bottom: 1px solid rgb(66, 66, 66);
+    border-bottom: 0.1rem solid rgb(66, 66, 66);
 }
 
 img {
@@ -50,11 +54,11 @@ img {
 a[href] {
     text-decoration: none;
     color: #000;
-    font-size: 16px;
-    border-bottom: 1px dotted #000;
+    font-size: 1.6rem;
+    border-bottom: 0.1rem dotted #000;
     &:hover{
         color: #666;
-        border-bottom: 1px solid #666;
+        border-bottom: 0.1rem solid #666;
     }
 }
 
@@ -63,14 +67,14 @@ ul {
 }
 
 li {
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
     line-height: 100%;
 }
 
 input, textarea, select, button{
-    border-radius: 5px;
+    border-radius: 0.5rem;
     outline: none;
-    font-size: 14px;
+    font-size: 1.4rem;
 }
 
 button{
@@ -80,40 +84,40 @@ button{
 .text(){
     text-indent: 1em;
     color: rgb(85, 85, 85);
-    border: 1px solid rgb(204, 204, 204);
+    border: 0.1rem solid rgb(204, 204, 204);
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
     -moz-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     &:focus{
         border-color: rgb(102, 175, 233);
-        box-shadow: 0 0 8px rgb(102, 175, 233);
-        -webkit-box-shadow: 0 0 8px rgb(102, 175, 233);
+        box-shadow: 0 0 0.8rem rgb(102, 175, 233);
+        -webkit-box-shadow: 0 0 0.8rem rgb(102, 175, 233);
     }
 }
 
 textarea{
-    width: 600px;
-    height: 200px;
+    width: 60rem;
+    height: 20rem;
     .text();
 }
 
 input[type=text], select{
-    width: 250px;
-    height: 35px;
+    width: 25rem;
+    height: 3.5rem;
     .text();
 }
 
 .btn(){
-    width: 120px;
-    height: 45px;
+    width: 12rem;
+    height: 4.5rem;
     color: rgb(255, 255, 255);
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: bold;
-    border: 1px solid rgb(53, 126, 189);
+    border: 0.1rem solid rgb(53, 126, 189);
     background: rgb(66, 139, 202);
     &:hover{
-        border: 1px solid rgb(40, 94, 142);
+        border: 0.1rem solid rgb(40, 94, 142);
         background: rgb(48, 113, 169);
     }
 }
@@ -125,9 +129,9 @@ input[type=text], select{
 //footer copyright
 .copyright{
     color: #666;
-    font-size: 11px;
+    font-size: 1.1rem;
     display: block;
-    width: 101px;
+    width: 10.1rem;
     margin: 0 auto;
 }
 
@@ -135,16 +139,16 @@ input[type=text], select{
 //index
 a.socialicons{
     font-family:"socialicons" !important;
-    font-size: 30px;
+    font-size: 3rem;
     font-style:normal;
     -webkit-font-smoothing: antialiased;
-    -webkit-text-stroke-width: 0.2px;
+    -webkit-text-stroke-width: 0.02rem;
     -moz-osx-font-smoothing: grayscale;
     border-bottom: none;
     color: #666;
     &:hover{
         color: #000;
-        font-size: 40px;
+        font-size: 4rem;
         border-bottom: none;
     }
 }
@@ -157,20 +161,20 @@ a.socialicons{
     list-style-type: none;
     & li{
         float: left;
-        margin: 0 10px;
+        margin: 0 1rem;
     }
 }
 
 //post feedback and comment
 /*feedback btn*/
 .feedbackBtn(@bg){
-    width: 50px;
-    height: 50px;
-    border: 1px solid rgb(204, 204, 204);
+    width: 5rem;
+    height: 5rem;
+    border: 0.1rem solid rgb(204, 204, 204);
     background-image: url(@bg);
     background-size: contain;
     &:hover{
-        border: 1px solid rgb(53, 126, 189);
+        border: 0.1rem solid rgb(53, 126, 189);
     }
 }
 
@@ -184,7 +188,7 @@ a.socialicons{
 
 .add-comment form>*{
     display: block;
-    margin: 10px 0;
+    margin: 1rem 0;
 }
 
 .add-comment button[type=submit]{
@@ -197,12 +201,12 @@ a.socialicons{
 
 //post post
 .tags{
-    margin: 0 0 20px 0;
+    margin: 0 0 2rem 0;
     & span{
         background: #ffffcc;
-        border-radius: 5px;
-        padding: 5px;
-        font-size: 12px;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        font-size: 1.2rem;
         color: #666;
     }
 }

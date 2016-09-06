@@ -14,45 +14,8 @@ layout: default
 {{ content }}
 </div>
 
-<div class="feedback panel">
-<div class="panel-header">
-    <h1>反馈</h1>
-</div>
-    <p>看完这篇blog，你的感受是？</p>
-    <button class="diao" data-feedback="diao"></button>
-    <button class="mengbi" data-feedback="mengbi"></button>
-</div>
-
-<div class="comment-area panel">
-<div class="panel-header">
-    <h1>评论区</h1>
-</div>
-<div class="comments"></div>
-<div class="add-comment">
-    <form action="/comments/addComment" method="post">
-        <input class="hidden" type="text" name="title" value="{{ page.title }}">
-        <input class="hidden" type="text" name="url" value="{{ page.url }}">
-        <textarea name="content" placeholder="留下你的见解" required="required"></textarea>
-        <input type="text" name="name" class="cookie" placeholder="姓名（必填）" required="required">
-        <input type="text" name="email" class="cookie" placeholder="电邮（必填）" required="required">
-        <input type="text" name="site" class="cookie" placeholder="网址">
-        <label><input type="checkbox" name="remember">记住信息？</label>
-        <button type="submit">必有高论</button>
-    </form>
-</div>
-</div>
-
-<script type="text/javascript" src="{{ 'js/js.cookie.js' | prepend: site.baseurl }}"></script>
-<script type="text/javascript" src="{{ 'js/post.js' | prepend: site.baseurl }}"></script>
-<script type="text/javascript">
-    window.config = {
-        url: {
-            feedback: '/feedback',
-            getComments: '/comments/getComments'
-        },
-        title: '{{ page.title }}'
-    }
-    $(document).ready(function(){
-        new PostEvents();
-    });
-</script>
+{% if !page.feedbackAndComment %}
+<p>本篇blog已关闭评论功能</p>
+{% else %}
+{% include feedback-and-comment.html %}
+{% endif %}

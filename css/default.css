@@ -9,6 +9,9 @@
   font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
   transition: all 0.2s;
 }
+html {
+  font-size: 62.5%;
+}
 body {
   background-color: #f2f7fa;
 }
@@ -16,20 +19,20 @@ pre {
   overflow-y: auto;
 }
 hr {
-  height: 4px;
+  height: 0.4rem;
   border: 0 none;
   background-color: #e7e7e7;
 }
 .center {
-  margin: 30px auto;
+  margin: 3rem auto;
   max-width: 100%;
 }
 .panel {
-  margin: 30px auto;
+  margin: 3rem auto;
   max-width: 75%;
 }
 .panel-header {
-  border-bottom: 1px solid #424242;
+  border-bottom: 0.1rem solid #424242;
 }
 img {
   max-width: 100%;
@@ -37,37 +40,37 @@ img {
 a[href] {
   text-decoration: none;
   color: #000;
-  font-size: 16px;
-  border-bottom: 1px dotted #000;
+  font-size: 1.6rem;
+  border-bottom: 0.1rem dotted #000;
 }
 a[href]:hover {
   color: #666;
-  border-bottom: 1px solid #666;
+  border-bottom: 0.1rem solid #666;
 }
 ul {
   list-style-type: square;
 }
 li {
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
   line-height: 100%;
 }
 input,
 textarea,
 select,
 button {
-  border-radius: 5px;
+  border-radius: 0.5rem;
   outline: none;
-  font-size: 14px;
+  font-size: 1.4rem;
 }
 button {
   cursor: pointer;
 }
 textarea {
-  width: 600px;
-  height: 200px;
+  width: 60rem;
+  height: 20rem;
   text-indent: 1em;
   color: #555555;
-  border: 1px solid #cccccc;
+  border: 0.1rem solid #cccccc;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
   -moz-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
@@ -75,16 +78,16 @@ textarea {
 }
 textarea:focus {
   border-color: #66afe9;
-  box-shadow: 0 0 8px #66afe9;
-  -webkit-box-shadow: 0 0 8px #66afe9;
+  box-shadow: 0 0 0.8rem #66afe9;
+  -webkit-box-shadow: 0 0 0.8rem #66afe9;
 }
 input[type=text],
 select {
-  width: 250px;
-  height: 35px;
+  width: 25rem;
+  height: 3.5rem;
   text-indent: 1em;
   color: #555555;
-  border: 1px solid #cccccc;
+  border: 0.1rem solid #cccccc;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
   -moz-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
@@ -93,32 +96,32 @@ select {
 input[type=text]:focus,
 select:focus {
   border-color: #66afe9;
-  box-shadow: 0 0 8px #66afe9;
-  -webkit-box-shadow: 0 0 8px #66afe9;
+  box-shadow: 0 0 0.8rem #66afe9;
+  -webkit-box-shadow: 0 0 0.8rem #66afe9;
 }
 .hidden {
   display: none !important;
 }
 .copyright {
   color: #666;
-  font-size: 11px;
+  font-size: 1.1rem;
   display: block;
-  width: 101px;
+  width: 10.1rem;
   margin: 0 auto;
 }
 a.socialicons {
   font-family: "socialicons" !important;
-  font-size: 30px;
+  font-size: 3rem;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
+  -webkit-text-stroke-width: 0.02rem;
   -moz-osx-font-smoothing: grayscale;
   border-bottom: none;
   color: #666;
 }
 a.socialicons:hover {
   color: #000;
-  font-size: 40px;
+  font-size: 4rem;
   border-bottom: none;
 }
 .post-list span {
@@ -129,56 +132,56 @@ a.socialicons:hover {
 }
 .social-list li {
   float: left;
-  margin: 0 10px;
+  margin: 0 1rem;
 }
 /*feedback btn*/
 .diao {
-  width: 50px;
-  height: 50px;
-  border: 1px solid #cccccc;
+  width: 5rem;
+  height: 5rem;
+  border: 0.1rem solid #cccccc;
   background-image: url('../img/diao.gif');
   background-size: contain;
 }
 .diao:hover {
-  border: 1px solid #357ebd;
+  border: 0.1rem solid #357ebd;
 }
 .mengbi {
-  width: 50px;
-  height: 50px;
-  border: 1px solid #cccccc;
+  width: 5rem;
+  height: 5rem;
+  border: 0.1rem solid #cccccc;
   background-image: url('../img/mengbi.gif');
   background-size: contain;
 }
 .mengbi:hover {
-  border: 1px solid #357ebd;
+  border: 0.1rem solid #357ebd;
 }
 .add-comment form > * {
   display: block;
-  margin: 10px 0;
+  margin: 1rem 0;
 }
 .add-comment button[type=submit] {
-  width: 120px;
-  height: 45px;
+  width: 12rem;
+  height: 4.5rem;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: bold;
-  border: 1px solid #357ebd;
+  border: 0.1rem solid #357ebd;
   background: #428bca;
 }
 .add-comment button[type=submit]:hover {
-  border: 1px solid #285e8e;
+  border: 0.1rem solid #285e8e;
   background: #3071a9;
 }
 .right {
   float: right;
 }
 .tags {
-  margin: 0 0 20px 0;
+  margin: 0 0 2rem 0;
 }
 .tags span {
   background: #ffffcc;
-  border-radius: 5px;
-  padding: 5px;
-  font-size: 12px;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
   color: #666;
 }
