@@ -15,6 +15,11 @@ body {
 pre {
   overflow-y: auto;
 }
+hr {
+  height: 4px;
+  border: 0 none;
+  background-color: #e7e7e7;
+}
 .center {
   margin: 30px auto;
   max-width: 100%;
