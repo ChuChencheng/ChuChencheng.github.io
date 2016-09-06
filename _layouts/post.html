@@ -15,7 +15,10 @@ layout: default
 </div>
 
 {% if page.feedbackAndComment != nil %}
-<p>本篇blog已关闭评论功能</p>
+<div class="panel">
+  <div class="panel-header"></div>
+  <p>本篇blog已关闭评论功能</p>
+</div>
 {% else %}
 {% include feedback-and-comment.html %}
 {% endif %}
