@@ -20,7 +20,7 @@ center: true
 
 #### 2015.11 - 2015.12
 
-<img src="img/Fzuhelper.png" class="works-img">
+<img src="{{ 'img/Fzuhelper.png' | prepend: site.baseurl }}" class="works-img">
 
 * 简介： 福大助手uwp版，查课表，查成绩，查考场，空教室，图书馆，一键评议，教务处通知
 * 语言： C#
@@ -33,7 +33,7 @@ center: true
 
 #### 2015.06 - 2015.07
 
-<img src="img/obs.png" class="works-img">
+<img src="{{ 'img/obs.png' | prepend: site.baseurl }}" class="works-img">
 
 * 简介： 
 * 语言： JavaScript PHP CSS HTML
@@ -46,7 +46,7 @@ center: true
 
 #### 2015.05 - 2015.12
 
-<img src="img/st.png" class="works-img">
+<img src="{{ 'img/st.png' | prepend: site.baseurl }}" class="works-img">
 
 * 简介： 福大助手uwp版
 * 语言： Java
