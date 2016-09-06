@@ -12,11 +12,9 @@
 html {
   font-size: 62.5%;
 }
-html * {
-  font-size: 1.6rem;
-}
 body {
   background-color: #f2f7fa;
+  font-size: 1.6rem;
 }
 pre {
   overflow-y: auto;
