@@ -14,7 +14,7 @@ layout: default
 {{ content }}
 </div>
 
-{% if page.feedbackAndComment == 'false' %}
+{% if page.feedbackAndComment != nil %}
 <p>本篇blog已关闭评论功能</p>
 {% else %}
 {% include feedback-and-comment.html %}
