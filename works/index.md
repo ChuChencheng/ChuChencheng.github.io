@@ -9,6 +9,7 @@ center: true
     width: 200px;
     height: 250px;
     float: left;
+    margin-right: 50px;
   }
 </style>
 
