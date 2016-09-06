@@ -35,7 +35,7 @@ center: true
 * 时间： 2015.06 - 2015.07
 * 简介： PHP+MySQL制作的订票系统，实现订票、退票、统计、权限等功能
 * 语言： JavaScript PHP CSS HTML
-* 链接： [C2CCC网上订票系统](http://jstxh.azurewebsites.net/)
+* 链接： [C2CCC网上订票系统](http://jstxh.azurewebsites.net/) [同乡游API说明](http://txy.azurewebsites.net/)
 
 <div style="clear:both;"></div>
 
