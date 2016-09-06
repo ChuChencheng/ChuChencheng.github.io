@@ -6,6 +6,7 @@
   /* iOS 4.1- */
 }
 * {
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
   transition: all 0.2s;
 }
 body {
@@ -13,6 +14,10 @@ body {
 }
 pre {
   overflow-y: auto;
+}
+.center {
+  margin: 30px auto;
+  max-width: 100%;
 }
 .panel {
   margin: 30px auto;

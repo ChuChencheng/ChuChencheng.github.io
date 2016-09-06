@@ -8,6 +8,7 @@
 }
 //pre set
 *{
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
     transition: all 0.2s;
 }
 
@@ -22,6 +23,10 @@ pre{
 .center(@maxWidth){
     margin: 30px auto;
     max-width: @maxWidth;
+}
+
+.center{
+    .center(100%);
 }
 
 .panel {
