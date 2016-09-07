@@ -108,12 +108,17 @@ select:focus {
   background-color: #dff0d8;
   padding: 1rem;
 }
-.copyright {
+.copyleft {
   color: #666;
   font-size: 1.1rem;
   display: block;
   width: 10.1rem;
   margin: 0 auto;
+}
+.license p {
+  color: #666;
+  font-size: 1.1rem;
+  text-align: center;
 }
 a.socialicons {
   font-family: "socialicons" !important;
