@@ -103,6 +103,10 @@ select:focus {
 .hidden {
   display: none !important;
 }
+.cc-copyleft {
+  border-radius: 0.5rem;
+  background-color: #dff0d8;
+}
 .copyright {
   color: #666;
   font-size: 1.1rem;

@@ -14,6 +14,11 @@ layout: default
 {{ content }}
 </div>
 
+{% if page.copyleft != nil %}
+{% else %}
+{% include copyleft.html %}
+{% endif %}
+
 {% if page.feedbackAndComment != nil %}
 <div class="panel">
   <div class="panel-header"></div>

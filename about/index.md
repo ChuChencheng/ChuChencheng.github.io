@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 关于我
+copyleft: false
 ---
 
 ## 关键字
