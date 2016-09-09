@@ -17,7 +17,7 @@ center: true
 
 ---
 
-<img src="{{ 'img/Fzuhelper.png' | prepend: site.baseurl }}" class="works-img">
+<img src="{{ 'assets/img/Fzuhelper.png' | prepend: site.baseurl }}" class="works-img">
 
 * 名称： 福大助手uwp版
 * 时间： 2015.11 - 2015.12
@@ -29,7 +29,7 @@ center: true
 
 ---
 
-<img src="{{ 'img/obs.png' | prepend: site.baseurl }}" class="works-img">
+<img src="{{ 'assets/img/obs.png' | prepend: site.baseurl }}" class="works-img">
 
 * 名称： 同乡会包车订票系统
 * 时间： 2015.06 - 2015.07
@@ -41,7 +41,7 @@ center: true
 
 ---
 
-<img src="{{ 'img/st.png' | prepend: site.baseurl }}" class="works-img">
+<img src="{{ 'assets/img/st.png' | prepend: site.baseurl }}" class="works-img">
 
 * 名称： "室图"app
 * 时间： 2015.05 - 2015.12

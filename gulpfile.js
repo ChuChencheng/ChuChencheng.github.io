@@ -10,7 +10,7 @@ gulp.task('serve',['less'],function(){
         server: './'
     });
     //创建gulp监听器，监听less文件的变化，自动执行'less'任务，编译less并生成css文件
-    gulp.watch('./less/*.less', ['less']).on('change', function(event){
+    gulp.watch('./assets/less/*.less', ['less']).on('change', function(event){
         console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     });
     //监听html文件的变化，自动重新载入
@@ -18,10 +18,10 @@ gulp.task('serve',['less'],function(){
 });
 //创建自动编译less的任务，这边需要return stream以保证browserSync.reload在正确的时机调用
 gulp.task('less', function(){
-    return gulp.src('./less/*.less')
+    return gulp.src('./assets/less/*.less')
         .pipe(plumber())
         .pipe(less())
-        .pipe(gulp.dest('./css'))
+        .pipe(gulp.dest('./assets/css'))
         .pipe(browserSync.stream());
 });
 //默认启动的gulp任务数组['serve']
