@@ -31,7 +31,7 @@ CentOS 7 采用了firewalld作为防火墙服务，在[Red Hat][]官方文档的
 
 >The dynamic firewall daemon firewalld provides a dynamically managed firewall with support for network “zones” to assign a level of trust to a network and its associated connections and interfaces. It has support for IPv4 and IPv6 firewall settings. It supports Ethernet bridges and has a separation of runtime and permanent configuration options. It also has an interface for services or applications to add firewall rules directly.
 
-动态防火墙守护进程firewalld提供一个动态管理的防火墙，支持网络“域”（zones），以用来给一个网络以及其关联的链接和接口分配一个信任层级。firewalld支持IPv4跟IPv6的防火墙设置。它还支持以太网桥，并且有运行时配置选项跟永久配置选项**（runtime and permanent configuration options）**，二者相互分离。并且firewalld为服务或应用直接添加防火墙规则提供了接口。
+动态防火墙守护进程firewalld提供一个动态管理的防火墙，支持网络“区域”（zones），以用来给一个网络以及其关联的链接和接口分配一个信任层级。firewalld支持IPv4跟IPv6的防火墙设置。它还支持以太网桥，并且有运行时配置选项跟永久配置选项**（runtime and permanent configuration options）**，二者相互分离。并且firewalld为服务或应用直接添加防火墙规则提供了接口。
 
 有关Network Zones的概念这边不细讲，参照Security Guide。
 

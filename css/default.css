@@ -58,6 +58,7 @@ a[href]:hover {
 }
 ul {
   list-style-type: square;
+  padding-top: 1rem;
 }
 li {
   margin-bottom: 1rem;

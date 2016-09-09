@@ -1,7 +1,8 @@
 //引入gulp、gulp插件以及browser-sync
 var gulp = require('gulp'),
     browserSync = require('browser-sync').create(),
-    less = require('gulp-less');
+    less = require('gulp-less'),
+    plumber = require('gulp-plumber');
 //创建一个新的gulp任务
 gulp.task('serve',['less'],function(){
     //初始化项目跟目录为'./'（也可以使用代理proxy: "yourlocal.dev"）
@@ -18,6 +19,7 @@ gulp.task('serve',['less'],function(){
 //创建自动编译less的任务，这边需要return stream以保证browserSync.reload在正确的时机调用
 gulp.task('less', function(){
     return gulp.src('./less/*.less')
+        .pipe(plumber())
         .pipe(less())
         .pipe(gulp.dest('./css'))
         .pipe(browserSync.stream());
