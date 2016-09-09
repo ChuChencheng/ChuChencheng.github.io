@@ -4,6 +4,9 @@ categories: Linux
 tags: CentOS Node.js MongoDB VPS
 ---
 
+* 目录
+{:toc}
+
 写好代码，花钱买了VPS，看着Charges一直上涨却无从下手？记一位新手司机从购买VPS到成功访问的过程
 
 # 0.购买VPS
