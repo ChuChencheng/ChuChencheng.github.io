@@ -3,13 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="description" content="前端|JavaScript|Node.js|技术博客">
-<meta name=viewport content="width=device-width, initial-scale=1">
+<meta name=viewport content="width=device-width, initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 <title>test - CCC's blog</title>
 <link rel="stylesheet" href="../assets/css/metro.css">
-<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
+<script>
+  $(document).ready(function(){
+    document.documentElement.style.fontSize = document.documentElement.clientWidth / 6.4 + 'px';
+    console.log(document.documentElement.clientWidth);
+    document.body.addEventListener('touchstart', function(){});
+  });
+</script>
 </head>
 <body>
-<h1>请坐和放宽，我又改了网站域名，改了又改。</h1>
-<button>博客(B)</button>
+<div class="container">
+<p>请坐和放宽，我又改了网站域名，改了又改。</p>
+<ul>
+  <li><a href="{{ 'works' | prepend: site.baseurl }}">我的作品</a></li>
+  <li><a href="{{ 'about' | prepend: site.baseurl }}">关于我</a></li>
+  <li><a href="{{ 'assets/出陈铖_Resume.pdf' | prepend: site.baseurl }}">我的简历</a></li>
+</ul>
+<div class="btn-group right">
+<button><a href="#">博客(B)</a></button>
+<button>赛艇(E)</button>
+</div>
+</div>
 </body>
 </html>

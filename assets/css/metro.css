@@ -1,14 +1,13 @@
 * {
   font-family: "Microsoft YaHei", sans-serif;
   transition: all 0.2s;
-}
-html {
-  font-size: 62.5%;
+  padding: 0;
+  margin: 0;
 }
 body {
   background-color: #0078D7;
   color: #FFFFFF;
-  font-size: 1.6rem;
+  width: 6.4rem;
 }
 input,
 label,
@@ -18,16 +17,59 @@ textarea,
 button,
 fieldset,
 legend {
-  font-size: 1.6rem;
+  font-size: 0.16rem;
   color: #FFFFFF;
 }
 button {
   background-color: #3393DF;
   border: 3px solid #FFFFFF;
   padding: 5px 20px;
-  cursor: pointer;
 }
 button:hover {
-  padding: 0 15px;
-  margin: 5px;
+  background-color: #66AEE7;
+}
+button:active {
+  background-color: #FFFFFF;
+  color: #000000;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: default;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+p {
+  font-size: 0.64rem;
+}
+ul {
+  list-style-type: none;
+  text-align: center;
+}
+li {
+  font-size: 0.24rem;
+  padding: 0.1rem;
+}
+li:hover {
+  background-color: #0060AC;
+}
+li:active {
+  background-color: #004881;
+}
+.container {
+  width: 5.76rem;
+  margin: 0 auto;
+}
+.container > * {
+  margin: 0.3rem 0;
+}
+.btn-group {
+  letter-spacing: -0.3rem;
+}
+.btn-group button {
+  margin-left: 0.1rem;
+}
+.right {
+  float: right;
 }
