@@ -1,0 +1,33 @@
+* {
+  font-family: "Microsoft YaHei", sans-serif;
+  transition: all 0.2s;
+}
+html {
+  font-size: 62.5%;
+}
+body {
+  background-color: #0078D7;
+  color: #FFFFFF;
+  font-size: 1.6rem;
+}
+input,
+label,
+select,
+option,
+textarea,
+button,
+fieldset,
+legend {
+  font-size: 1.6rem;
+  color: #FFFFFF;
+}
+button {
+  background-color: #3393DF;
+  border: 3px solid #FFFFFF;
+  padding: 5px 20px;
+  cursor: pointer;
+}
+button:hover {
+  padding: 0 15px;
+  margin: 5px;
+}

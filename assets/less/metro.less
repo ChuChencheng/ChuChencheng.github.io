@@ -1,0 +1,68 @@
+//define colors
+.blue-bgc(){
+    background-color: #0078D7;
+    color: #FFFFFF;
+}
+
+.blue-80-shade(){
+    background-color: #00172A;
+}
+
+.blue-60-shade(){
+    background-color: #003056;
+}
+
+.blue-40-shade(){
+    background-color: #004881;
+}
+
+.blue-20-shade(){
+    background-color: #0060AC;
+}
+
+.blue-20-tint(){
+    background-color: #3393DF;
+}
+
+.blue-40-tint(){
+    background-color: #66AEE7;
+}
+
+.blue-60-tint(){
+    background-color: #99C9EF;
+}
+
+.blue-80-tint(){
+    background-color: #CCE4F7;
+}
+
+//pre set
+*{
+    font-family: "Microsoft YaHei", sans-serif;
+    transition: all 0.2s;
+}
+
+html{
+    font-size: 62.5%;
+}
+
+body{
+    .blue-bgc();
+    font-size: 1.6rem;
+}
+
+input, label, select, option, textarea, button, fieldset, legend{
+    font-size: 1.6rem;
+    color: #FFFFFF;
+}
+
+button{
+    .blue-20-tint();
+    border: 3px solid #FFFFFF;
+    padding: 5px 20px;
+    cursor: pointer;
+    &:hover{
+        padding: 0 15px;
+        margin: 5px;
+    }
+}

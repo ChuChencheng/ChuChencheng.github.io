@@ -14,7 +14,7 @@ gulp.task('serve',['less'],function(){
         console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     });
     //监听html文件的变化，自动重新载入
-    gulp.watch('./*.html').on('change', browserSync.reload);
+    gulp.watch('./test/*.html').on('change', browserSync.reload);
 });
 //创建自动编译less的任务，这边需要return stream以保证browserSync.reload在正确的时机调用
 gulp.task('less', function(){
