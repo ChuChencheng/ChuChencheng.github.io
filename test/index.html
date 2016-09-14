@@ -10,8 +10,18 @@
 <script>
   $(document).ready(function(){
     document.documentElement.style.fontSize = document.documentElement.clientWidth / 6.4 + 'px';
-    console.log(document.documentElement.clientWidth);
     document.body.addEventListener('touchstart', function(){});
+    $(document).on('keydown', function(e){
+      var keyCode = e.keyCode;
+      if(keyCode == 66){
+        window.location.href = "{{ 'blog' | prepend: site.baseurl }}";
+      } else if(keyCode == 69){
+        alert('Excited!');
+      }
+    });
+    $('.js-excited-btn').on('click', function(e){
+      alert('Excited!');
+    });
   });
 </script>
 </head>
@@ -25,7 +35,7 @@
 </ul>
 <div class="btn-group right">
 <button><a href="{{ site.baseurl }}">博客(B)</a></button>
-<button>赛艇(E)</button>
+<button class="js-excited-btn">赛艇(E)</button>
 </div>
 </div>
 </body>

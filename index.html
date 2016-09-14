@@ -1,37 +1,42 @@
----
-layout: default
-title: CCC
----
-
-<div class="content panel">
-<div class="panel-header">
-    <h1>CCC的博客</h1>
-</div>
-<div class="quote-of-myself">
-    <p>有时候并不是你没有加载样式，而是作者根本没有写样式。  ——麦瑟尔夫</p>
-</div>
-
-<p>newest posts</p>
-
-<ul class="post-list">
-	{% for post in site.posts %}
-	<li><a href="{{ post.url }}">{{ post.title }}</a><span> ({{ post.date | date: "%Y-%m-%d" }})</span></li>
-	{% endfor %}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="前端|JavaScript|Node.js|技术博客">
+<meta name=viewport content="width=device-width, initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+<title>test - CCC's blog</title>
+<link rel="stylesheet" href="./assets/css/metro.css">
+<script src="./assets/js/jquery-2.1.4.min.js"></script>
+<script>
+  $(document).ready(function(){
+    document.documentElement.style.fontSize = document.documentElement.clientWidth / 6.4 + 'px';
+    document.body.addEventListener('touchstart', function(){});
+    $(document).on('keydown', function(e){
+      var keyCode = e.keyCode;
+      if(keyCode == 66){
+        window.location.href = "{{ 'blog' | prepend: site.baseurl }}";
+      } else if(keyCode == 69){
+        alert('Excited!');
+      }
+    });
+    $('.js-excited-btn').on('click', function(e){
+      alert('Excited!');
+    });
+  });
+</script>
+</head>
+<body>
+<div class="container">
+<p>请坐和放宽，我又改了网站域名，改了又改。</p>
+<ul>
+  <li><a href="{{ 'works' | prepend: site.baseurl }}">我的作品</a></li>
+  <li><a href="{{ 'about' | prepend: site.baseurl }}">关于我</a></li>
+  <li><a href="{{ 'assets/出陈铖_Resume.pdf' | prepend: site.baseurl }}">我的简历</a></li>
 </ul>
-
+<div class="btn-group right">
+<button><a href="{{ site.baseurl }}">博客(B)</a></button>
+<button class="js-excited-btn">赛艇(E)</button>
 </div>
-
-<div class="panel">
-    <div class="panel-header">
-        <h1>Contact me</h1>
-    </div>
-    <p>
-        <span>Email:</span><a href="mailto:azureternite@gmail.com">C2CCC</a>
-    </p>
-    <ul class="social-list">
-        <li><a href="https://github.com/C2CCC" class="socialicons">&#xe735;</a></li>
-        <li><a href="http://weibo.com/2905434570/profile" class="socialicons">&#xe653;</a></li>
-        <li><a href="https://twitter.com/azureternite" class="socialicons">&#xe600;</a></li>
-    </ul>
-    <div style="clear:both;"></div>
 </div>
+</body>
+</html>
