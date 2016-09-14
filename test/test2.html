@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="前端|JavaScript|Node.js|技术博客">
+<meta name=viewport content="width=device-width, initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+<title>test - CCC's blog</title>
+<style>
+  * {
+  font-family: "Microsoft YaHei", sans-serif;
+  transition: all 0.2s;
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: #0078D7;
+  color: #FFFFFF;
+  width: 6.4rem;
+}
+p {
+  font-size: 0.16rem;
+}
+.container {
+  width: 5.76rem;
+  margin: 0 auto;
+}
+.container > * {
+  margin: 0.3rem 0;
+}
+.p-16{
+  font-size: 0.16rem;
+}
+.p-32{
+  font-size: 0.32rem;
+}
+.p-64{
+  font-size: 0.64rem;
+}
+</style>
+<script src="../assets/js/jquery-2.1.4.min.js"></script>
+<script>
+  $(document).ready(function(){
+    document.documentElement.style.fontSize = document.documentElement.clientWidth / 6.4 + 'px';
+    document.body.addEventListener('touchstart', function(){});
+  });
+</script>
+</head>
+<body>
+<div class="container">
+<p>测试字号 test font-size</p>
+<p class="p-16">测试字号 test font-size</p>
+<p class="p-32">测试字号 test font-size</p>
+<p class="p-64">测试字号 test font-size</p>
+</div>
+</body>
+</html>
