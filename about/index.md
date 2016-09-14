@@ -2,6 +2,7 @@
 layout: post
 title: 关于我
 copyleft: false
+titleSuffix: CCC's personal site
 ---
 
 ## 关键字
