@@ -5,4 +5,4 @@ CCC's blog [here][]
 
 
 
-[here]: http://C2CCC.space
+[here]: http://chuchencheng.com
