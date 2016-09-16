@@ -1,6 +1,6 @@
 var PostEvents = function(){
   this.url = window.config.url;
-  this.cors = 'http://api.c2ccc.space:3000';
+  this.cors = 'http://api.c2ccc.space';
   this.title = window.config.title;
   this.$window = $(window);
   this.$feedback = $('.feedback');
