@@ -19,22 +19,12 @@ title: div直接包裹行内元素高度变高的问题
   <button>Button 1</button>
 </div>
 ```
-<style>
-  html{
-    font-size: 100px;
-  }
-  button{
-    font-size: 0.16rem;
-  }
-</style>
-<div style="background-color:aqua;">
-  <button>Button 1</button>
-</div>
 
 想来想去怀疑是line-height的问题，于是查了一下，搜到zxx的一篇文章[CSS深入理解vertical-align和line-height的基友关系][]
 
 于是把div的line-height设置成0，button的vertical-align设置成top或bottom，问题解决。
 
+```html
 <style>
   #div2{
     line-height: 0;
@@ -46,9 +36,11 @@ title: div直接包裹行内元素高度变高的问题
 <div id="div2" style="background-color:aqua;">
   <button id="btn2">Button 2</button>
 </div>
+```
 
 不过vertical-align设置成middle时button距离上边会有1px的间隙。
 
+```html
 <style>
   #div3{
     line-height: 0;
@@ -60,6 +52,7 @@ title: div直接包裹行内元素高度变高的问题
 <div id="div3" style="background-color:aqua;">
   <button id="btn3">Button 3</button>
 </div>
+```
 
 研究中...
 
