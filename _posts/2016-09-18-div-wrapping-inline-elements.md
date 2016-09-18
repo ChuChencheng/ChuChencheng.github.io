@@ -112,6 +112,10 @@ title: div直接包裹行内元素高度变高的问题
 </html>
 ```
 
+# 参考
+
+* [CSS深入理解vertical-align和line-height的基友关系][]
+
 
 
 [CSS深入理解vertical-align和line-height的基友关系]: http://www.zhangxinxu.com/wordpress/2015/08/css-deep-understand-vertical-align-and-line-height/
