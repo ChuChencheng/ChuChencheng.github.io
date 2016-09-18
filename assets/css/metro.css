@@ -62,7 +62,7 @@ li:active {
   margin: 0 auto;
 }
 .container > * {
-  margin: 0.3rem 0;
+  margin: 0.5rem 0;
 }
 .btn-group {
   letter-spacing: -0.3rem;
