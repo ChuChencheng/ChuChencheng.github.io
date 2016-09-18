@@ -23,7 +23,7 @@ legend {
 button {
   background-color: #3393DF;
   border: 3px solid #FFFFFF;
-  padding: 0.05rem 0.20rem;
+  padding: 5px 20px;
 }
 button:hover {
   background-color: #66AEE7;
