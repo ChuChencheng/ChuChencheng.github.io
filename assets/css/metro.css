@@ -17,13 +17,13 @@ textarea,
 button,
 fieldset,
 legend {
-  font-size: 0.16rem;
+  font-size: 16px;
   color: #FFFFFF;
 }
 button {
   background-color: #3393DF;
   border: 3px solid #FFFFFF;
-  padding: 5px 20px;
+  padding: 0.05rem 0.20rem;
 }
 button:hover {
   background-color: #66AEE7;
@@ -41,14 +41,14 @@ a {
   height: 100%;
 }
 p {
-  font-size: 0.64rem;
+  font-size: 32px;
 }
 ul {
   list-style-type: none;
   text-align: center;
 }
 li {
-  font-size: 0.24rem;
+  font-size: 16px;
   padding: 0.1rem;
 }
 li:hover {
@@ -66,9 +66,11 @@ li:active {
 }
 .btn-group {
   letter-spacing: -0.3rem;
+  line-height: 0;
 }
 .btn-group button {
   margin-left: 0.1rem;
+  vertical-align: bottom;
 }
 .right {
   float: right;

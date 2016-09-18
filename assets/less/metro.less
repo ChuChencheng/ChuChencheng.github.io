@@ -54,14 +54,14 @@ body{
 }
 
 input, label, select, option, textarea, button, fieldset, legend{
-    font-size: 0.16rem;
+    font-size: 16px;
     color: #FFFFFF;
 }
 
 button{
     .blue-20-tint();
     border: 3px solid #FFFFFF;
-    padding: 5px 20px;
+    padding: 0.05rem 0.20rem;
     &:hover{
         .blue-40-tint();
     }
@@ -81,7 +81,7 @@ a{
 }
 
 p{
-    font-size: 0.64rem;
+    font-size: 32px;
 }
 
 ul{
@@ -90,7 +90,7 @@ ul{
 }
 
 li{
-    font-size: 0.24rem;
+    font-size: 16px;
     padding: 0.1rem;
     &:hover{
         .blue-20-shade();
@@ -111,8 +111,10 @@ li{
 
 .btn-group{
     letter-spacing: -0.3rem;
+    line-height: 0;
     & button{
         margin-left: 0.1rem;
+        vertical-align: bottom;
     }
 }
 
