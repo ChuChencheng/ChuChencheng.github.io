@@ -1,7 +1,7 @@
 ---
-title: JavaScript filter的实现
+title: Array.prototype.filter()的实现
 categories: JavaScript
-tags JavaScript filter
+tags: JavaScript filter
 ---
 
 # 来源
