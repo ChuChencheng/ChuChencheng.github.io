@@ -124,4 +124,6 @@ tags: 前端 CSS
 </html>
 ```
 
-jsfiddle： https://jsfiddle.net/g9j8mcf4/1/
+jsfiddle： [https://jsfiddle.net/g9j8mcf4/1/](https://jsfiddle.net/g9j8mcf4/1/)
+
+<script async src="//jsfiddle.net/g9j8mcf4/1/embed/"></script>
