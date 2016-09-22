@@ -1,5 +1,5 @@
 ---
-title: JavaScript Array.prototype.filter()的实现
+title: JavaScript filter的实现
 categories: JavaScript
 tags JavaScript filter
 ---
