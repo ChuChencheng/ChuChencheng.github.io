@@ -40,17 +40,16 @@ p {
   margin: 0.3rem 0;
 }
 </style>
-<script src="./assets/js/jquery-2.1.4.min.js"></script>
 <script>
-  $(document).ready(function(){
+  window.onload = function(){
     document.documentElement.style.fontSize = document.documentElement.clientWidth / 6.4 + 'px';
-    $(document).on('keydown', function(e){
+    document.addEventListener('keydown', function(e){
       var keyCode = e.keyCode;
       if(keyCode == 69){
         alert('Excited!');
       }
     });
-  });
+  };
 </script>
 </head>
 <body>
