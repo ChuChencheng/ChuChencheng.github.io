@@ -40,17 +40,7 @@ master分支应该是一个稳定的，可用的应用，平时不在这个分�
 
 分支之间大概是这种感觉(假设A、B两个人开发)：
 
-```
-
-。----------------。------------------。----------------。-------   master
-\                /                   /                 /
- 。------------ 。-----------。----。----------------。----------   feature
-  |\           /            /|     |                /|
-  | 。--------。----------。--|-----|------。-----。--|----------   A
-  \                          /     /                 /
-   。-----。------。--------。----。----------------。-----------   B
-
-```
+![branches](http://img.blog.csdn.net/20161209172839993?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXp1cmV0ZXJuaXRl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 当master分支上的应用出现bug时，可以在master分支上新建一个bug分支，如issue-101，修复bug后再合并到master分支上，然后删除bug分支。
 
@@ -429,15 +419,65 @@ git告诉你这个分支没被合并，如果确定要删除，使用`git branch
 
 ……，，，遇到这种情况，看接下来的 回退 吧
 
-# 回退
+## 回退
 
 概念：git中有个HEAD指针，指向当前分支的当前版本，当我们进行回退操作时，其实就是改变HEAD指针，使其指向不同的commit节点。
 
-理解了这个概念，就知道，既然是移动HEAD指针，那我们就可以在任意commit节点间进行跳转，无论是之前的版本，还是回退到之前版本后，想要回到未来的版本。
+理解了这个概念，就知道，既然是移动HEAD指针，那我们就可以在任意commit节点间进行跳转，无论是之前的版本，还是回退到之前版本后，想要回到未来的版本，只要知道commit的id就可以跳转版本。
 
 使用`git reset HEAD --hard <commit_id>`来回退。
 
+类似`10fb7e42c63586db6948f7a9221bafb32f19409d`这样的就是一个commit id，也可以输入前面几位，只要跟其他id有区别就行，如`10fb7e4`
+
 commit_id可以使用`git reflog`来查看。（使用`git log`不能看到回退后未来的commit id）
+
+# 几个命令
+
+`git init` 初始化repo
+
+`git add <file>` 添加修改到暂存区
+
+`git commit -m '<msg>'` 提交修改到repo，并附上说明
+
+`git push` 推送commit到远程仓库
+
+`git branch` 查看本地分支
+
+`git branch -a` 查看远程分支
+
+`git branch <branch_name>` 创建分支
+
+`git checkout <branch_name>` 切换分支
+
+`git checkout -b <branch_name>` 新建并切换分支
+
+`git merge` 合并分支
+
+`git stash` 保存工作区工作现场
+
+`git stash list` 查看stash
+
+`git stash pop` 恢复最后一个stash并删除stash数据
+
+`git stash apply <stash>` 恢复指定stash
+
+`git stash drop <stash>` 删除指定stash
+
+`git rm <file>` 将文件从工作区删除
+
+`git branch -d <branch_name>` 删除分支
+
+`git branch -D <branch_name>` 强制删除未合并分支
+
+`git checkout -- <file>` 把修改从工作区撤销
+
+`git reset HEAD <file>` 把修改从暂存区撤销到工作区
+
+`git reset HEAD --hard <commit_id>` repo版本回退到某个commit
+
+`git log` 查看commit历史
+
+`git reflog` 查看每个操作的log
 
 # 参考
 
