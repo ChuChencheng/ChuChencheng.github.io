@@ -435,6 +435,8 @@ commit_id可以使用`git reflog`来查看。（使用`git log`不能看到回�
 
 `git init` 初始化repo
 
+`git status` 列出未被添加到暂存区与未被提交到repo的修改(经常使用这个命令，对文件的修改以及提交情况会比较清楚)
+
 `git add <file>` 添加修改到暂存区
 
 `git commit -m '<msg>'` 提交修改到repo，并附上说明
