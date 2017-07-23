@@ -1,4 +1,4 @@
-baseurl: chuchencheng.com/
+baseurl: http://chuchencheng.com/
 permalink: /blog/:year/:month/:day/:title/
 markdown: kramdown
 highlighter: rouge
