@@ -10,7 +10,7 @@ titleSuffix: CCC's personal site
 * CCC ---> 出陈铖
 * 咸鱼一条
 
-![咸鱼](../assets/img/xianyu.png)
+![咸鱼](/assets/img/xianyu.png)
 
 ## 基情链接
 
