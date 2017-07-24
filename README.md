@@ -1,4 +1,4 @@
-# C2CCC.github.io
+# ChuChencheng.github.io
 
 CCC's blog [here][]
 
