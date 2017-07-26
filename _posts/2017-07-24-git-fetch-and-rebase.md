@@ -1,5 +1,5 @@
 ---
-title: git中多个人在同一个分支进行开发push时可能遇到的情况
+title: 使用git fetch和git rebase处理多人开发同一分支的问题
 tags: git
 categories: git
 ---
@@ -8,7 +8,7 @@ categories: git
 
 有的时候会遇到这种问题，比如说有两个人，在同一个分支进行开发，假设是我自己，跟我的同伴；现在，我写了一部分代码，准备push到远程了，于是我执行git add、git commit，一切ok，没问题，然后git push，这下问题来了，git告诉我说我的push被rejected了，原来，我的同伴在我执行push之前，已经push了若干个commit到远程，因此我不能直接push，而是需要先把他的commits拉到我本地的repo才行。git的提示如下图。
 
-
+![push rejected](http://img.blog.csdn.net/20170726171432119?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXp1cmV0ZXJuaXRl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 # 按照git的提示做
 
@@ -17,6 +17,8 @@ categories: git
 # 使用git pull
 
 由于我本人对fetch不太了解，看着pull好像跟push是反义词比较亲切，那就用它吧。于是我执行了git pull，然后git push。emmmm，好像没什么问题，但是...在source tree里面看着分支的图谱怎么怪怪的？
+
+![git fetch](http://img.blog.csdn.net/20170726171828164?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXp1cmV0ZXJuaXRl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 图谱里面显示，我提交了两个commit，但实际上我改动的地方只进行了一次提交。我们看看多出来的commit的描述，写着“Merge branch 'master' of github.com:ChuChencheng/test”。
 
@@ -56,7 +58,9 @@ git fetch这个命令会把远程的commits拉取到本地的repo中，但是，
 
 这个时候，我们还需要一个以前也很少用（我真的很菜）的命令，git rebase。
 
-git rebase的作用是，把一个分支的修改合并到另一个分支。听起来有点熟悉？没错，它跟merge的功能有点像。不同的是，merge的做法比较粗暴，直接把两个分支再各自拉出一条线，连在一起就完了；而rebase则比较细心，它会把当前分支跟你要合并的分支中不同的commits取消掉，临时保存起来，然后在要合并的分支中再把保存起来的commits贴上去，变成新的commits，当然，commitId也是新的，这样，最后的效果就是只剩合并后的分支，而且是一条直线，没有分叉，没有“Merge branch xxx of xxx”这种多余的提交。
+git rebase的作用是，把一个分支的修改合并到另一个分支。听起来有点熟悉？没错，它跟merge的功能有点像。不同的是，merge的做法比较粗暴，直接把两个分支再各自拉出一条线，连在一起就完了；而rebase则比较细心，它会把当前分支跟你要合并的分支中不同的commits取消掉，临时保存起来，然后在要合并的分支中再把保存起来的commits patch上去，变成新的commits，当然，commitId也是新的，这样，最后的效果就是只剩合并后的分支，而且是一条直线，没有分叉，没有“Merge branch xxx of xxx”这种多余的提交。
+
+![git rebase](http://img.blog.csdn.net/20170726171905927?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXp1cmV0ZXJuaXRl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 # 具体做法
 
@@ -73,4 +77,20 @@ git rebase的作用是，把一个分支的修改合并到另一个分支。听�
 
 其中，3、4、5点，如果没遇到冲突就不用进行，直接push上去。
 
+当遇到冲突时，git会提示patch failed，并要我们解决问题了再执行`git rebase --continue`
 
+![git rebase patch failed](http://img.blog.csdn.net/20170726172143711?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXp1cmV0ZXJuaXRl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+此时的图谱：
+
+![rebase meets conflict](http://img.blog.csdn.net/20170726172213448?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXp1cmV0ZXJuaXRl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+解决冲突后，通过`git status`可以看到rebase in progress，也就是说现在还是在rebase的过程中：
+
+![rebase in progress](http://img.blog.csdn.net/20170726172429306?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXp1cmV0ZXJuaXRl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+然后我们把解决后的冲突文件add进来，并执行`git rebase --continue`继续patch（也可以执行--skip跳过这个patch，或--abort放弃rebase），可以看到分支是清晰的一条直线：
+
+![conflict solved](http://img.blog.csdn.net/20170726172703505?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXp1cmV0ZXJuaXRl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+最后push，完成。
