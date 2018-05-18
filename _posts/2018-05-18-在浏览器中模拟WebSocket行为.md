@@ -149,6 +149,38 @@ ws.onopen = () => { console.log('3') }
 * `bufferedAmount` 属性的计算
 * 异常、错误的抛出（这里我参考 Chrome 的错误提示信息跟错误类型）
 
+# 效果
+
+最后的效果就是这样：
+
+```javascript
+import wsm from 'wsmock-js'
+ 
+wsm.mock({
+  url: 'ws://echo.websocket.org',
+  sendInterval: 'onreceive',
+  receiver (data) {
+    console.log(data)
+  },
+  sender () {
+    this.response = 'This is a message sent by server.'
+  },
+})
+
+/*-------------------------------------*/
+
+const ws = new WebSocket('ws://echo.websocket.org')
+ws.onmessage = (evt) => { console.log(evt.data) }
+ws.send('test')
+
+// console output
+// "This is a message sent by server."
+```
+
+你也可以通过 `npm` 或 `yarn` 安装 `wsmock-js` 后，运行 `npm start` ，打开网页控制台查看效果，可以看到通过 `webpack-dev-server` 建立的连接因为没有模拟设置，因此不会被拦截模拟。
+
+**注意：这个项目只应在开发阶段使用，在线上请移除该项目模块**
+
 # 后续
 
 后续想着支持一下常用的 WebSocket 库，比如 [socket.io][] ，但是其方法 API 比较多，还没仔细研究怎么实现，而且它并不是 WebSocket 的一个实现，与原生 WebSocket 不能互通。
