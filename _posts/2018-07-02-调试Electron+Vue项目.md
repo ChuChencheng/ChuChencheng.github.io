@@ -218,14 +218,115 @@ win.webContents.openDevTools()
 
 # 加载 Vue.js devtools
 
+[Electron 文档 -- 开发工具扩展程序][]
+
+这里面写得够清楚了，不再多说。
+
+如果 `%LOCALAPPDATA%` 没法读取，就使用系统的绝对路径吧。
+
+[electron-devtools-installer][] 也是个不错的选择。
+
+需要注意的是，两种方式都是需要从 Chrome 商店下载扩展的，需要科学上网。
+
 # electron . --inspect 调试主进程
+
+根据 [Electron 文档 -- 调试主进程][] 的说法，我们可以用
+
+```
+electron . --inspect=5858
+```
+
+来调试主进程。
+
+除了上述命令之外，我们还需要一个 `支持 V8 调试协议的调试器` 。
+
+这个调试器，方便一点的，我们可以用 Chrome 浏览器直接来调试。
+
+## 使用 Chrome 调试主进程
+
+首先，打开 Chrome ，在地址栏里输入
+
+```
+chrome://inspect
+```
+
+看到如下界面，点击 `Configure`
+
+![Chrome inspect]({{ 'assets/img/blog/2018-07-02-调试Electron+Vue项目-chrome-inspect.png' | prepend: site.baseurl }})
+
+紧接着，新增一条
+
+```
+localhost:5858
+```
+
+这边的 `5858` 就是上面命令行执行的端口。
+
+![Chrome inspect settings]({{ 'assets/img/blog/2018-07-02-调试Electron+Vue项目-chrome-inspect-settings.png' | prepend: site.baseurl }})
+
+接下来启动上面的命令， `electron . --inspect=5858` ，即可在 Chrome 中看到 Remote Target 中多了个东西，点击 `inspect` 即可打开开发者工具，主进程的代码都在里面，可以进行调试，设置断点之类的。
+
+![Chrome inspect settings]({{ 'assets/img/blog/2018-07-02-调试Electron+Vue项目-chrome-inspect-remote.png' | prepend: site.baseurl }})
+
+## 使用 VSCode 附加在主进程上
+
+在 VSCode 中，可以把调试器附加在 Electron 主进程中。
+
+![VSCode attach]({{ 'assets/img/blog/2018-07-02-调试Electron+Vue项目-vscode-attach.png' | prepend: site.baseurl }})
+
+进入 Debug 面板，添加配置，VSCode 会在根目录生成一个 `.vscode` 文件夹，并包含一个 `launch.json` 文件，这就是 VSCode debug 时的配置文件。
+
+打开 `launch.json` ，在 `configurations` 中填入： 
+
+```javascript 
+{
+  "type": "node",
+  "request": "attach",
+  "name": "Inspect Electron",
+  "port": 5858,
+  "sourceMaps": false,
+  "localRoot": "${workspaceRoot}",
+  "remoteRoot": null,
+  "address": "localhost"
+}
+```
+
+然后保存。
+
+现在，你可以在 VSCode 中按 `F5` 键启动调试器，并在 VSCode 中对主进程的代码打断点进行调试了。当然，这是在启动了 Electron 的前提下进行的调试，你还是需要先手动执行 `electron . --inspect=5858` 。
 
 # 使用 VSCode 调试主进程
 
----未完---
+开头我们已经写好了一个启动 dev-server 后再启动 Electron 的脚本，在 VSCode 中，我们可以利用其调试器来启动这个脚本，并且直接在 VSCode 中调试主进程。
+
+与上面使用附加的方式不同，这次我们使用 launch 。
+
+`launch.json` `configurations` ：
+
+```javascript
+{
+  "type": "node",
+  "request": "launch",
+  "name": "启动程序",
+  "cwd": "${workspaceRoot}",
+  "program": "${workspaceFolder}/dev.js",
+  "autoAttachChildProcesses": true
+}
+```
+
+注意最后一行 `"autoAttachChildProcesses": true` ，由于我们的脚本是通过子进程启动的 Electron ，这一行配置告诉 VSCode 自动附加到子进程上，也就是脚本启动的 Electron 进程，这相当于 “启动 dev.js + 附加到 Electron 进程” ，因此我们可以直接在 VSCode 中调试主进程。
+
+有关 `launch.json` 配置见 [VSCode 文档][]
+
+
 
 
 [搭建Electron+Vue项目]: {% post_url 2018-07-02-搭建Electron+Vue项目 %}
+
 [concurrently]: https://github.com/kimmobrunfeldt/concurrently
 [webpack-dev-server wiki]: https://github.com/webpack/docs/wiki/webpack-dev-server
 [child_process 文档]: https://nodejs.org/dist/latest-v8.x/docs/api/child_process.html
+[Electron 文档 -- 开发工具扩展程序]: https://electronjs.org/docs/tutorial/devtools-extension
+[electron-devtools-installer]: https://github.com/MarshallOfSound/electron-devtools-installer
+[Electron 文档 -- 调试主进程]: https://electronjs.org/docs/tutorial/debugging-main-process
+[VSCode 文档]: https://code.visualstudio.com/docs/editor/debugging#_launch-configurations
