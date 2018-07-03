@@ -225,7 +225,7 @@ win.webContents.openDevTools()
 ---未完---
 
 
-[搭建Electron+Vue项目]: ./2018-07-02-搭建Electron+Vue项目.md
+[搭建Electron+Vue项目]: {% post_url 2018-07-02-搭建Electron+Vue项目 %}
 [concurrently]: https://github.com/kimmobrunfeldt/concurrently
 [webpack-dev-server wiki]: https://github.com/webpack/docs/wiki/webpack-dev-server
 [child_process 文档]: https://nodejs.org/dist/latest-v8.x/docs/api/child_process.html

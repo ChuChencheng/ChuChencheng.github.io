@@ -198,4 +198,4 @@ module.exports = {
 [Electron 教程]: https://electronjs.org/docs/tutorial/first-app
 [webpack target]: https://webpack.docschina.org/configuration/target
 [webpack node]: https://webpack.docschina.org/configuration/node/
-[调试Electron+Vue项目]: ./2018-07-02-调试Electron+Vue项目.md
+[调试Electron+Vue项目]: {% post_url 2018-07-02-调试Electron+Vue项目 %}
