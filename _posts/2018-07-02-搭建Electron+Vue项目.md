@@ -57,7 +57,7 @@ Electron 的渲染进程运行的就是一个 web ，也就是说我们只是在
 
 首先安装各种依赖，根据需要装上 Vue 全家桶或者部分。
 
-![依赖](./assets/img/blog/2018-07-02-搭建Electron+Vue项目-dependencies.png)
+![依赖]({{ 'assets/img/blog/2018-07-02-搭建Electron+Vue项目-dependencies.png' | prepend: site.baseurl }})
 
 ## 配置 webpack
 
