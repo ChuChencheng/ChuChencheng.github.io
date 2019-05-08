@@ -3,7 +3,6 @@ title: JavaScript +new Array(017)
 categories: JavaScript
 tags:
 - JavaScript
-- +
 ---
 
 # 问题
