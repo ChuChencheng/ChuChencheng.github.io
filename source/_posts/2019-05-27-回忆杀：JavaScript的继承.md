@@ -387,3 +387,8 @@ function inheritPrototype (SubClass, SuperClass) {
 ```
 
 至此，JavaScript 继承的回忆就结束了，不知道你对这种基于原型的继承思路有没有稍微清楚一点了呢？
+
+# 参考
+
+- 以前的文章
+- [MDN 继承与原型链](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
