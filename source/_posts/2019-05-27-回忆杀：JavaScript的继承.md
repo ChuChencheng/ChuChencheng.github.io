@@ -117,6 +117,22 @@ function Daughter () {
 
 然后要实现女儿继承父亲。
 
+对了，为什么要把方法挂在原型对象上呢？这要从 [new](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/new) 这个关键字说起，一个构造函数 Fn 被 new 了，会创建一个继承自 `Fn.prototype` 的实例对象，因此，每个实例都可以从原型链中找到 `Fn.prototype` 上的方法，也就是这些方法是实例中共享的：
+
+```javascript
+dad_one.breakLeg === dad_two.breakLeg // true
+// 等同于
+dad_one.__proto__.breakLeg === dad_two.__proto__.breakLeg // true
+```
+
+而没有挂在原型对象上的则是每个实例独立的属性：
+
+```javascript
+dad_one.hobbies === dad_two.hobbies // false
+```
+
+因此我们把实例间需要共享的，一般是方法，挂在构造函数的原型对象上，而其他属性挂在 this 上。
+
 ## 原型链继承法
 
 所谓原型链继承，就是很粗暴的，直接修改女儿的原型对象：
