@@ -76,6 +76,10 @@ Object.prototype.__proto__ === null
 
 这一串，就是原型链。
 
+大概是下面这张图的关系：
+
+![prototype](../images/prototype.png)
+
 # 继承
 
 正片开始。
