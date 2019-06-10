@@ -78,7 +78,7 @@ Object.prototype.__proto__ === null
 
 大概是下面这张图的关系：
 
-![prototype](/images/prototype.jpg)
+![prototype](/images/posts/prototype.jpg)
 
 # 继承
 
