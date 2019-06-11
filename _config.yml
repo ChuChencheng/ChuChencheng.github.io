@@ -846,8 +846,8 @@ theme_config:
 
   # Google Analytics
   google_analytics:
-  tracking_id: UA-84045824-1
-  localhost_ignored: true
+    tracking_id: UA-84045824-1
+    localhost_ignored: true
 
   # CNZZ count
   #cnzz_siteid:
