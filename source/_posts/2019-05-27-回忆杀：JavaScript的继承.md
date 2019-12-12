@@ -400,7 +400,7 @@ function inheritPrototype (Daughter, Dad) {
 ```javascript
 function inheritPrototype (SubClass, SuperClass) {
   // 创建 temp
-  const temp = Object.create(SuperClass)
+  const temp = Object.create(SuperClass.prototype) // 2019.12.12 修正，Object.create 不会取 prototype ，具体见 MDN 文档 polyfill 部分
   temp.constructor = SubClass
   SubClass.prototype = temp
 }
