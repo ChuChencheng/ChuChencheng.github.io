@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chuchencheng.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"dimmer":false},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="寻找 Vue 函数要知道 new Vue() 的时候发生了什么，首先要知道 Vue 定义在哪里。 我们从 package.json 开始寻找 Vue 在哪里  在 scripts 中，可以看到在 build 时执行了 scripts&#x2F;build.js 找到 scripts&#x2F;build.js ，发现在构建时读取了同目录下的 config.js 找到 scripts&#x2F;config.js ，根据 pac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="new Vue() 的时候发生了什么">
+<meta property="og:url" content="http://chuchencheng.com/2019/01/10/Vue%E6%BA%90%E7%A0%81%E6%B5%8F%E8%A7%88%E7%AC%94%E8%AE%B0-1/index.html">
+<meta property="og:site_name" content="CCC 的博客">
+<meta property="og:description" content="寻找 Vue 函数要知道 new Vue() 的时候发生了什么，首先要知道 Vue 定义在哪里。 我们从 package.json 开始寻找 Vue 在哪里  在 scripts 中，可以看到在 build 时执行了 scripts&#x2F;build.js 找到 scripts&#x2F;build.js ，发现在构建时读取了同目录下的 config.js 找到 scripts&#x2F;config.js ，根据 pac">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-01-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-02T08:03:01.257Z">
+<meta property="article:author" content="CCC">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://chuchencheng.com/2019/01/10/Vue%E6%BA%90%E7%A0%81%E6%B5%8F%E8%A7%88%E7%AC%94%E8%AE%B0-1/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script><script>
+  console.log('看啥呢？')
+</script>
+
+<style>
+.site-author-image {
+  transition: transform 10s;
+  border: none;
+}
+
+.site-author-image:hover {
+  transform: rotate(10turn);
+}
+</style>
+
+<title>new Vue() 的时候发生了什么 | CCC 的博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-84045824-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-84045824-1');
+      }
+    </script>
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CCC 的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">真香</p>
+      <img class="custom-logo-image" src="/%5Bobject%20Object%5D" alt="CCC 的博客">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%BB%E6%89%BE-Vue-%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">寻找 Vue 函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import-Vue-%E6%97%B6%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-number">2.</span> <span class="nav-text">import Vue 时发生了什么</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#initMixin"><span class="nav-number">2.1.</span> <span class="nav-text">initMixin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stateMixin"><span class="nav-number">2.2.</span> <span class="nav-text">stateMixin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eventsMixin"><span class="nav-number">2.3.</span> <span class="nav-text">eventsMixin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lifecycleMixin"><span class="nav-number">2.4.</span> <span class="nav-text">lifecycleMixin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#renderMixin"><span class="nav-number">2.5.</span> <span class="nav-text">renderMixin</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#new-Vue-%E6%97%B6%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-number">3.</span> <span class="nav-text">new Vue() 时发生了什么</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CCC"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">CCC</p>
+  <div class="site-description" itemprop="description">代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">72</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ChuChencheng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ChuChencheng" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/azureternite/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;azureternite&#x2F;" rel="noopener" target="_blank"><i class="instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:azureternite@gmail.com" title="E-Mail → mailto:azureternite@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ChuChencheng" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2019/01/10/Vue%E6%BA%90%E7%A0%81%E6%B5%8F%E8%A7%88%E7%AC%94%E8%AE%B0-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          new Vue() 的时候发生了什么
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-01-10 00:00:00" itemprop="dateCreated datePublished" datetime="2019-01-10T00:00:00+08:00">2019-01-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/01/10/Vue%E6%BA%90%E7%A0%81%E6%B5%8F%E8%A7%88%E7%AC%94%E8%AE%B0-1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/01/10/Vue源码浏览笔记-1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="寻找-Vue-函数"><a href="#寻找-Vue-函数" class="headerlink" title="寻找 Vue 函数"></a>寻找 Vue 函数</h1><p>要知道 new Vue() 的时候发生了什么，首先要知道 Vue 定义在哪里。</p>
+<p>我们从 <code>package.json</code> 开始寻找 Vue 在哪里</p>
+<ol>
+<li>在 <code>scripts</code> 中，可以看到在 build 时执行了 <code>scripts/build.js</code></li>
+<li>找到 <code>scripts/build.js</code> ，发现在构建时读取了同目录下的 <code>config.js</code></li>
+<li>找到 <code>scripts/config.js</code> ，根据 <code>package.json</code> 中的 <code>main</code> 字段可以知道最终入口是 <code>dist/vue.runtime.common.js</code> ，于是我们找 dest 为 <code>dist/vue.runtime.common.js</code> 对应的 entry ，发现是 <code>web/entry-runtime.js</code></li>
+<li>找到 <code>entry-runtime.js</code> （别名在 <code>scripts/alias.js</code> 中），顺着 <code>import Vue</code> 一直找下去</li>
+<li>最后发现，在 <code>src/core/instance/index.js</code> 中定义了 <code>function Vue</code></li>
+</ol>
+<h1 id="import-Vue-时发生了什么"><a href="#import-Vue-时发生了什么" class="headerlink" title="import Vue 时发生了什么"></a>import Vue 时发生了什么</h1><p>平时在写 Vue 项目时，一般都是先导入 Vue ，然后再执行 new Vue()</p>
+<p>那么，在我们 <code>import Vue from &#39;vue&#39;</code> 的时候都发生了什么呢，或者说，new Vue() 之前框架都做了哪些准备工作</p>
+<p>我们从 rollup 打包的入口，也就是上一步中的 <code>web/entry-runtime.js</code> 开始看（单页应用的话引入的可能是 <code>vue.esm.js</code> ，对应入口是 <code>web/entry-runtime-with-compiler.js</code> ，与运行时版本相比，其 <code>$mount</code> 是带了编译模板功能的，这个暂时不看），会发现在 <code>web/runtime/index.js</code> 中，主要是在 <code>Vue.prototype</code> 上挂了一个 <code>$mount</code> 方法，这个方法，就是我们执行 <code>(new Vue()).$mount()</code> 时调用的方法</p>
+<p>从当前文件接着寻找 <code>import Vue</code> ，可以找到 <code>core/index.js</code> ，在这个文件中，主要是挂载 ssr 相关的属性， <code>$isServer</code>, <code>$ssrContext</code> 等</p>
+<p>接着找 <code>import Vue</code> ，就找到了定义 Vue 的地方， <code>core/instance/index.js</code> 。在 <code>function Vue</code> 底下对 Vue 函数执行了一些混入操作：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">initMixin(Vue)</span><br><span class="line">stateMixin(Vue)</span><br><span class="line">eventsMixin(Vue)</span><br><span class="line">lifecycleMixin(Vue)</span><br><span class="line">renderMixin(Vue)</span><br></pre></td></tr></table></figure>
+<p>这一堆 mixin 方法都是从同目录下的文件中导入的，我们一个个来看</p>
+<h2 id="initMixin"><a href="#initMixin" class="headerlink" title="initMixin"></a>initMixin</h2><p>文件： <code>src\core\instance\init.js</code></p>
+<p>主要内容： 挂载 <code>_init</code> 方法到 <code>Vue.prototype</code> 中， <code>_init</code> 是 <code>new Vue()</code> 时首先调用的方法。</p>
+<h2 id="stateMixin"><a href="#stateMixin" class="headerlink" title="stateMixin"></a>stateMixin</h2><p>文件： <code>src\core\instance\state.js</code></p>
+<p>主要内容： 挂载 <code>$data</code>, <code>$props</code> 属性与 <code>$set</code>, <code>$delete</code>, <code>$watch</code> 方法到 <code>Vue.prototype</code> 中</p>
+<h2 id="eventsMixin"><a href="#eventsMixin" class="headerlink" title="eventsMixin"></a>eventsMixin</h2><p>文件： <code>src\core\instance\events.js</code></p>
+<p>主要内容： 挂载 <code>$on</code>, <code>$once</code>, <code>$off</code>, <code>$emit</code> 方法到 <code>Vue.prototype</code> 中</p>
+<h2 id="lifecycleMixin"><a href="#lifecycleMixin" class="headerlink" title="lifecycleMixin"></a>lifecycleMixin</h2><p>文件： <code>src\core\instance\lifecycle.js</code></p>
+<p>主要内容： 挂载 <code>_update</code>, <code>$forceUpdate</code>, <code>$destroy</code> 方法到 <code>Vue.prototype</code> 中</p>
+<h2 id="renderMixin"><a href="#renderMixin" class="headerlink" title="renderMixin"></a>renderMixin</h2><p>文件： <code>src\core\instance\render.js</code></p>
+<p>主要内容： 挂载 <code>$nextTick</code>, <code>_render</code> 方法到 <code>Vue.prototype</code> 中</p>
+<p>到这里，准备工作就基本完成了，总结起来就是往 <code>Vue.prototype</code> 中挂载了一堆属性与方法</p>
+<h1 id="new-Vue-时发生了什么"><a href="#new-Vue-时发生了什么" class="headerlink" title="new Vue() 时发生了什么"></a>new Vue() 时发生了什么</h1><p>准备工作完成后，接下来就是等待用户执行 <code>new Vue()</code> 了。</p>
+<p>我们从定义 Vue 的地方，就是 <code>src\core\instance\index.js</code> 开始看起。</p>
+<p><code>function Vue</code> 中除了提示我们 Vue 是一个需要用 new 的构造函数外，只调用了一个方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>._init(options)</span><br></pre></td></tr></table></figure>
+<p>这个即是刚才 <code>initMixin</code> 中挂载到 <code>Vue.prototype</code> 上的 <code>_init</code> 方法。</p>
+<p><code>_init</code> 中主要做了这些事：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 省略部分代码</span></span><br><span class="line"><span class="keyword">const</span> vm: Component = <span class="built_in">this</span></span><br><span class="line">initLifecycle(vm)</span><br><span class="line">initEvents(vm)</span><br><span class="line">initRender(vm)</span><br><span class="line">callHook(vm, <span class="string">&#x27;beforeCreate&#x27;</span>)</span><br><span class="line">initInjections(vm) <span class="comment">// resolve injections before data/props</span></span><br><span class="line">initState(vm)</span><br><span class="line">initProvide(vm) <span class="comment">// resolve provide after data/props</span></span><br><span class="line">callHook(vm, <span class="string">&#x27;created&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (vm.$options.el) &#123;</span><br><span class="line">  vm.$mount(vm.$options.el)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，在生命周期 <code>beforeCreate</code> 之前，完成了 <code>initLifecycle</code>, <code>initEvents</code> 和 <code>initRender</code>。前两个不说，在 <code>initRender</code> 中，挂载了 <code>$slots</code>, <code>$scopedSlots</code>, <code>$attrs</code>, <code>$listeners</code> 属性和 <code>$createElement</code> 方法。</p>
+<p>而在 <code>created</code> 之前，完成了 <code>initInjections</code>, <code>initState</code> 和 <code>initProvide</code> 。这边我们主要看一下 <code>initState</code> ，因为这跟我们平时所写的 Vue 组件的属性关系比较大。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">initState</span> (<span class="params">vm: Component</span>) </span>&#123;</span><br><span class="line">  vm._watchers = []</span><br><span class="line">  <span class="keyword">const</span> opts = vm.$options</span><br><span class="line">  <span class="keyword">if</span> (opts.props) initProps(vm, opts.props)</span><br><span class="line">  <span class="keyword">if</span> (opts.methods) initMethods(vm, opts.methods)</span><br><span class="line">  <span class="keyword">if</span> (opts.data) &#123;</span><br><span class="line">    initData(vm)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    observe(vm._data = &#123;&#125;, <span class="literal">true</span> <span class="comment">/* asRootData */</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (opts.computed) initComputed(vm, opts.computed)</span><br><span class="line">  <span class="keyword">if</span> (opts.watch &amp;&amp; opts.watch !== nativeWatch) &#123;</span><br><span class="line">    initWatch(vm, opts.watch)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里，我们可以看到每个属性初始化的顺序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">props -&gt; methods -&gt; data -&gt; computed -&gt; watch</span><br></pre></td></tr></table></figure>
+<p>根据这个顺序就可以明白，为什么在 props 里面没法访问 methods 或 data ，在 data 里面能访问 methods 却无法访问 computed</p>
+<p>而 props 的 validator ，因为是直接调用执行的，因此内部无法访问 Vue 实例；而且 props 是最先被初始化的，在这个步骤对于实例内的属性几乎没有什么可访问的，个人感觉即使绑定了 this 意义也不大。</p>
+<p>接下来就是判断是否提供了 <code>el</code> 属性，如果有，则执行 <code>$mount</code> 方法挂载组件，这个过程中，会调用 <code>src\core\instance\lifecycle.js</code> 中的 <code>mountComponent</code> 。由于在这个方法中也存在生命周期钩子函数的调用，下面大概来看一下 <code>mountComponent</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 删除了非 production 时的代码</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">mountComponent</span> (<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  vm: Component,</span></span></span><br><span class="line"><span class="function"><span class="params">  el: ?Element,</span></span></span><br><span class="line"><span class="function"><span class="params">  hydrating?: <span class="built_in">boolean</span></span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">Component</span> </span>&#123;</span><br><span class="line">  vm.$el = el</span><br><span class="line">  <span class="keyword">if</span> (!vm.$options.render) &#123;</span><br><span class="line">    vm.$options.render = createEmptyVNode</span><br><span class="line">  &#125;</span><br><span class="line">  callHook(vm, <span class="string">&#x27;beforeMount&#x27;</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> updateComponent</span><br><span class="line">  updateComponent = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    vm._update(vm._render(), hydrating)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// we set this to vm._watcher inside the watcher&#x27;s constructor</span></span><br><span class="line">  <span class="comment">// since the watcher&#x27;s initial patch may call $forceUpdate (e.g. inside child</span></span><br><span class="line">  <span class="comment">// component&#x27;s mounted hook), which relies on vm._watcher being already defined</span></span><br><span class="line">  <span class="keyword">new</span> Watcher(vm, updateComponent, noop, &#123;</span><br><span class="line">    before () &#123;</span><br><span class="line">      <span class="keyword">if</span> (vm._isMounted &amp;&amp; !vm._isDestroyed) &#123;</span><br><span class="line">        callHook(vm, <span class="string">&#x27;beforeUpdate&#x27;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, <span class="literal">true</span> <span class="comment">/* isRenderWatcher */</span>)</span><br><span class="line">  hydrating = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// manually mounted instance, call mounted on self</span></span><br><span class="line">  <span class="comment">// mounted is called for render-created child components in its inserted hook</span></span><br><span class="line">  <span class="keyword">if</span> (vm.$vnode == <span class="literal">null</span>) &#123;</span><br><span class="line">    vm._isMounted = <span class="literal">true</span></span><br><span class="line">    callHook(vm, <span class="string">&#x27;mounted&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> vm</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的代码可以看到， <code>beforeMount</code> 之前会先判断是否有 <code>render</code> 属性，如果没有则赋值一个空的 VNode 节点。这里的 <code>render</code> 其实是一定会有的：</p>
+<ol>
+<li>如果你写的是单文件组件，那 <code>&lt;template&gt;&lt;/template&gt;</code> 会被 <code>vue-loader</code> 编译为 <code>render</code> 函数</li>
+<li>如果你提供的是 <code>template</code> 选项，并使用带 compiler 版本的 Vue ，则在 $mount 方法中会进行编译成 <code>render</code> 函数</li>
+<li>如果直接写的 <code>render</code> 函数，有 jsx 则会编译成 JavaScript ，这在 Vue 官方文档中是有说明的</li>
+</ol>
+<p>然后是 <code>new</code> 了一个 <code>Watcher</code> 。这里目前不需要知道里面具体干了什么，只要知道 <code>updateComponent</code> 会马上被调用一次就行了。而 <code>updateComponent</code> 中调用了 <code>_render</code> 跟 <code>_update</code> 方法，之前已经看过，这两个方法分别在 <code>render.js</code> 跟 <code>lifecycle.js</code> 中挂载到 Vue 的原型上了。简单来说，这一步创建了当前实例的 VNode 。</p>
+<p>至此， <code>new Vue()</code> 表面可见的工作大致就到这边，剩下的 watch 相关、 vdom 以及其他内容后续再看。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>CCC
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://chuchencheng.com/2019/01/10/Vue%E6%BA%90%E7%A0%81%E6%B5%8F%E8%A7%88%E7%AC%94%E8%AE%B0-1/" title="new Vue() 的时候发生了什么">http://chuchencheng.com/2019/01/10/Vue源码浏览笔记-1/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/vue/" rel="tag"># vue</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/07/14/%E5%B0%86Electron%E5%BA%94%E7%94%A8%E6%89%93%E5%8C%85%E4%B8%BAWindows-exe%E6%96%87%E4%BB%B6/" rel="prev" title="将 Electron 应用打包为 Windows exe 文件">
+                  <i class="fa fa-chevron-left"></i> 将 Electron 应用打包为 Windows exe 文件
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/01/10/Vue%E6%BA%90%E7%A0%81%E6%B5%8F%E8%A7%88%E7%AC%94%E8%AE%B0-0/" rel="next" title="Vue 源码浏览笔记">
+                  Vue 源码浏览笔记 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CCC</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://chuchencheng-com.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://chuchencheng.com/2019/01/10/Vue%E6%BA%90%E7%A0%81%E6%B5%8F%E8%A7%88%E7%AC%94%E8%AE%B0-1/";
+    this.page.identifier = "2019/01/10/Vue源码浏览笔记-1/";
+    this.page.title = "new Vue() 的时候发生了什么";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://chuchencheng-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

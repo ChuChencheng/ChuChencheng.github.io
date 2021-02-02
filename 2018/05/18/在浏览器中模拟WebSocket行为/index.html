@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chuchencheng.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"dimmer":false},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="先挂上项目链接：wsmock-js 背景在一个前端项目开发过程中若用到了 ajax ，可以使用 jquery-mockjax 、mockajax 等库来拦截 ajax 请求，并模拟服务器返回一份自定义的模拟数据给浏览器。这个过程没有发起网络请求，却模拟了 ajax 过程的行为，定义好模拟数据后，只要照常使用 ajax 即可，基本覆盖了日常使用 ajax 的需要。 那么，同样的思路，在开发过程中如果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在浏览器中模拟WebSocket行为">
+<meta property="og:url" content="http://chuchencheng.com/2018/05/18/%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E6%A8%A1%E6%8B%9FWebSocket%E8%A1%8C%E4%B8%BA/index.html">
+<meta property="og:site_name" content="CCC 的博客">
+<meta property="og:description" content="先挂上项目链接：wsmock-js 背景在一个前端项目开发过程中若用到了 ajax ，可以使用 jquery-mockjax 、mockajax 等库来拦截 ajax 请求，并模拟服务器返回一份自定义的模拟数据给浏览器。这个过程没有发起网络请求，却模拟了 ajax 过程的行为，定义好模拟数据后，只要照常使用 ajax 即可，基本覆盖了日常使用 ajax 的需要。 那么，同样的思路，在开发过程中如果">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-05-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-02T08:03:01.256Z">
+<meta property="article:author" content="CCC">
+<meta property="article:tag" content="websocket">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://chuchencheng.com/2018/05/18/%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E6%A8%A1%E6%8B%9FWebSocket%E8%A1%8C%E4%B8%BA/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script><script>
+  console.log('看啥呢？')
+</script>
+
+<style>
+.site-author-image {
+  transition: transform 10s;
+  border: none;
+}
+
+.site-author-image:hover {
+  transform: rotate(10turn);
+}
+</style>
+
+<title>在浏览器中模拟WebSocket行为 | CCC 的博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-84045824-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-84045824-1');
+      }
+    </script>
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CCC 的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">真香</p>
+      <img class="custom-logo-image" src="/%5Bobject%20Object%5D" alt="CCC 的博客">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#WebSocket-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">WebSocket 构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E4%B8%8E%E5%B8%B8%E9%87%8F"><span class="nav-number">4.2.</span> <span class="nav-text">属性与常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">4.3.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.4.</span> <span class="nav-text">事件系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F%E8%AE%BE%E7%BD%AE%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">4.5.</span> <span class="nav-text">模拟设置的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%BB%86%E8%8A%82"><span class="nav-number">4.6.</span> <span class="nav-text">其他细节</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-number">5.</span> <span class="nav-text">效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E7%BB%AD"><span class="nav-number">6.</span> <span class="nav-text">后续</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CCC"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">CCC</p>
+  <div class="site-description" itemprop="description">代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">72</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ChuChencheng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ChuChencheng" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/azureternite/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;azureternite&#x2F;" rel="noopener" target="_blank"><i class="instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:azureternite@gmail.com" title="E-Mail → mailto:azureternite@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ChuChencheng" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2018/05/18/%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E6%A8%A1%E6%8B%9FWebSocket%E8%A1%8C%E4%B8%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在浏览器中模拟WebSocket行为
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-05-18 00:00:00" itemprop="dateCreated datePublished" datetime="2018-05-18T00:00:00+08:00">2018-05-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/05/18/%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E6%A8%A1%E6%8B%9FWebSocket%E8%A1%8C%E4%B8%BA/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/05/18/在浏览器中模拟WebSocket行为/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>先挂上项目链接：<a target="_blank" rel="noopener" href="https://github.com/ChuChencheng/wsmock-js">wsmock-js</a></p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在一个前端项目开发过程中若用到了 ajax ，可以使用 <a target="_blank" rel="noopener" href="https://github.com/jakerella/jquery-mockjax">jquery-mockjax</a> 、<a target="_blank" rel="noopener" href="https://github.com/angrytoro/mockajax">mockajax</a> 等库来拦截 ajax 请求，并模拟服务器返回一份自定义的模拟数据给浏览器。这个过程没有发起网络请求，却模拟了 ajax 过程的行为，定义好模拟数据后，只要照常使用 ajax 即可，基本覆盖了日常使用 ajax 的需要。</p>
+<p>那么，同样的思路，在开发过程中如果用到了 WebSocket ，也可以设法拦截 WebSocket 请求，并返回事先定义好的模拟数据，从而不用等待后端开发完成再来进行调试。</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>要拦截 WebSocket 请求，我首先得到的思路有</p>
+<ol>
+<li>通过浏览器插件拦截网络请求，并返回对应模拟数据 （未探索）</li>
+<li>重写进行 WebSocket 连接与数据交换的方法 （阅读上述两个 mock ajax 库源码了解的思路）</li>
+</ol>
+<p>退一步说，还可以搭设一个本地服务器，在开发时将请求 URL 都指向本地，进行真实的 WebSocket 流程，不过这样不太符合上述背景中 “照常使用” 的要求， URL 需要在本地跟实际 URL 中切换。</p>
+<p>另外能想到的是在系统层面做手脚，这个没考虑得这么多。</p>
+<p>本文按照上述第 2 点思路进行开发。</p>
+<h1 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h1><p>重写一个方法，也就是说将原来的方法进行了覆盖，这样，用户后面调用的都将是重写后的方法而不是原来的方法。</p>
+<p>这么做的优点有：</p>
+<ol>
+<li>可定制。可以对原来的方法进行改造，比如加个钩子啥的，例如 Vue 对 Array 方法的重写 （但这里并没有真的覆盖原生方法，具体看 Vue 源码）</li>
+<li>可扩展。跟第一点有点类似，可以对重写的方法加入新的方法、功能等。</li>
+</ol>
+<p>但是重写方法也是有挺明显的缺点的：</p>
+<ol>
+<li>需要实现原来的功能。重写的方法应该要在不影响本来的方法正常使用的情况下进行，让用户感受不到这个方法被重写过了 （这边也不一定就是了，看你要实现什么样的功能） ，这要求对原方法的实现有一定的了解，如果能直接继承或调用原方法是最好的。</li>
+<li>对原方法的后续跟踪。基于第 1 点的考虑，原来的方法若后续进行了功能上的扩展或变更，重写的方法应该进行跟进。</li>
+</ol>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>本项目的实现参考 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket">WebSocket MDN 文档</a> ，把里面的方法跟属性等基本重写了一遍。</p>
+<h2 id="WebSocket-构造函数"><a href="#WebSocket-构造函数" class="headerlink" title="WebSocket 构造函数"></a>WebSocket 构造函数</h2><p><code>WebSocket</code> 构造函数接受两个参数，一个 <code>url</code> ，一个可选的 <code>protocols</code></p>
+<p>由于一执行 <code>new WebSocket()</code> 就会进行 <code>url</code> 的检查并建立连接，而继承 <code>WebSocket</code> 必须执行 <code>super()</code> 方法，为了不发起连接，只能对整个 <code>WebSocket</code> 进行重写。</p>
+<p>重写构造函数的大致流程是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保存原生 WebSocket</span></span><br><span class="line"><span class="keyword">const</span> _WebSocket = <span class="built_in">window</span>.WebSocket</span><br><span class="line"></span><br><span class="line"><span class="comment">// 重写 WebSocket</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WebSocket</span> <span class="keyword">extends</span> <span class="title">EventTarget</span> </span>&#123;</span><br><span class="line">  <span class="title">constructor</span> (<span class="params">url, protocols</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (url <span class="keyword">in</span> mockSettingUrls) &#123; <span class="comment">// 如果定义了对于此 url 的模拟设置</span></span><br><span class="line">    <span class="comment">// 进入模拟 WebSocket 的流程</span></span><br><span class="line">    <span class="comment">// Mock code here...</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;  <span class="comment">// 如果未对 url 定义模拟设置，则返回原生调用</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`No mock settings for &#x27;<span class="subst">$&#123;url&#125;</span>&#x27;, invoke native.`</span>)</span><br><span class="line">      <span class="keyword">return</span> _WebSocket(url, protocols)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：由于 <code>onopen</code>、<code>onmessage</code> 等事件的特殊性（重新定义后触发事件执行顺序不变）， <code>EventTarget</code> 需要一些自定义实现，此处参照 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget#Example">MDN EventTarget 的简单实现</a> 进行了小的改造</p>
+<h2 id="属性与常量"><a href="#属性与常量" class="headerlink" title="属性与常量"></a>属性与常量</h2><p>常量不用说，既然重写了整个 <code>WebSocket</code> ，直接把该定义的四个 <code>ReadyState</code> 常量再定义一遍就行。</p>
+<p>至于属性，根据文档定义好默认值，在适当的时机进行变更。如果考虑到只读等这些特性，可以配合 <code>Object.defineProperty</code> 与 <code>descriptor</code> 使用实现。</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p><code>WebSocket</code> 浏览器端只有两个方法：</p>
+<ul>
+<li><code>send</code></li>
+<li><code>close</code></li>
+</ul>
+<p>当然，在模拟的 <code>WebSocket</code> 中的 <code>send</code> 不会发出请求，而是执行在模拟数据设置中自定义的函数来模拟服务器接收到浏览器发出的信息后执行的函数。</p>
+<h2 id="事件系统"><a href="#事件系统" class="headerlink" title="事件系统"></a>事件系统</h2><p>根据 MDN 文档中的描述， <code>WebSocket</code> 是继承于 <code>EventTarget</code> 的，因此可以使用事件系统中的 <code>addEventListener</code>, <code>removeEventListener</code>, <code>dispatchEvent </code> 这些方法。</p>
+<p>而定义 <code>onopen</code>, <code>onmessage</code>, <code>onclose</code>, <code>onerror</code> 这些属性本质上是执行了 <code>addEventListener</code> 。但是重新赋值这些属性时，事件的执行顺序并不会改变，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ws = <span class="keyword">new</span> WebSocket(<span class="string">&#x27;wss://xxx.xxx.xxx&#x27;</span>)</span><br><span class="line">ws.onopen = <span class="function">() =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="string">&#x27;1&#x27;</span>) &#125;</span><br><span class="line">ws.addEventListener(<span class="string">&#x27;open&#x27;</span>, <span class="function">() =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="string">&#x27;2&#x27;</span>) &#125;)</span><br><span class="line">ws.onopen = <span class="function">() =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="string">&#x27;3&#x27;</span>) &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// result</span></span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line"><span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>就是说，onxxx 这些属性，在事件 handler 的哪个顺序定义，再次更改该属性时，它们还在那个位置，顺序不会变更。</p>
+<p>因此这边实现了一个简易 <code>EventTarget</code> ，并添加了一些方法去实现上述特性。</p>
+<h2 id="模拟设置的定义"><a href="#模拟设置的定义" class="headerlink" title="模拟设置的定义"></a>模拟设置的定义</h2><p>重写了 <code>WebSocket</code> ，接下来该考虑怎么实现模拟设置了，其本质上是在模拟服务器的行为，包括接收数据、返回数据或主动推送数据。</p>
+<p>因此有三个主要因素：</p>
+<ul>
+<li>接收数据的 handler</li>
+<li>发送数据的方法</li>
+<li>发送数据的时机</li>
+</ul>
+<p>我们可以把设置定义为一个对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  url,</span><br><span class="line">  receiver,</span><br><span class="line">  sender,</span><br><span class="line">  sendInterval,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，根据 <code>url</code> 跟内部生成的 <code>id</code> 来标识唯一（ <code>url</code> 支持正则的话，一个模拟设置可以匹配到多个 <code>WebSocket</code> 连接；或者多次定义具有相同 <code>url</code> 的模拟设置。因此还需要 <code>id</code> 来区分）</p>
+<p><code>receiver</code> 表示服务器接收数据的 handler ，模拟 <code>WebSocket</code> 每次执行 <code>send</code> 方法时，实际上还执行了这个方法，表示服务器接收到了浏览器的数据。</p>
+<p><code>sender</code> 是从服务器发送数据到浏览器的方法，其在适当的时机执行，通过预先定义的 <code>eventBus</code> 触发一个内部事件，通知浏览器端的 <code>WebSocket</code> 接收到数据了，使其触发 <code>message</code> 事件。</p>
+<p><code>sendInterval</code> 则定义了服务器发送数据的时机，根据使用 WebSocket 的场景来看，基本上有这些情况：</p>
+<ul>
+<li>服务器收到数据后马上发送数据</li>
+<li>服务器隔一定时间发送数据</li>
+</ul>
+<p>因此这个字段可以是数字类型，或者一个特殊的字符串用来标识服务器收到数据后应马上发送数据。</p>
+<p>其他发送时机差不多都是这两种情况的变种，可以在 <code>sender</code> 跟 <code>receiver</code> 中进行操控。</p>
+<h2 id="其他细节"><a href="#其他细节" class="headerlink" title="其他细节"></a>其他细节</h2><ul>
+<li>数据、参数的校验，例如 <code>url</code>, <code>send</code> 数据的格式校验等</li>
+<li><code>bufferedAmount</code> 属性的计算</li>
+<li>异常、错误的抛出（这里我参考 Chrome 的错误提示信息跟错误类型）</li>
+</ul>
+<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><p>最后的效果就是这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> wsm <span class="keyword">from</span> <span class="string">&#x27;wsmock-js&#x27;</span></span><br><span class="line"> </span><br><span class="line">wsm.mock(&#123;</span><br><span class="line">  url: <span class="string">&#x27;ws://echo.websocket.org&#x27;</span>,</span><br><span class="line">  sendInterval: <span class="string">&#x27;onreceive&#x27;</span>,</span><br><span class="line">  receiver (data) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">  &#125;,</span><br><span class="line">  sender () &#123;</span><br><span class="line">    <span class="built_in">this</span>.response = <span class="string">&#x27;This is a message sent by server.&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">/*-------------------------------------*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ws = <span class="keyword">new</span> WebSocket(<span class="string">&#x27;ws://echo.websocket.org&#x27;</span>)</span><br><span class="line">ws.onmessage = <span class="function">(<span class="params">evt</span>) =&gt;</span> &#123; <span class="built_in">console</span>.log(evt.data) &#125;</span><br><span class="line">ws.send(<span class="string">&#x27;test&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// console output</span></span><br><span class="line"><span class="comment">// &quot;This is a message sent by server.&quot;</span></span><br></pre></td></tr></table></figure>
+<p>你也可以通过 <code>npm</code> 或 <code>yarn</code> 安装 <code>wsmock-js</code> 后，运行 <code>npm start</code> ，打开网页控制台查看效果，可以看到通过 <code>webpack-dev-server</code> 建立的连接因为没有模拟设置，因此不会被拦截模拟。</p>
+<p><strong>注意：这个项目只应在开发阶段使用，在线上请移除该项目模块</strong></p>
+<h1 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h1><p>后续想着支持一下常用的 WebSocket 库，比如 <a target="_blank" rel="noopener" href="https://socket.io/">socket.io</a> ，但是其方法 API 比较多，还没仔细研究怎么实现，而且它并不是 WebSocket 的一个实现，与原生 WebSocket 不能互通。</p>
+<blockquote>
+<p>Note: Socket.IO is not a WebSocket implementation. Although Socket.IO indeed uses WebSocket as a transport when possible, it adds some metadata to each packet: the packet type, the namespace and the ack id when a message acknowledgement is needed. That is why a WebSocket client will not be able to successfully connect to a Socket.IO server, and a Socket.IO client will not be able to connect to a WebSocket server (like ws://echo.websocket.org) either. Please see the protocol specification <a target="_blank" rel="noopener" href="https://github.com/socketio/socket.io-protocol">here</a>.</p>
+</blockquote>
+<p>或许应该尝试其他思路来实现了。</p>
+<br/>
+
+<p>最后再放一下项目地址 <a target="_blank" rel="noopener" href="https://github.com/ChuChencheng/wsmock-js">wsmock-js</a> ，欢迎各位大佬们提出意见或建议。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket">WebSocket MDN 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget#Example">MDN EventTarget 的简单实现</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jakerella/jquery-mockjax">jquery-mockjax</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/angrytoro/mockajax">mockajax</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>CCC
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://chuchencheng.com/2018/05/18/%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E6%A8%A1%E6%8B%9FWebSocket%E8%A1%8C%E4%B8%BA/" title="在浏览器中模拟WebSocket行为">http://chuchencheng.com/2018/05/18/在浏览器中模拟WebSocket行为/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/websocket/" rel="tag"># websocket</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/09/18/iview-clickoutside-directive/" rel="prev" title="iview clickoutside指令">
+                  <i class="fa fa-chevron-left"></i> iview clickoutside指令
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/07/02/%E8%B0%83%E8%AF%95Electron+Vue%E9%A1%B9%E7%9B%AE/" rel="next" title="调试Electron+Vue项目">
+                  调试Electron+Vue项目 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CCC</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://chuchencheng-com.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://chuchencheng.com/2018/05/18/%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E6%A8%A1%E6%8B%9FWebSocket%E8%A1%8C%E4%B8%BA/";
+    this.page.identifier = "2018/05/18/在浏览器中模拟WebSocket行为/";
+    this.page.title = "在浏览器中模拟WebSocket行为";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://chuchencheng-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

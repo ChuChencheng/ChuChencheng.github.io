@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chuchencheng.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"dimmer":false},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="关于git的基本理解git：一种分布式版本控制系统 git保存的是每一次改动，而不是文件本身。  git有三个区： 工作区(Working Directory) 这个区就是你在电脑上创建项目的地方，文件的编辑修改都在这个区中进行。 暂存区(Stage Area) 暂存区存放的是待提交到repo的修改，当你使用git add命令时，就是把工作区的修改添加到暂存区。 版本库&#x2F;仓库(Git Direct">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git的基本使用流程">
+<meta property="og:url" content="http://chuchencheng.com/2016/12/07/git-basic-workflow/index.html">
+<meta property="og:site_name" content="CCC 的博客">
+<meta property="og:description" content="关于git的基本理解git：一种分布式版本控制系统 git保存的是每一次改动，而不是文件本身。  git有三个区： 工作区(Working Directory) 这个区就是你在电脑上创建项目的地方，文件的编辑修改都在这个区中进行。 暂存区(Stage Area) 暂存区存放的是待提交到repo的修改，当你使用git add命令时，就是把工作区的修改添加到暂存区。 版本库&#x2F;仓库(Git Direct">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://img.blog.csdn.net/20161209172839993?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXp1cmV0ZXJuaXRl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="article:published_time" content="2016-12-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-02T08:03:01.254Z">
+<meta property="article:author" content="CCC">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20161209172839993?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXp1cmV0ZXJuaXRl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+<link rel="canonical" href="http://chuchencheng.com/2016/12/07/git-basic-workflow/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script><script>
+  console.log('看啥呢？')
+</script>
+
+<style>
+.site-author-image {
+  transition: transform 10s;
+  border: none;
+}
+
+.site-author-image:hover {
+  transform: rotate(10turn);
+}
+</style>
+
+<title>git的基本使用流程 | CCC 的博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-84045824-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-84045824-1');
+      }
+    </script>
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CCC 的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">真香</p>
+      <img class="custom-logo-image" src="/%5Bobject%20Object%5D" alt="CCC 的博客">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Egit%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%90%86%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">关于git的基本理解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">基本流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.</span> <span class="nav-text">流程步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E3%80%81%E6%92%A4%E9%94%80%E3%80%81%E5%9B%9E%E9%80%80"><span class="nav-number">4.</span> <span class="nav-text">删除、撤销、回退</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4"><span class="nav-number">4.1.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%92%A4%E9%94%80"><span class="nav-number">4.2.</span> <span class="nav-text">撤销</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E9%80%80"><span class="nav-number">4.3.</span> <span class="nav-text">回退</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E4%BA%BA%E5%90%88%E4%BD%9C"><span class="nav-number">5.</span> <span class="nav-text">多人合作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8Brepo"><span class="nav-number">6.</span> <span class="nav-text">远程repo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E5%91%BD%E4%BB%A4"><span class="nav-number">7.</span> <span class="nav-text">几个命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CCC"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">CCC</p>
+  <div class="site-description" itemprop="description">代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">72</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ChuChencheng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ChuChencheng" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/azureternite/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;azureternite&#x2F;" rel="noopener" target="_blank"><i class="instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:azureternite@gmail.com" title="E-Mail → mailto:azureternite@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ChuChencheng" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/12/07/git-basic-workflow/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          git的基本使用流程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-12-07 00:00:00" itemprop="dateCreated datePublished" datetime="2016-12-07T00:00:00+08:00">2016-12-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/12/07/git-basic-workflow/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/07/git-basic-workflow/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="关于git的基本理解"><a href="#关于git的基本理解" class="headerlink" title="关于git的基本理解"></a>关于git的基本理解</h1><p>git：一种分布式版本控制系统</p>
+<p>git保存的是每一次改动，而不是文件本身。</p>
+<hr>
+<p>git有三个区：</p>
+<p><strong>工作区(Working Directory)</strong></p>
+<p>这个区就是你在电脑上创建项目的地方，文件的编辑修改都在这个区中进行。</p>
+<p><strong>暂存区(Stage Area)</strong></p>
+<p>暂存区存放的是待提交到repo的修改，当你使用git add命令时，就是把工作区的修改添加到暂存区。</p>
+<p><strong>版本库/仓库(Git Directory/Repository)</strong></p>
+<p>每次使用git commit命令，就是把暂存区中的内容全部提交到repo中。</p>
+<hr>
+<p>关于分支：</p>
+<p>新建分支默认是master。</p>
+<p>master分支应该是一个稳定的，可用的应用，平时不在这个分支上工作。</p>
+<p>当要添加新功能时，可从master分支新建一个分支，如feature分支，当新功能完成时，再合并到master分支上，这样，master分支始终是稳定可用的。</p>
+<p>多人合作时，可以每个人在各自的分支上工作，时不时合并到同一个分支上，当功能完善时，再合并到master分支。</p>
+<p>分支之间大概是这种感觉(假设A、B两个人开发)：</p>
+<p><img src="http://img.blog.csdn.net/20161209172839993?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXp1cmV0ZXJuaXRl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="branches"></p>
+<p>当master分支上的应用出现bug时，可以在master分支上新建一个bug分支，如issue-101，修复bug后再合并到master分支上，然后删除bug分支。</p>
+<h1 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h1><p>假设你已经安装了git</p>
+<p>以下考虑最基本的git使用流程，开发时遇到的情况很多，以下流程暂不列出删除、撤销、回退的步骤，后面再单独列出来。</p>
+<p>暂不考虑多人合作与远程repo，后面再补充，因为了解了怎么自己玩git，也就明白怎么跟基友一起玩github了。</p>
+<p>因此以下流程都是在本地进行，跟github啥的暂时没什么关系。</p>
+<p>新建repo-&gt;修改文件-&gt;添加修改到暂存区-&gt;提交修改到repo-&gt;创建分支-&gt;修改文件-&gt;添加修改到暂存区-&gt;提交修改到repo-&gt;合并分支-&gt;解决冲突</p>
+<p>创建bug分支-&gt;修复bug-&gt;合并分支</p>
+<h1 id="流程步骤"><a href="#流程步骤" class="headerlink" title="流程步骤"></a>流程步骤</h1><p><strong>新建repo</strong></p>
+<p>在项目根目录下使用<code>git init</code>初始化git仓库</p>
+<p><strong>修改文件</strong></p>
+<p>我们在项目目录下新建一个hello.txt文件，里面输入内容<code>hello world</code>（注意不要用Windows自带的记事本创建、编辑）</p>
+<p>然后输入<code>git status</code>，会看到输出了这些信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">On branch master</span><br><span class="line"></span><br><span class="line">Initial commit</span><br><span class="line"></span><br><span class="line">Untracked files:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)</span><br><span class="line"></span><br><span class="line">        hello.txt</span><br><span class="line"></span><br><span class="line">nothing added to commit but untracked files present (use &quot;git add&quot; to track)</span><br></pre></td></tr></table></figure>
+<p>这边git提示我们有一个Untracked file，可以用<code>git add &lt;file&gt;</code>来添加要提交的文件。</p>
+<p><strong>添加修改到暂存区</strong></p>
+<p>按照提示，我们输入<code>git add hello.txt</code>把文件添加到暂存区（使用<code>git add .</code>添加更改过的全部文件）</p>
+<p>再次输入<code>git status</code>，这次看到输出信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">On branch master</span><br><span class="line"></span><br><span class="line">Initial commit</span><br><span class="line"></span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git rm --cached &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">        new file:   hello.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>hello.txt已经被存放到暂存区了</p>
+<p><strong>提交修改到repo</strong></p>
+<p>使用<code>git commit -m &#39;add hello.txt&#39;</code>来提交这个文件的更改</p>
+<p>输出信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[master (root-commit) 88aa3e8] add hello.txt</span><br><span class="line"> 1 file changed, 1 insertion(+)</span><br><span class="line"> create mode 100644 hello.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这时候，文件的更改已经提交到repo中。</p>
+<p><strong>创建分支</strong></p>
+<p>在master分支下：</p>
+<p><code>git checkout -b feature</code>创建并切换到feature分支</p>
+<p>创建分支是<code>git branch feature</code>，创建feature分支</p>
+<p>切换分支是<code>git checkout feature</code>，切换到feature分支</p>
+<p><strong>合并分支</strong></p>
+<p>我们切换到feature分支，<code>git checkout feature</code></p>
+<p>打开刚才的hello.txt</p>
+<p>把内容修改成<code>goodbye world</code></p>
+<p>然后用<code>git add</code>跟<code>git commit</code>命令提交到repo中</p>
+<p>切换到master分支，在hello.txt文件结尾加上一行<code>hello world again</code>，然后提交</p>
+<p>这时候，两个分支各有一个提交(commit)</p>
+<p>我们切换到master分支<code>git checkout master</code></p>
+<p>然后把feature分支合并到master分支上，<code>git merge --no-ff -m &#39;merge feature&#39; feature</code></p>
+<p>这时候会提示有冲突：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Auto-merging hello.txt</span><br><span class="line">CONFLICT (content): Merge conflict in hello.txt</span><br><span class="line">Automatic merge failed; fix conflicts and then commit the result.</span><br></pre></td></tr></table></figure>
+<p>git提示我们解决了冲突再把结果commit。</p>
+<p><strong>解决冲突</strong></p>
+<p>冲突在多人合作中应该是常有的事。</p>
+<p>我们打开hello.txt，发现内容变成了这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hello world</span><br><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">hello world again</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">goodbye world</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>于是我们把hello.txt修改成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello world</span><br><span class="line">goodbye world</span><br></pre></td></tr></table></figure>
+<p>然后提交</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add hello.txt</span><br><span class="line">git commit -m <span class="string">&#x27;fix conflict&#x27;</span></span><br><span class="line">[master 40cd928] fix conflict</span><br></pre></td></tr></table></figure>
+<p>分支合并成功。</p>
+<p>可以用<code>git log --graph --pretty=oneline --abbrev-commit</code>来查看合并的情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">*   40cd928 fix conflict</span><br><span class="line">|\</span><br><span class="line">| * 3cbd4df modified hello.txt</span><br><span class="line">* | a40c0bc add &quot;again&quot;</span><br><span class="line">|&#x2F;</span><br><span class="line">* 10fb7e4 add hello.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>log的顺序是按时间顺序从下到上。</p>
+<p><strong>bug分支</strong></p>
+<p>假设现在master分支上发现了个bug，需要紧急修复，但你现在正在feature分支上工作</p>
+<p>假设现在hello.txt的内容是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hello world</span><br><span class="line">goodbye world</span><br><span class="line"></span><br><span class="line">feature branch unfinished work</span><br></pre></td></tr></table></figure>
+<p>现在feature分支上的功能还未完成，无法提交，但是需要修复bug。这时，就需要使用<code>git stash</code>保存工作现场。</p>
+<p>于是，在feature分支上，输入<code>git stash</code>，看到输出信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Saved working directory and index state WIP on feature: 3cbd4df modified hello.txt</span><br><span class="line">HEAD is now at 3cbd4df modified hello.txt</span><br></pre></td></tr></table></figure>
+<p>这时候，再输入<code>git status</code>，发现输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">On branch feature</span><br><span class="line">nothing to commit, working tree clean</span><br></pre></td></tr></table></figure>
+<p>现场已被保存，打开hello.txt，后面的那句<code>feature branch unfinished work</code>也不见了。</p>
+<p>好，现在我们可以切换到master分支，并新建一个bug分支来修复这个bug了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git checkout -b issue-101</span><br></pre></td></tr></table></figure>
+<p>在hello.txt中添加一行<code>issue-101 bug fixed</code>，提交到repo</p>
+<p>然后切回master分支，把issue-101分支合并进来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git add hello.txt</span><br><span class="line">git commit -m &#39;bug fixed&#39;</span><br><span class="line"></span><br><span class="line">git checkout master</span><br><span class="line">git merge --no-ff -m &#39;merge issue-101&#39; issue-101</span><br></pre></td></tr></table></figure>
+<p>输出信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Merge made by the &#39;recursive&#39; strategy.</span><br><span class="line"> hello.txt | 4 +++-</span><br><span class="line"> 1 file changed, 3 insertions(+), 1 deletion(-)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>合并完成，然后我们回到feature分支继续工作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br></pre></td></tr></table></figure>
+<p>但是现在hello.txt里面的内容还是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello world</span><br><span class="line">goodbye world</span><br></pre></td></tr></table></figure>
+<p>我们需要把之前未完成的工作现场恢复过来。</p>
+<p>使用<code>git stash list</code>可以查看保存了哪些工作现场：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stash@&#123;0&#125;: WIP on feature: 3cbd4df modified hello.txt</span><br></pre></td></tr></table></figure>
+<p>可以看到，这边只有一条数据，我们可以使用<code>git stash pop</code>来恢复这个现场。</p>
+<p>输出的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">On branch feature</span><br><span class="line">Changes not staged for commit:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span><br><span class="line"></span><br><span class="line">        modified:   hello.txt</span><br><span class="line"></span><br><span class="line">no changes added to commit (use &quot;git add&quot; and&#x2F;or &quot;git commit -a&quot;)</span><br><span class="line">Dropped refs&#x2F;stash@&#123;0&#125; (643bef60d9b9540f66675d2fe1e8d9ad9d35f4fd)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>可以看到，hello.txt里面的<code>feature branch unfinished work</code>又回来了<br>并且在恢复现场后，<code>Dropped refs/stash@&#123;0&#125; (643bef60d9b9540f66675d2fe1e8d9ad9d35f4fd)</code><br>删除了stash的内容。</p>
+<p>如果有多条stash数据，可以用<code>git stash apply</code>来恢复，如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash apply stash@&#123;0&#125;</span><br></pre></td></tr></table></figure>
+<p>但是用这种方式，stash内容并不会被删除，如果要删除某条stash，用<code>git stash drop</code></p>
+<h1 id="删除、撤销、回退"><a href="#删除、撤销、回退" class="headerlink" title="删除、撤销、回退"></a>删除、撤销、回退</h1><h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p><strong>删除文件</strong></p>
+<p>假设我们有个文件，已经commit到repo中了，需要删除。<br>为此，我们新建一个文本文件delete.txt来模拟这个文件，把它提交到repo中。</p>
+<p>这时候我们可以用两种方法来删除delete.txt。</p>
+<p>1、使用<code>git rm delete.txt</code></p>
+<p>执行这句之后，会输出一句<code>rm &#39;delete.txt&#39;</code>，这时候到工作区查看，会发现delete.txt已经不在工作区了。</p>
+<p>输入<code>git status</code>，发现输出如下信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">On branch feature</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">        deleted:    delete.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>暂存区已经记录了删除delete.txt的操作，接下来只要<code>git commit</code>就可以把delete.txt从repo中删除了。</p>
+<p>2、直接从工作区目录中删除delete.txt，然后<code>git add</code>，<code>git commit</code>提交修改。</p>
+<p><strong>删除分支</strong></p>
+<p><code>git branch -d &lt;name&gt;</code>可以删除分支。</p>
+<p>例如我们可以删除之前用来修bug的issue-101分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d issue-101</span><br></pre></td></tr></table></figure>
+<p>执行后输出的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Deleted branch issue-101 (was 5d97433).</span><br></pre></td></tr></table></figure>
+<p>用<code>git branch</code>查看分支，输出信息中表示只剩master分支跟feature分支了。</p>
+<p>如果要删除一个未合并的分支，默认git会报错，例如我们创建一个delete分支，在hello.txt中添加一行内容<code>delete branch</code>，然后进行一个commit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b delete</span><br><span class="line">git add hello.txt</span><br><span class="line">git commit -m &#39;update delete branch&#39;</span><br></pre></td></tr></table></figure>
+<p>然后切回master分支，删除delete分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git branch -d delete</span><br></pre></td></tr></table></figure>
+<p>输出了一个error：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">error: The branch &#39;delete&#39; is not fully merged.</span><br><span class="line">If you are sure you want to delete it, run &#39;git branch -D delete&#39;.</span><br></pre></td></tr></table></figure>
+<p>git告诉你这个分支没被合并，如果确定要删除，使用<code>git branch -D delete</code>。</p>
+<p>执行<code>git branch -D delete</code>，成功删除。</p>
+<p>这个操作通常用来删除做到一半后面计划不做了的功能分支。</p>
+<h2 id="撤销"><a href="#撤销" class="headerlink" title="撤销"></a>撤销</h2><p>场景：从工作区撤销</p>
+<p>你在hello.txt中写下了新的一行：<code>I prefer svn</code><br>这时候你还没执行<code>git add</code><br>输入<code>git status</code>，会发现有个提示，<code>(use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</code></p>
+<p>于是按照提示，执行<code>git checkout -- hello.txt</code><br>再回去hello.txt看看，新增的那句话已经被撤销了。</p>
+<p>实际上，<code>git checkout</code>所做的，就是把工作区的修改替换成暂存区的。</p>
+<hr>
+<p>场景：从暂存区撤销到工作区</p>
+<p>你在hello.txt中写下了新的一行：<code>I prefer svn</code><br>执行了<code>git add hello.txt</code>，把修改添加到暂存区<br>这时候git会提示你，<code>(use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</code></p>
+<p>说得很清楚了，于是我们执行<code>git reset HEAD hello.txt</code></p>
+<p>再执行<code>git status</code>查看，发现修改又回到了工作区。</p>
+<hr>
+<p>场景：从repo中撤销</p>
+<p>……，，，遇到这种情况，看接下来的 回退 吧</p>
+<h2 id="回退"><a href="#回退" class="headerlink" title="回退"></a>回退</h2><p>概念：git中有个HEAD指针，指向当前分支的当前版本，当我们进行回退操作时，其实就是改变HEAD指针，使其指向不同的commit节点。</p>
+<p>理解了这个概念，就知道，既然是移动HEAD指针，那我们就可以在任意commit节点间进行跳转，无论是之前的版本，还是回退到之前版本后，想要回到未来的版本，只要知道commit的id就可以跳转版本。</p>
+<p>使用<code>git reset HEAD --hard &lt;commit_id&gt;</code>来回退。</p>
+<p>类似<code>10fb7e42c63586db6948f7a9221bafb32f19409d</code>这样的就是一个commit id，也可以输入前面几位，只要跟其他id有区别就行，如<code>10fb7e4</code></p>
+<p>commit_id可以使用<code>git reflog</code>来查看。（使用<code>git log</code>不能看到回退后未来的commit id）</p>
+<h1 id="多人合作"><a href="#多人合作" class="headerlink" title="多人合作"></a>多人合作</h1><p>看到这里，清楚了git的基本操作，包括分支与解决冲突，单人玩git应该可以了，那么多人合作，其实是类似的，处理好分支与冲突的解决，多人合作也是没问题的。</p>
+<h1 id="远程repo"><a href="#远程repo" class="headerlink" title="远程repo"></a>远程repo</h1><p>github是目前流行的远程repo之一。具体使用就不细说了。<br>当对本地repo进行了修改，用<code>git push</code>命令推送到远程repo就行了，包括分支的改动。</p>
+<p>如果别人对远程的repo进行了修改，或者自己在另一台电脑上进行之前的项目，用<code>git pull</code>拉取下来就行，这个过程中也可能遇到冲突。</p>
+<h1 id="几个命令"><a href="#几个命令" class="headerlink" title="几个命令"></a>几个命令</h1><p><code>git init</code> 初始化repo</p>
+<p><code>git status</code> 列出未被添加到暂存区与未被提交到repo的修改(经常使用这个命令，对文件的修改以及提交情况会比较清楚)</p>
+<p><code>git add &lt;file&gt;</code> 添加修改到暂存区</p>
+<p><code>git commit -m &#39;&lt;msg&gt;&#39;</code> 提交修改到repo，并附上说明</p>
+<p><code>git push</code> 推送到远程仓库</p>
+<p><code>git pull</code> 从远程仓库拉取更新，并与本地对应分支合并</p>
+<p><code>git branch</code> 查看本地分支</p>
+<p><code>git branch -a</code> 查看远程分支</p>
+<p><code>git branch &lt;branch_name&gt;</code> 创建分支</p>
+<p><code>git checkout &lt;branch_name&gt;</code> 切换分支</p>
+<p><code>git checkout -b &lt;branch_name&gt;</code> 新建并切换分支</p>
+<p><code>git merge</code> 合并分支</p>
+<p><code>git stash</code> 保存工作区工作现场</p>
+<p><code>git stash list</code> 查看stash</p>
+<p><code>git stash pop</code> 恢复最后一个stash并删除stash数据</p>
+<p><code>git stash apply &lt;stash&gt;</code> 恢复指定stash</p>
+<p><code>git stash drop &lt;stash&gt;</code> 删除指定stash</p>
+<p><code>git rm &lt;file&gt;</code> 将文件从工作区删除</p>
+<p><code>git branch -d &lt;branch_name&gt;</code> 删除分支</p>
+<p><code>git branch -D &lt;branch_name&gt;</code> 强制删除未合并分支</p>
+<p><code>git checkout -- &lt;file&gt;</code> 把修改从工作区撤销</p>
+<p><code>git reset HEAD &lt;file&gt;</code> 把修改从暂存区撤销到工作区</p>
+<p><code>git reset HEAD --hard &lt;commit_id&gt;</code> repo版本回退到某个commit</p>
+<p><code>git log</code> 查看commit历史</p>
+<p><code>git reflog</code> 查看每个操作的log</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">Git教程 - 廖雪峰的官方网站</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>CCC
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://chuchencheng.com/2016/12/07/git-basic-workflow/" title="git的基本使用流程">http://chuchencheng.com/2016/12/07/git-basic-workflow/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/git/" rel="tag"># git</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/11/08/handlebars-block-expressions/" rel="prev" title="Handlebars学习之——块表达式">
+                  <i class="fa fa-chevron-left"></i> Handlebars学习之——块表达式
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/07/24/git-fetch-and-rebase/" rel="next" title="使用git fetch和git rebase处理多人开发同一分支的问题">
+                  使用git fetch和git rebase处理多人开发同一分支的问题 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CCC</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://chuchencheng-com.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://chuchencheng.com/2016/12/07/git-basic-workflow/";
+    this.page.identifier = "2016/12/07/git-basic-workflow/";
+    this.page.title = "git的基本使用流程";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://chuchencheng-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chuchencheng.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"dimmer":false},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="《JavaScript高级程序设计》中介绍的几种JavaScript的引用类型，本文只记了Object跟Function类型 Object类型创建对象123var person &#x3D; new Object();var person &#x3D; &amp;#123;&amp;#125;;&#x2F;&#x2F;二者效果是一样的，但使用对象字面量表示法定义对象时不会调用Object的构造函数 访问对象属性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript笔记——引用类型之Object类型和Function类型">
+<meta property="og:url" content="http://chuchencheng.com/2016/08/05/JavaScript-Object-and-Function-type/index.html">
+<meta property="og:site_name" content="CCC 的博客">
+<meta property="og:description" content="《JavaScript高级程序设计》中介绍的几种JavaScript的引用类型，本文只记了Object跟Function类型 Object类型创建对象123var person &#x3D; new Object();var person &#x3D; &amp;#123;&amp;#125;;&#x2F;&#x2F;二者效果是一样的，但使用对象字面量表示法定义对象时不会调用Object的构造函数 访问对象属性">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-08-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-02T08:03:01.240Z">
+<meta property="article:author" content="CCC">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://chuchencheng.com/2016/08/05/JavaScript-Object-and-Function-type/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script><script>
+  console.log('看啥呢？')
+</script>
+
+<style>
+.site-author-image {
+  transition: transform 10s;
+  border: none;
+}
+
+.site-author-image:hover {
+  transform: rotate(10turn);
+}
+</style>
+
+<title>JavaScript笔记——引用类型之Object类型和Function类型 | CCC 的博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-84045824-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-84045824-1');
+      }
+    </script>
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CCC 的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">真香</p>
+      <img class="custom-logo-image" src="/%5Bobject%20Object%5D" alt="CCC 的博客">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Object%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">Object类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.1.</span> <span class="nav-text">创建对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">访问对象属性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Array%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">Array类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Date%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">Date类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RegExp%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">RegExp类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Function%E7%B1%BB%E5%9E%8B"><span class="nav-number">5.</span> <span class="nav-text">Function类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><span class="nav-number">5.1.</span> <span class="nav-text">定义函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B2%A1%E6%9C%89%E9%87%8D%E8%BD%BD"><span class="nav-number">5.2.</span> <span class="nav-text">没有重载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E%E4%B8%8E%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%88%E8%A7%A3%E6%9E%90%E9%A1%BA%E5%BA%8F%EF%BC%89"><span class="nav-number">5.3.</span> <span class="nav-text">函数声明与函数表达式（解析顺序）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E5%80%BC%E4%BC%A0%E9%80%92"><span class="nav-number">5.4.</span> <span class="nav-text">作为值传递</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%86%85%E9%83%A8%E5%B1%9E%E6%80%A7"><span class="nav-number">5.5.</span> <span class="nav-text">函数内部属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#arguments"><span class="nav-number">5.5.1.</span> <span class="nav-text">arguments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#this"><span class="nav-number">5.5.2.</span> <span class="nav-text">this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#caller%E5%B1%9E%E6%80%A7"><span class="nav-number">5.5.3.</span> <span class="nav-text">caller属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95"><span class="nav-number">5.6.</span> <span class="nav-text">函数属性和方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#length"><span class="nav-number">5.6.1.</span> <span class="nav-text">length</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prototype"><span class="nav-number">5.6.2.</span> <span class="nav-text">prototype</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#call-%E5%92%8Capply"><span class="nav-number">5.6.3.</span> <span class="nav-text">call()和apply()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bind"><span class="nav-number">5.6.4.</span> <span class="nav-text">bind()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B"><span class="nav-number">6.</span> <span class="nav-text">基本包装类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E4%BD%93%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1"><span class="nav-number">7.</span> <span class="nav-text">单体内置对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CCC"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">CCC</p>
+  <div class="site-description" itemprop="description">代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">72</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ChuChencheng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ChuChencheng" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/azureternite/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;azureternite&#x2F;" rel="noopener" target="_blank"><i class="instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:azureternite@gmail.com" title="E-Mail → mailto:azureternite@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ChuChencheng" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/05/JavaScript-Object-and-Function-type/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaScript笔记——引用类型之Object类型和Function类型
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-08-05 00:00:00" itemprop="dateCreated datePublished" datetime="2016-08-05T00:00:00+08:00">2016-08-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/08/05/JavaScript-Object-and-Function-type/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/05/JavaScript-Object-and-Function-type/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><strong>《JavaScript高级程序设计》中介绍的几种JavaScript的引用类型，本文只记了Object跟Function类型</strong></p>
+<h1 id="Object类型"><a href="#Object类型" class="headerlink" title="Object类型"></a>Object类型</h1><h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var person &#x3D; new Object();</span><br><span class="line">var person &#x3D; &#123;&#125;;</span><br><span class="line">&#x2F;&#x2F;二者效果是一样的，但使用对象字面量表示法定义对象时不会调用Object的构造函数</span><br></pre></td></tr></table></figure>
+<h2 id="访问对象属性"><a href="#访问对象属性" class="headerlink" title="访问对象属性"></a>访问对象属性</h2><ul>
+<li>点表示法</li>
+<li>方括号表示法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">person.name &#x3D; &#39;&#39;;</span><br><span class="line">person[&#39;name&#39;] &#x3D; &#39;&#39;;</span><br><span class="line">&#x2F;&#x2F; 方括号表示法能用变量来访问属性</span><br><span class="line">var propertyName &#x3D; &#39;name&#39;;</span><br><span class="line">person[propertyName] &#x3D; &#39;&#39;;</span><br><span class="line">&#x2F;&#x2F;若属性名包含会导致语法错误的字符或关键字、保留字，可以使用方括号表示法表示</span><br><span class="line">person[&#39;first name&#39;] &#x3D; &#39;&#39;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="Array类型"><a href="#Array类型" class="headerlink" title="Array类型"></a>Array类型</h1><h1 id="Date类型"><a href="#Date类型" class="headerlink" title="Date类型"></a>Date类型</h1><h1 id="RegExp类型"><a href="#RegExp类型" class="headerlink" title="RegExp类型"></a>RegExp类型</h1><h1 id="Function类型"><a href="#Function类型" class="headerlink" title="Function类型"></a>Function类型</h1><p><strong>(函数是对象，函数名是指针)</strong></p>
+<h2 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h2><ul>
+<li>函数声明</li>
+<li>函数表达式</li>
+<li>Function构造函数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;函数声明</span><br><span class="line">function sum(num1, num2)&#123;</span><br><span class="line">	return num1 + num2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;函数表达式</span><br><span class="line">var sum &#x3D; function(num1, num2)&#123;</span><br><span class="line">	return num1 + num2;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;使用Function构造函数，最后一个参数视为函数体（不推荐）</span><br><span class="line">var sum &#x3D; new Function(&#39;num1&#39;, &#39;num2&#39;, &#39;return num1 + num2&#39;);</span><br></pre></td></tr></table></figure>
+<h2 id="没有重载"><a href="#没有重载" class="headerlink" title="没有重载"></a>没有重载</h2><p><strong>因为函数名是一个指针，所以JavaScript的函数没有重载，后面定义的函数会覆盖前面的定义</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function add(n)&#123;</span><br><span class="line">	return n + 100;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function add(n)&#123;</span><br><span class="line">	return n + 200;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(100);  &#x2F;&#x2F;300</span><br><span class="line"></span><br><span class="line">var add &#x3D; function(n)&#123;</span><br><span class="line">	return n + 100;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var add &#x3D; function(n)&#123;</span><br><span class="line">	return n + 200;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">add(100);  &#x2F;&#x2F;300</span><br></pre></td></tr></table></figure>
+<h2 id="函数声明与函数表达式（解析顺序）"><a href="#函数声明与函数表达式（解析顺序）" class="headerlink" title="函数声明与函数表达式（解析顺序）"></a>函数声明与函数表达式（解析顺序）</h2><p>函数声明会先被解析，而函数表达式要等到执行至定义的那行代码才会被解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;正常执行</span><br><span class="line">alert(sum(10, 10));</span><br><span class="line">function sum(n1, n2)&#123;</span><br><span class="line">	return n1 + n2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;报错</span><br><span class="line">alert(sum(10, 10));</span><br><span class="line">var sum &#x3D; function (n1, n2)&#123;</span><br><span class="line">	return n1 + n2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="作为值传递"><a href="#作为值传递" class="headerlink" title="作为值传递"></a>作为值传递</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function callFunction(f, args)&#123;</span><br><span class="line">	return f(args);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function add(num)&#123;</span><br><span class="line">	return num + 10;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">callFunction(add, 10);  &#x2F;&#x2F;20</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;在一个函数中返回另一个函数</span><br><span class="line">function callFunction()&#123;</span><br><span class="line">	return function()&#123;</span><br><span class="line"></span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="函数内部属性"><a href="#函数内部属性" class="headerlink" title="函数内部属性"></a>函数内部属性</h2><p>函数内部有两个特殊对象：arguments和this</p>
+<h3 id="arguments"><a href="#arguments" class="headerlink" title="arguments"></a>arguments</h3><p>arguments.callee属性指向拥有arguments对象的函数，可用于递归调用，消除函数执行与函数名的耦合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;阶乘</span><br><span class="line">function factorial(num)&#123;</span><br><span class="line">	if(num &lt;&#x3D; 1)&#123;</span><br><span class="line">		return 1;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		return num * arguments.callee(num - 1);  &#x2F;&#x2F;效果相当于return num * factorial(num - 1);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var calFactorial &#x3D; factorial;</span><br><span class="line"></span><br><span class="line">factorial &#x3D; function()&#123;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">calFactorial(5);  &#x2F;&#x2F;120</span><br><span class="line">factorial(5);  &#x2F;&#x2F;0</span><br></pre></td></tr></table></figure>
+<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><p>this引用的是函数执行的环境对象（当在全局作用域中调用函数，this对象引用的是window）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">window.color &#x3D; &#39;red&#39;;</span><br><span class="line">var o &#x3D; &#123;color: &#39;blue&#39;&#125;;</span><br><span class="line"></span><br><span class="line">function sayColor()&#123;</span><br><span class="line">	alert(this.color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sayColor();  &#x2F;&#x2F;&#39;red&#39;</span><br><span class="line"></span><br><span class="line">o.sayColor &#x3D; sayColor;</span><br><span class="line">o.sayColor();  &#x2F;&#x2F;&#39;blue&#39;</span><br></pre></td></tr></table></figure>
+<h3 id="caller属性"><a href="#caller属性" class="headerlink" title="caller属性"></a>caller属性</h3><p>函数对象的属性，保存着调用当前函数的函数的引用，如果是在全局作用域中调用，则值为null</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function outer()&#123;</span><br><span class="line">	inner();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function inner()&#123;</span><br><span class="line">	alert(inner.caller);  &#x2F;&#x2F;或alert(arguments.callee.caller);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">outer();</span><br><span class="line">&#x2F;*</span><br><span class="line">弹窗显示</span><br><span class="line">function outer()&#123;</span><br><span class="line">	inner();</span><br><span class="line">&#125;</span><br><span class="line">*&#x2F;</span><br></pre></td></tr></table></figure>
+<h2 id="函数属性和方法"><a href="#函数属性和方法" class="headerlink" title="函数属性和方法"></a>函数属性和方法</h2><p>length, prototype, call(), apply(), bind()</p>
+<h3 id="length"><a href="#length" class="headerlink" title="length"></a>length</h3><p>length表示函数希望接收命名参数的个数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function fn1()&#123;&#125;</span><br><span class="line">function fn2(a)&#123;&#125;</span><br><span class="line">function fn3(a, b)&#123;&#125;</span><br><span class="line"></span><br><span class="line">alert(fn1.length);  &#x2F;&#x2F;0</span><br><span class="line">alert(fn2.length);  &#x2F;&#x2F;1</span><br><span class="line">alert(fn3.length);  &#x2F;&#x2F;2</span><br></pre></td></tr></table></figure>
+<h3 id="prototype"><a href="#prototype" class="headerlink" title="prototype"></a>prototype</h3><p>prototype是保存引用类型所有实例方法的地方<br>prototype不可枚举，for-in无法遍历到</p>
+<h3 id="call-和apply"><a href="#call-和apply" class="headerlink" title="call()和apply()"></a>call()和apply()</h3><p>用途：在特定作用域中调用函数（可扩充函数的作用域）<br>相当于改变函数体内this所指的对象<br>接收的第一个参数相同，要代替原this的对象<br>后面的参数是要执行函数的形参，call()逐个接收，apply()可以将参数作为数组传入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">window.num &#x3D; 0;</span><br><span class="line">var o &#x3D; &#123;num: 10&#125;;</span><br><span class="line"></span><br><span class="line">function add(num1, num2)&#123;</span><br><span class="line">	alert(num1 + num2 + this.num);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add.call(this, 10, 10);  &#x2F;&#x2F;20</span><br><span class="line">add.call(window, 10, 10);  &#x2F;&#x2F;20</span><br><span class="line">add.call(o, 10, 10);  &#x2F;&#x2F;30</span><br><span class="line"></span><br><span class="line">add.apply(this, [10, 10]);  &#x2F;&#x2F;20</span><br><span class="line">add.apply(window, [10, 10]);  &#x2F;&#x2F;20</span><br><span class="line">add.apply(o, [10, 10]);  &#x2F;&#x2F;30</span><br></pre></td></tr></table></figure>
+<h3 id="bind"><a href="#bind" class="headerlink" title="bind()"></a>bind()</h3><p>bind()方法会创建一个函数实例，实例的this被绑定为传入bind()中的参数（类似于call和apply第一个参数的作用）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">window.color &#x3D; &#39;red&#39;;</span><br><span class="line">var o &#x3D; &#123;color: &#39;blue&#39;&#125;;</span><br><span class="line"></span><br><span class="line">function sayColor()&#123;</span><br><span class="line">	alert(this.color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var objSayColor &#x3D; sayColor.bind(o);</span><br><span class="line">objSayColor();  &#x2F;&#x2F;&#39;blue&#39;</span><br></pre></td></tr></table></figure>
+<h1 id="基本包装类型"><a href="#基本包装类型" class="headerlink" title="基本包装类型"></a>基本包装类型</h1><h1 id="单体内置对象"><a href="#单体内置对象" class="headerlink" title="单体内置对象"></a>单体内置对象</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><blockquote>
+<p>《JavaScript高级程序设计》（第3版）</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>CCC
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://chuchencheng.com/2016/08/05/JavaScript-Object-and-Function-type/" title="JavaScript笔记——引用类型之Object类型和Function类型">http://chuchencheng.com/2016/08/05/JavaScript-Object-and-Function-type/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/08/02/bootstrap-add-seq-number-to-list-group-class/" rel="prev" title="bootstrap如何给.list-group加上序号">
+                  <i class="fa fa-chevron-left"></i> bootstrap如何给.list-group加上序号
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/08/08/how-ECMAScript-get-this/" rel="next" title="ECMAScript中关于如何获取this的定义">
+                  ECMAScript中关于如何获取this的定义 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CCC</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://chuchencheng-com.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://chuchencheng.com/2016/08/05/JavaScript-Object-and-Function-type/";
+    this.page.identifier = "2016/08/05/JavaScript-Object-and-Function-type/";
+    this.page.title = "JavaScript笔记——引用类型之Object类型和Function类型";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://chuchencheng-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

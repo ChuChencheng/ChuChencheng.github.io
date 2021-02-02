@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chuchencheng.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"dimmer":false},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="说明本文记录了从一个 package.json 开始搭建一个 Electron + Vue 项目的过程。 如果不想这么麻烦，可以直接使用 Electron-vue 项目生成脚手架，里面包含了各种开发工具，包括 Vue.js devtools, 热重载 等。 Electron 文档 init 项目首先在根目录 npm init 一下，创建 package.json 文件 然后安装 Electron：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建Electron+Vue项目">
+<meta property="og:url" content="http://chuchencheng.com/2018/07/02/%E6%90%AD%E5%BB%BAElectron+Vue%E9%A1%B9%E7%9B%AE/index.html">
+<meta property="og:site_name" content="CCC 的博客">
+<meta property="og:description" content="说明本文记录了从一个 package.json 开始搭建一个 Electron + Vue 项目的过程。 如果不想这么麻烦，可以直接使用 Electron-vue 项目生成脚手架，里面包含了各种开发工具，包括 Vue.js devtools, 热重载 等。 Electron 文档 init 项目首先在根目录 npm init 一下，创建 package.json 文件 然后安装 Electron：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chuchencheng.com/2018/07/02/%E6%90%AD%E5%BB%BAElectron+Vue%E9%A1%B9%E7%9B%AE/!--swig%EF%BF%BC2--">
+<meta property="article:published_time" content="2018-07-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-02T08:03:01.256Z">
+<meta property="article:author" content="CCC">
+<meta property="article:tag" content="Electron">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://chuchencheng.com/2018/07/02/%E6%90%AD%E5%BB%BAElectron+Vue%E9%A1%B9%E7%9B%AE/!--swig%EF%BF%BC2--">
+
+
+<link rel="canonical" href="http://chuchencheng.com/2018/07/02/%E6%90%AD%E5%BB%BAElectron+Vue%E9%A1%B9%E7%9B%AE/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script><script>
+  console.log('看啥呢？')
+</script>
+
+<style>
+.site-author-image {
+  transition: transform 10s;
+  border: none;
+}
+
+.site-author-image:hover {
+  transform: rotate(10turn);
+}
+</style>
+
+<title>搭建Electron+Vue项目 | CCC 的博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-84045824-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-84045824-1');
+      }
+    </script>
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CCC 的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">真香</p>
+      <img class="custom-logo-image" src="/%5Bobject%20Object%5D" alt="CCC 的博客">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#init-%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.</span> <span class="nav-text">init 项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Electron-%E5%BA%94%E7%94%A8%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">Electron 应用结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%BB%E8%BF%9B%E7%A8%8B%E5%85%A5%E5%8F%A3"><span class="nav-number">4.</span> <span class="nav-text">创建主进程入口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8-Vue"><span class="nav-number">5.</span> <span class="nav-text">在项目中使用 Vue</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="nav-number">5.1.</span> <span class="nav-text">安装依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-webpack"><span class="nav-number">5.2.</span> <span class="nav-text">配置 webpack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Vue-%E7%BC%96%E5%86%99%E7%95%8C%E9%9D%A2"><span class="nav-number">5.3.</span> <span class="nav-text">使用 Vue 编写界面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E8%BF%9B%E7%A8%8B%E4%B8%AD-loadFile-%E8%B7%AF%E5%BE%84"><span class="nav-number">5.4.</span> <span class="nav-text">修改主进程中 loadFile 路径</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E5%BA%94%E7%94%A8"><span class="nav-number">6.</span> <span class="nav-text">运行应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B0%83%E8%AF%95"><span class="nav-number">7.</span> <span class="nav-text">调试</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CCC"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">CCC</p>
+  <div class="site-description" itemprop="description">代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">72</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ChuChencheng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ChuChencheng" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/azureternite/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;azureternite&#x2F;" rel="noopener" target="_blank"><i class="instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:azureternite@gmail.com" title="E-Mail → mailto:azureternite@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ChuChencheng" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2018/07/02/%E6%90%AD%E5%BB%BAElectron+Vue%E9%A1%B9%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          搭建Electron+Vue项目
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-07-02 00:00:00" itemprop="dateCreated datePublished" datetime="2018-07-02T00:00:00+08:00">2018-07-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/07/02/%E6%90%AD%E5%BB%BAElectron+Vue%E9%A1%B9%E7%9B%AE/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/02/搭建Electron+Vue项目/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>本文记录了从一个 <code>package.json</code> 开始搭建一个 Electron + Vue 项目的过程。</p>
+<p>如果不想这么麻烦，可以直接使用 <a target="_blank" rel="noopener" href="https://github.com/SimulatedGREG/electron-vue">Electron-vue</a> 项目生成脚手架，里面包含了各种开发工具，包括 Vue.js devtools, 热重载 等。</p>
+<p><a target="_blank" rel="noopener" href="https://electronjs.org/docs">Electron 文档</a></p>
+<h1 id="init-项目"><a href="#init-项目" class="headerlink" title="init 项目"></a>init 项目</h1><p>首先在根目录 <code>npm init</code> 一下，创建 <code>package.json</code> 文件</p>
+<p>然后安装 <code>Electron</code>：</p>
+<p><code>npm i electron --save-dev</code></p>
+<p>或者</p>
+<p><code>yarn add electron --dev</code></p>
+<p>安装过程由于不可抗力因素可能较慢或者下载失败，可以尝试<a target="_blank" rel="noopener" href="https://electronjs.org/docs/tutorial/installation">其他安装方式</a></p>
+<h1 id="Electron-应用结构"><a href="#Electron-应用结构" class="headerlink" title="Electron 应用结构"></a>Electron 应用结构</h1><p>简单来说，Electron 应用有两种进程类型：<strong>主进程</strong>和<strong>渲染进程</strong></p>
+<p>主进程就是从 <code>package.json</code> 中 <code>main</code> 入口执行的进程。</p>
+<p>渲染进程则是负责 web 页面的运行的。</p>
+<p>简单了解这两个概念后，我们围绕这两个进程来组织目录结构，在根目录的 <code>src</code> 目录下创建 <code>main</code> 和 <code>renderer</code> 两个文件夹，分别对应主进程和渲染进程。</p>
+<h1 id="创建主进程入口"><a href="#创建主进程入口" class="headerlink" title="创建主进程入口"></a>创建主进程入口</h1><p>在 <code>src/main</code> 文件夹下创建 <code>index.js</code> 作为主进程入口，同时在 <code>package.json</code> 中将 <code>main</code> 字段对应修改为 <code>src/main/index.js</code> 。</p>
+<p>然后在 <code>src/renderer</code> 文件夹下创建 <code>index.html</code> 作为窗口界面的入口。</p>
+<p>接下来可以按照 <a target="_blank" rel="noopener" href="https://electronjs.org/docs/tutorial/first-app">Electron 教程</a> 中写的内容来编写 <code>src/main/index.js</code> 跟 <code>src/renderer/index.html</code> 然后试着运行一下。</p>
+<p>记得<br><code>win.loadFile(&#39;index.html&#39;)</code> 这句路径需要修改为 <code>src/renderer/index.html</code> ，然后 <code>package.json</code> <code>scripts</code> 中加上 <code>&quot;start&quot;: &quot;electron .&quot;</code></p>
+<h1 id="在项目中使用-Vue"><a href="#在项目中使用-Vue" class="headerlink" title="在项目中使用 Vue"></a>在项目中使用 Vue</h1><p>接下来的步骤，基本上可以忘记主进程，先专注于渲染进程的东西了。</p>
+<p>Electron 的渲染进程运行的就是一个 web ，也就是说我们只是在 Electron 项目中套用了一套 Vue 项目，你可以把 <code>renderer</code> 文件夹当做一个 Vue 项目的 <code>src</code> 文件夹。</p>
+<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>首先安装各种依赖，根据需要装上 Vue 全家桶或者部分。</p>
+<p><img src="!--swig%EF%BF%BC2--" alt="依赖"></p>
+<h2 id="配置-webpack"><a href="#配置-webpack" class="headerlink" title="配置 webpack"></a>配置 webpack</h2><p>webpack 配置跟平时 Vue 项目的配置类似，这边是我项目开发环境的配置（配置文件位置在根目录）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> &#123; VueLoaderPlugin &#125; = <span class="built_in">require</span>(<span class="string">&#x27;vue-loader&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;html-webpack-plugin&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  mode: <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">  devtool: <span class="string">&#x27;#cheap-module-eval-source-map&#x27;</span>,</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    contentBase: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    port: <span class="number">8086</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: [<span class="string">&#x27;./src/renderer/index.js&#x27;</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    filename: <span class="string">&#x27;[name].bundle.js&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  node: <span class="literal">false</span>,</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    alias: &#123;</span><br><span class="line">      <span class="string">&#x27;vue$&#x27;</span>: <span class="string">&#x27;vue/dist/vue.esm.js&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;@&#x27;</span>: path.join(__dirname, <span class="string">&#x27;src/renderer&#x27;</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">    extensions: [<span class="string">&#x27;*&#x27;</span>, <span class="string">&#x27;.js&#x27;</span>, <span class="string">&#x27;.vue&#x27;</span>, <span class="string">&#x27;.json&#x27;</span>],</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.vue$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;vue-loader&#x27;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        use: [</span><br><span class="line">          <span class="string">&#x27;vue-style-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;css-loader&#x27;</span>,</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.less$/</span>,</span><br><span class="line">        use: [</span><br><span class="line">          <span class="string">&#x27;vue-style-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;css-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;less-loader&#x27;</span>,</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.(png|jpe?g|gif|svg)(\?.*)?$/</span>,</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.(woff2?|eot|ttf|otf)(\?.*)?$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> VueLoaderPlugin(),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123; <span class="attr">template</span>: <span class="string">&#x27;src/renderer/index.html&#x27;</span> &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin(),</span><br><span class="line">  ],</span><br><span class="line">  target: <span class="string">&#x27;electron-renderer&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li><p> <code>entry</code> 的路径跟 <code>plugins</code> 中的路径，即有涉及路径的地方都要相应修改为 <code>renderer</code> 目录下。</p>
+</li>
+<li><p> <code>target</code> 设置成 <code>electron-renderer</code>。有关 <code>target</code> 可以参照 <a target="_blank" rel="noopener" href="https://webpack.docschina.org/configuration/target">webpack target</a></p>
+</li>
+<li><p>如果你需要访问当前 Electron 运行的进程变量 <code>process</code>，而不是 <code>webpack</code> 提供的变量（例如需要获取当前 Electron 应用使用的 node、 Chrome 与 Electron 版本，需要访问 <code>process.versions</code>），需要将 <code>node</code> 设置为 <code>false</code> 。参照 <a target="_blank" rel="noopener" href="https://webpack.docschina.org/configuration/node/">webpack node</a></p>
+</li>
+</ul>
+<p>你也可以使用 webpack 来构建主进程，在此就不多说了。</p>
+<h2 id="使用-Vue-编写界面"><a href="#使用-Vue-编写界面" class="headerlink" title="使用 Vue 编写界面"></a>使用 Vue 编写界面</h2><p>这一步就是熟悉的一步了，从上面的 webpack 配置可以看到，<code>entry</code> 为 <code>src/renderer/index.js</code>，这就是 Vue 项目的入口文件。</p>
+<p>还记得 <code>src/renderer/index.html</code> 吗，在 webpack 配置中，我们把它作为 <code>HtmlWebpackPlugin</code> 的模板，最后生成为 <code>dist/index.html</code>，因此我们可以把里面 <code>body</code> 的内容简单替换为：</p>
+<p><code>&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;</code></p>
+<p>就像平时写 Vue 项目那样。</p>
+<h2 id="修改主进程中-loadFile-路径"><a href="#修改主进程中-loadFile-路径" class="headerlink" title="修改主进程中 loadFile 路径"></a>修改主进程中 loadFile 路径</h2><p>在 <code>src/main/index.js</code> 中，也就是主进程的入口文件，将 <code>win.loadFile</code> 的路径修改为 webpack 编译后的路径，也就是 <code>dist/index.html</code> </p>
+<h1 id="运行应用"><a href="#运行应用" class="headerlink" title="运行应用"></a>运行应用</h1><p>做了这么多，终于可以完整运行了。</p>
+<p>在 <code>package.json</code> 中的 <code>scripts</code> 中加入 <code>build</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">  <span class="string">&quot;build&quot;</span>: <span class="string">&quot;webpack --config webpack.config.js&quot;</span>,</span><br><span class="line">  <span class="string">&quot;start&quot;</span>: <span class="string">&quot;electron .&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在命令行中按顺序执行这两个脚本即可启动应用</p>
+<p><code>npm run build &amp;&amp; npm start</code></p>
+<h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>本文的任务完成了，调试篇参照 <a href="!--swig%EF%BF%BC3--">调试Electron+Vue项目</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>CCC
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://chuchencheng.com/2018/07/02/%E6%90%AD%E5%BB%BAElectron+Vue%E9%A1%B9%E7%9B%AE/" title="搭建Electron+Vue项目">http://chuchencheng.com/2018/07/02/搭建Electron+Vue项目/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Electron/" rel="tag"># Electron</a>
+              <a href="/tags/Vue/" rel="tag"># Vue</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/07/02/%E8%B0%83%E8%AF%95Electron+Vue%E9%A1%B9%E7%9B%AE/" rel="prev" title="调试Electron+Vue项目">
+                  <i class="fa fa-chevron-left"></i> 调试Electron+Vue项目
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/07/14/%E5%B0%86Electron%E5%BA%94%E7%94%A8%E6%89%93%E5%8C%85%E4%B8%BAWindows-exe%E6%96%87%E4%BB%B6/" rel="next" title="将 Electron 应用打包为 Windows exe 文件">
+                  将 Electron 应用打包为 Windows exe 文件 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CCC</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://chuchencheng-com.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://chuchencheng.com/2018/07/02/%E6%90%AD%E5%BB%BAElectron+Vue%E9%A1%B9%E7%9B%AE/";
+    this.page.identifier = "2018/07/02/搭建Electron+Vue项目/";
+    this.page.title = "搭建Electron+Vue项目";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://chuchencheng-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

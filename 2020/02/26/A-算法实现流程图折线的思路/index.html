@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chuchencheng.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"dimmer":false},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="背景在开发流程图时，节点之间的连线一般有三种类型：直线、曲线和折线 其中直线与曲线的实现比较简单，只要知道起点与终点就能计算出来，也不用考虑与流程图节点重叠的问题，直接穿过节点即可。  但是折线就不一样了，需要考虑节点避让，在合适的地方“拐弯”  那么，怎么确定这些拐点的位置？如何让折线避开节点，不与节点重叠？ 可行的方法拐点的位置，肯定是与节点的位置有关，而且跟连线的起点、终点坐标有关。 枚举法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A*算法实现流程图折线的思路">
+<meta property="og:url" content="http://chuchencheng.com/2020/02/26/A-%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B%E5%9B%BE%E6%8A%98%E7%BA%BF%E7%9A%84%E6%80%9D%E8%B7%AF/index.html">
+<meta property="og:site_name" content="CCC 的博客">
+<meta property="og:description" content="背景在开发流程图时，节点之间的连线一般有三种类型：直线、曲线和折线 其中直线与曲线的实现比较简单，只要知道起点与终点就能计算出来，也不用考虑与流程图节点重叠的问题，直接穿过节点即可。  但是折线就不一样了，需要考虑节点避让，在合适的地方“拐弯”  那么，怎么确定这些拐点的位置？如何让折线避开节点，不与节点重叠？ 可行的方法拐点的位置，肯定是与节点的位置有关，而且跟连线的起点、终点坐标有关。 枚举法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chuchencheng.com/images/posts/20200226/flowchart-straight-link.png">
+<meta property="og:image" content="http://chuchencheng.com/images/posts/20200226/flowchart-polyline-link.png">
+<meta property="og:image" content="http://chuchencheng.com/images/posts/20200226/flowchart-a-star-map-1.png">
+<meta property="og:image" content="http://chuchencheng.com/images/posts/20200226/flowchart-a-star-map-2.png">
+<meta property="og:image" content="http://chuchencheng.com/images/posts/20200226/flowchart-a-star-map-3.png">
+<meta property="og:image" content="http://chuchencheng.com/images/posts/20200226/flowchart-a-star-map-4.png">
+<meta property="og:image" content="http://chuchencheng.com/images/posts/20200226/flowchart-a-star-map-5.png">
+<meta property="article:published_time" content="2020-02-26T03:32:08.000Z">
+<meta property="article:modified_time" content="2021-02-02T08:03:01.261Z">
+<meta property="article:author" content="CCC">
+<meta property="article:tag" content="A*">
+<meta property="article:tag" content="流程图">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://chuchencheng.com/images/posts/20200226/flowchart-straight-link.png">
+
+
+<link rel="canonical" href="http://chuchencheng.com/2020/02/26/A-%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B%E5%9B%BE%E6%8A%98%E7%BA%BF%E7%9A%84%E6%80%9D%E8%B7%AF/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script><script>
+  console.log('看啥呢？')
+</script>
+
+<style>
+.site-author-image {
+  transition: transform 10s;
+  border: none;
+}
+
+.site-author-image:hover {
+  transform: rotate(10turn);
+}
+</style>
+
+<title>A*算法实现流程图折线的思路 | CCC 的博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-84045824-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-84045824-1');
+      }
+    </script>
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CCC 的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">真香</p>
+      <img class="custom-logo-image" src="/%5Bobject%20Object%5D" alt="CCC 的博客">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AF%E8%A1%8C%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">可行的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%9A%E4%B8%BE%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">枚举法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">寻路算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">2.3.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A-%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">A* 算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%B0%E5%9B%BE%E6%9E%84%E5%BB%BA"><span class="nav-number">4.</span> <span class="nav-text">地图构建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5%E5%83%8F%E7%B4%A0%E4%BD%9C%E4%B8%BA%E8%B7%AF%E5%BE%84%E7%82%B9"><span class="nav-number">4.1.</span> <span class="nav-text">以像素作为路径点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%BD%E9%87%8F%E5%87%8F%E5%B0%91%E9%9C%80%E8%A6%81%E9%81%8D%E5%8E%86%E7%9A%84%E8%B7%AF%E5%BE%84%E7%82%B9"><span class="nav-number">4.2.</span> <span class="nav-text">尽量减少需要遍历的路径点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E5%8F%AF%E5%88%B0%E8%BE%BE%E7%9A%84%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text">确定可到达的点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96"><span class="nav-number">6.</span> <span class="nav-text">其他优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE"><span class="nav-number">7.</span> <span class="nav-text">项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CCC"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">CCC</p>
+  <div class="site-description" itemprop="description">代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">72</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ChuChencheng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ChuChencheng" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/azureternite/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;azureternite&#x2F;" rel="noopener" target="_blank"><i class="instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:azureternite@gmail.com" title="E-Mail → mailto:azureternite@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ChuChencheng" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2020/02/26/A-%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B%E5%9B%BE%E6%8A%98%E7%BA%BF%E7%9A%84%E6%80%9D%E8%B7%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          A*算法实现流程图折线的思路
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-26 11:32:08" itemprop="dateCreated datePublished" datetime="2020-02-26T11:32:08+08:00">2020-02-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/02/26/A-%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B%E5%9B%BE%E6%8A%98%E7%BA%BF%E7%9A%84%E6%80%9D%E8%B7%AF/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/02/26/A-算法实现流程图折线的思路/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在开发流程图时，节点之间的连线一般有三种类型：直线、曲线和折线</p>
+<p>其中直线与曲线的实现比较简单，只要知道起点与终点就能计算出来，也不用考虑与流程图节点重叠的问题，直接穿过节点即可。</p>
+<p><img src="/images/posts/20200226/flowchart-straight-link.png" alt="flowchart-straight-link"></p>
+<p>但是折线就不一样了，需要考虑节点避让，在合适的地方“拐弯”</p>
+<p><img src="/images/posts/20200226/flowchart-polyline-link.png" alt="flowchart-polyline-link"></p>
+<p>那么，怎么确定这些拐点的位置？如何让折线避开节点，不与节点重叠？</p>
+<h1 id="可行的方法"><a href="#可行的方法" class="headerlink" title="可行的方法"></a>可行的方法</h1><p>拐点的位置，肯定是与节点的位置有关，而且跟连线的起点、终点坐标有关。</p>
+<h2 id="枚举法"><a href="#枚举法" class="headerlink" title="枚举法"></a>枚举法</h2><p>知道了节点的相对位置与起点终点的坐标，就可以枚举出拐点了。也就是用 If Else 堆叠出来的枚举法，把所有可能的相对位置与起点终点都枚举出来，再去判断拐点的位置。</p>
+<p>关于枚举法，如果条件不多的话是最简单的，但是两个节点的相对位置，加上起点终点的位置，这两个条件组合起来，有几十种情况，要全部写出来也是一件比较头疼的事。</p>
+<p>网上也有总结出规律的简化版：<a target="_blank" rel="noopener" href="https://juejin.im/post/5b73829ee51d4566205fe7f0">流程图——正交连线的算法的一种简单实现</a></p>
+<p>不过网上的枚举版本貌似都没有完全避开节点，还是会有重叠的情况。</p>
+<h2 id="寻路算法"><a href="#寻路算法" class="headerlink" title="寻路算法"></a>寻路算法</h2><p>相比枚举，用寻路算法就不那么头疼，节点相对位置与起点终点坐标对代码逻辑的影响会小一些，而且能很好地满足节点避让的条件，但需要先确定哪些坐标是连线可以到达的。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>应该有更好的解决方案，欢迎提出一起研究。</p>
+<h1 id="A-算法"><a href="#A-算法" class="headerlink" title="A* 算法"></a>A* 算法</h1><p>关于 A* 算法的解释，看这篇文章大概就能掌握： <a target="_blank" rel="noopener" href="https://blog.csdn.net/hitwhylz/article/details/23089415">https://blog.csdn.net/hitwhylz/article/details/23089415</a></p>
+<p>简单来说，目的就是找到从 A 点到 B 点的一条路径。</p>
+<p>从 A 点出发，找出 A 点附近可到达的所有点，计算其 f 值，其中 f = g + h</p>
+<p>g: 从起点到当前点的开销<br/><br>h: 从当前点到终点预估的开销</p>
+<p>找出 f 最小的点作为下一个目的，重复上述步骤</p>
+<p>直到找到 B 点，或者无法到达 B 点为止。</p>
+<h1 id="地图构建"><a href="#地图构建" class="headerlink" title="地图构建"></a>地图构建</h1><p>要应用寻路算法，首先要把地图画出来，也就是确定地图上有哪些点。</p>
+<h2 id="以像素作为路径点"><a href="#以像素作为路径点" class="headerlink" title="以像素作为路径点"></a>以像素作为路径点</h2><p>如果把每个像素作为路径点，通过这个像素是否在节点内部来判断这个坐标是否可以走，地图的构建似乎十分简单。</p>
+<p>实际上，用这样细粒度的地图来画线不是不行，如果起点与终点的距离比较近，寻路后遍历到的点就几十个。</p>
+<p>但是随着用户拖动节点，这样构建的地图缺陷就很明显了：</p>
+<ol>
+<li>节点每移动一次，路径都需要重新计算，一次几十个点看起来不是很多，但计算的频次变高之后，单位时间内需要遍历的点就越多</li>
+<li>随着起点与终点距离的变化，需要遍历的点数量也不同，如果距离拉长，需要遍历的点数量就会暴增，达到几百个甚至几千个</li>
+</ol>
+<p>最终导致的结果就是，程序卡顿，甚至卡死</p>
+<h2 id="尽量减少需要遍历的路径点"><a href="#尽量减少需要遍历的路径点" class="headerlink" title="尽量减少需要遍历的路径点"></a>尽量减少需要遍历的路径点</h2><p>那么，是不是寻路算法就不能用在这里了？答案当然是否定的，通过观察流程图折线可以知道，一般拐点的个数也就两三个，而通过像素构建的地图，虽然精度高，但最后画出来的折线，拐点也还是两三个，整条路径上大部分都是直线。所以，大多数点都是不需要去遍历的，是我们构建地图的方法有问题。</p>
+<p>因此需要尽量简化地图，减少遍历点的个数。</p>
+<p>我们以最简单的起点终点位置为例：</p>
+<p><img src="/images/posts/20200226/flowchart-a-star-map-1.png" alt="flowchart-a-star-map-1"></p>
+<p>这时的折线连线显然是这样的：</p>
+<p><img src="/images/posts/20200226/flowchart-a-star-map-2.png" alt="flowchart-a-star-map-2"></p>
+<p>实际上，操作过几个流程图的实现后，可以发现，折线的拐点，为了避让节点，走向总是会环绕着节点：</p>
+<p><img src="/images/posts/20200226/flowchart-a-star-map-3.png" alt="flowchart-a-star-map-3"></p>
+<p>经过观察可以知道，折线的拐点总是出现在固定的几个位置：</p>
+<p><img src="/images/posts/20200226/flowchart-a-star-map-4.png" alt="flowchart-a-star-map-4"></p>
+<ol>
+<li>两个节点的四个边向外扩展一定边距组成的矩形的四个角（红色8个点）</li>
+<li>起点与终点垂直于节点边做延长线，与扩展矩形的交点（蓝色4个点）</li>
+<li>起点与终点分别做十字延长线组成一个矩形，矩形中垂直于节点边的两条边的中点（绿色2个点）</li>
+</ol>
+<p>这样，拐点可能出现的坐标，一共 14 个点，再加上起点与终点 2 个点，最终构成了一个 16 个点的简化地图</p>
+<p>以上考虑的是一个典型的流程图情况，除此之外，还有一些情况：</p>
+<ol>
+<li>只有一个节点的情况</li>
+<li>没有节点的情况</li>
+<li>需要避让除了起点、终点所在节点之外的其他节点的情况（暂时不考虑）</li>
+</ol>
+<p>以上几种情况对应的地图坐标点的数量都不相同，前两种情况数量较为固定，公式：</p>
+<p>16 - 没有节点的数量（1 或者 2） x (扩展矩形的 4 个点 + 延长线与扩展矩形的 2 个交点（蓝色）) + 没有节点的数量（1 或者 2） x (起点与终点十字延长线组成矩形的中点 1 个 + 起点与终点十字延长线组成矩形的 1 个角)</p>
+<p>比如，连线只有一个节点时，地图点数 = 16 - 1 x (4 + 2) + 1 x (1 + 1) = 12</p>
+<p>只有连线，没有节点时，地图点数 = 16 - 2 x (4 + 2) + 2 x (1 + 1) = 8</p>
+<p>除了不考虑的第三种情况，其他情况地图上的点数量都不超过 16 ，即寻路时遍历的点数不会超过 16 ，相比像素作为地图路径点，极大减少了遍历的数量。</p>
+<p>附：当两个节点重叠，导致在避让节点的条件下没有路径时，则忽略两个节点，不进行避让，即第二种情况。</p>
+<h1 id="确定可到达的点"><a href="#确定可到达的点" class="headerlink" title="确定可到达的点"></a>确定可到达的点</h1><p>确定了地图上有哪些点后，接下来该找到一个办法，用来确定哪些坐标可以走，哪些坐标不能走。</p>
+<p>与平常的 A* 不同的是，平时地图上的每个点已经确定是可走的或者是障碍物了，对于一个点 P 来说，无论算法遍历到哪个点，点 P 的属性都不会改变，是可走的，就一直是可走的，是障碍物就一直是障碍物。</p>
+<p>而在流程图折线里，一个点是否可走，取决于当前遍历的点，点 P 有可能在遍历上一个点时是可走的，遍历下一个点时，又是不可走的。</p>
+<p>假设现在用 A* 遍历到了下图蓝色的点：</p>
+<p><img src="/images/posts/20200226/flowchart-a-star-map-5.png" alt="flowchart-a-star-map-5"></p>
+<p>由于折线只有水平或者垂直两个方向的走向，下一个点只能在经过其十字延长线的点上去查找，在图上已标明共有 5 个点。</p>
+<p>但是这 5 个点不能直接添加到 Open List 中，因为目前它们只是 “可能是可走的点” 。</p>
+<p>如何确定是否真的可以走？只要把当前点，分别与 5 个点连起来，生成 5 条线，其中，线与节点重叠的点，即是不可走的点。</p>
+<p>这个判断就是为了让折线能够避让节点。</p>
+<h1 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h1><p>完成了地图构建与确定可到达点的方法后，剩下的就是按照 A* 算法的步骤去执行了。</p>
+<p>不过执行后画出来的路径，虽然实现了弯折与节点避让，但有时候不是很美观，有时候路径不是我们想要的，比如：</p>
+<ol>
+<li>折线没有经过中点</li>
+<li>折线拐点太多</li>
+</ol>
+<p>这时候就需要动到 A* 里面的核心公式了。</p>
+<p>我们知道，决定下一个遍历的点时，是以 f = g + h 中 f 的大小决定的，即取 f 最小的点，那么，在 f 相同的情况下，取的点就不确定了，一般是取先进入 Open List 的点。</p>
+<p>为此，对 f 相同的点，可以进行一些额外的判断：</p>
+<ol>
+<li>当 f 相同时，取 abs(g-h) 较小的点，以达到优先走中点的目的</li>
+<li>当 f 与 abs(g-h) 都相同时，引入另外一个变量 t ，表示拐点的数量，取 t 较小的点</li>
+</ol>
+<p>经过优化，就大致可以达到我们想要的效果了。</p>
+<h1 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h1><p><a target="_blank" rel="noopener" href="https://github.com/wsfe/flowchart">@wsfe/flowchart</a></p>
+<p>此流程图项目目前只能算个 Demo ，优化空间很大</p>
+<p><a target="_blank" rel="noopener" href="https://wsfe.github.io/flowchart/">在线试毒</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5b73829ee51d4566205fe7f0">流程图——正交连线的算法的一种简单实现</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/hitwhylz/article/details/23089415">A星算法详解</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>CCC
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://chuchencheng.com/2020/02/26/A-%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B%E5%9B%BE%E6%8A%98%E7%BA%BF%E7%9A%84%E6%80%9D%E8%B7%AF/" title="A*算法实现流程图折线的思路">http://chuchencheng.com/2020/02/26/A-算法实现流程图折线的思路/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/A/" rel="tag"># A*</a>
+              <a href="/tags/%E6%B5%81%E7%A8%8B%E5%9B%BE/" rel="tag"># 流程图</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/12/12/%E8%AE%B0%E5%BD%95%EF%BC%9AVue-computed%E5%AE%9E%E7%8E%B0deep%E7%9B%91%E5%90%AC%E8%B8%A9%E5%9D%91/" rel="prev" title="记录：Vue computed实现deep监听踩坑">
+                  <i class="fa fa-chevron-left"></i> 记录：Vue computed实现deep监听踩坑
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CCC</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://chuchencheng-com.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://chuchencheng.com/2020/02/26/A-%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B%E5%9B%BE%E6%8A%98%E7%BA%BF%E7%9A%84%E6%80%9D%E8%B7%AF/";
+    this.page.identifier = "2020/02/26/A-算法实现流程图折线的思路/";
+    this.page.title = "A*算法实现流程图折线的思路";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://chuchencheng-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
