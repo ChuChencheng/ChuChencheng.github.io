@@ -20,6 +20,24 @@
       </tags>
   </entry>
   <entry>
+    <title>UWP ComboBox下拉选项滚动循环问题</title>
+    <url>/2015/11/30/uwp-combobox-scroll-loop-problem/</url>
+    <content><![CDATA[<p>在UWP开发中遇到个小问题，ComboBox的Item太多的话，列表会重复，并且无限循环，Google了一下后发现这貌似是Metro应用的老问题了，由于ComboBox的Items使用的是CarouselPanel而导致的。</p>
+<p>解决方法：改变<code>ComboBox</code>的<code>ItemsPanelTemplate</code>为<code>StackPanel</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;ComboBox&gt;  </span><br><span class="line">    &lt;ComboBox.ItemsPanel&gt;  </span><br><span class="line">        &lt;ItemsPanelTemplate&gt;  </span><br><span class="line">            &lt;StackPanel Orientation&#x3D;&quot;Vertical&quot;&#x2F;&gt;  </span><br><span class="line">        &lt;&#x2F;ItemsPanelTemplate&gt;  </span><br><span class="line">    &lt;&#x2F;ComboBox.ItemsPanel&gt;  </span><br><span class="line">&lt;&#x2F;ComboBox&gt;</span><br></pre></td></tr></table></figure>
+
+<p>目前发现了这样做的一个问题，ComboBox选择非第一项的选项之后再选择第一项，会出现变成空白，或选不了的bug，暂时没有发现解决办法。</p>
+<p>参考：<a href="http://netitude.bc3tech.net/2013/04/12/windows-8s-combobox-and-the-carouselpanel/">http://netitude.bc3tech.net/2013/04/12/windows-8s-combobox-and-the-carouselpanel/</a></p>
+]]></content>
+      <categories>
+        <category>UWP</category>
+      </categories>
+      <tags>
+        <tag>UWP</tag>
+        <tag>ComboBox</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pushState()、popstate事件配合ajax实现浏览器前进后退页面局部刷新</title>
     <url>/2015/06/06/pushstate-popstate-ajax-and-partial-refresh/</url>
     <content><![CDATA[<p>最近研究pushState，看了网上的文章还是不怎么会用，于是自己摸索着理解使用，终于实现局部刷新同时前进后退。</p>
@@ -41,24 +59,6 @@
         <tag>前端</tag>
         <tag>pushState</tag>
         <tag>popstate</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>UWP ComboBox下拉选项滚动循环问题</title>
-    <url>/2015/11/30/uwp-combobox-scroll-loop-problem/</url>
-    <content><![CDATA[<p>在UWP开发中遇到个小问题，ComboBox的Item太多的话，列表会重复，并且无限循环，Google了一下后发现这貌似是Metro应用的老问题了，由于ComboBox的Items使用的是CarouselPanel而导致的。</p>
-<p>解决方法：改变<code>ComboBox</code>的<code>ItemsPanelTemplate</code>为<code>StackPanel</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;ComboBox&gt;  </span><br><span class="line">    &lt;ComboBox.ItemsPanel&gt;  </span><br><span class="line">        &lt;ItemsPanelTemplate&gt;  </span><br><span class="line">            &lt;StackPanel Orientation&#x3D;&quot;Vertical&quot;&#x2F;&gt;  </span><br><span class="line">        &lt;&#x2F;ItemsPanelTemplate&gt;  </span><br><span class="line">    &lt;&#x2F;ComboBox.ItemsPanel&gt;  </span><br><span class="line">&lt;&#x2F;ComboBox&gt;</span><br></pre></td></tr></table></figure>
-
-<p>目前发现了这样做的一个问题，ComboBox选择非第一项的选项之后再选择第一项，会出现变成空白，或选不了的bug，暂时没有发现解决办法。</p>
-<p>参考：<a href="http://netitude.bc3tech.net/2013/04/12/windows-8s-combobox-and-the-carouselpanel/">http://netitude.bc3tech.net/2013/04/12/windows-8s-combobox-and-the-carouselpanel/</a></p>
-]]></content>
-      <categories>
-        <category>UWP</category>
-      </categories>
-      <tags>
-        <tag>UWP</tag>
-        <tag>ComboBox</tag>
       </tags>
   </entry>
   <entry>
@@ -117,80 +117,6 @@
         <tag>前端</tag>
         <tag>JavaScript</tag>
         <tag>script</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaScript的几种继承方式</title>
-    <url>/2016/07/15/javascript-inheritance/</url>
-    <content><![CDATA[<p>看《JavaScript高级程序设计》做的一些笔记</p>
-<p>ECMAScript只支持实现继承，不支持接口继承（因为函数没有签名）</p>
-<p>原型链（实现继承的主要方法）：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.property = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SuperType.prototype.getSuperValue = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span>.property;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.subproperty = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//继承SuperType</span></span><br><span class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SubType.prototype.getSubValue = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span>.subproperty;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> SubType();</span><br></pre></td></tr></table></figure>
-
-<p><img src="http://img.blog.csdn.net/20160715123200377?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="inheritance_1"></p>
-<p>通过原型链实现继承时不能使用对象字面量创建原型方法，否则会重写原型链<br>例如：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义SubType的原型方法</span></span><br><span class="line">SubType.prototype = &#123;  <span class="comment">//这样定义会使上面那行代码无效</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>所有函数的默认原型都是Object的实例，因此SuperType.prototype中的[[Prototype]]会指向Object.Prototype</p>
-<p>问题：<br>原型变成另一个类型的实例，原来的实例属性就变成原型属性了，因此包含引用类型值的属性会被所有SubType实例共享（例如数组）</p>
-<p>借用构造函数：</p>
-<p>在子类型的构造函数中使用call()或apply()调用超类型的构造函数</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.colors = [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="comment">//继承SuperType</span></span><br><span class="line">  SuperType.call(<span class="built_in">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以在子类型构造函数中向超类型构造函数传递参数</p>
-<p>问题：<br>方法都在构造函数中定义，函数无法复用（类似构造函数模式）；在超类型原型中定义的方法对子类型不可见</p>
-<p>组合继承(常用继承模式)：</p>
-<p>将原型链和借用构造函数组合到一块（类似组合使用构造函数模式和原型模式）<br>用原型链实现对原型属性和方法的继承，用借用构造函数实现对实例属性的继承</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name;</span><br><span class="line">  <span class="built_in">this</span>.colors = [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SuperType.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params">name, age</span>)</span>&#123;</span><br><span class="line">  <span class="comment">//继承属性</span></span><br><span class="line">  SuperType.call(<span class="built_in">this</span>, name);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//继承方法</span></span><br><span class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SubType.prototype.sayAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> SubType(<span class="string">&#x27;myName&#x27;</span>, <span class="number">66</span>);</span><br></pre></td></tr></table></figure>
-
-<p><img src="http://img.blog.csdn.net/20160715123502990?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="inheritance_2"></p>
-<p>问题：<br>无论什么情况下都会调用两次超类型构造函数<br>同时，父类构造函数中的属性会被继承到子类的原型上</p>
-<p>原型式继承：</p>
-<p>基于已有的对象创建新对象，同时还不必因此创建自定义类型</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">object</span>(<span class="params">o</span>)</span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">  F.prototype = o;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> F();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">  name:<span class="string">&#x27;myName&#x27;</span>,</span><br><span class="line">  friends:[]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> anotherPerson = object(person);</span><br><span class="line">anotherPerson.name = <span class="string">&#x27;anotherName&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<p>ECMAScript5通过Object.create()规范原型式继承</p>
-<p>问题：<br>与使用原型模式一样，包含引用类型的值会共享</p>
-<p>寄生式继承：</p>
-<p>将继承过程封装成函数，并增强对象</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createAnother</span>(<span class="params">original</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> clone = object(original);</span><br><span class="line">  clone.sayHi = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">  <span class="keyword">return</span> clone;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person = &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> anotherPerson = createAnother(person);</span><br><span class="line">anotherPerson.sayHi();</span><br></pre></td></tr></table></figure>
-
-<p>问题：<br>不能做到函数复用，降低效率，与构造函数模式类似</p>
-<p>寄生组合式继承：</p>
-<p>使用寄生式继承来继承超类型的原型，再将结果指定给子类型的原型</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">inheritPrototype</span>(<span class="params">subType, superType</span>)</span>&#123;  <span class="comment">//参数为两个类型的构造函数</span></span><br><span class="line">  <span class="keyword">var</span> prototype = object(superType.prototype);</span><br><span class="line">  prototype.constructor = subType;  <span class="comment">//为创建的副本添加因重写原型而失去的constructor属性</span></span><br><span class="line">  subType.prototype = prototype;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = name;</span><br><span class="line">  <span class="built_in">this</span>.colors = [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SuperType.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params">name, age</span>)</span>&#123;</span><br><span class="line">  SuperType.call(<span class="built_in">this</span>, name);</span><br><span class="line">  <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">inheritPrototype(SubType, SuperType);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SubType.prototype.sayAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
-<p>只调用了一次SuperType的构造函数，并且避免了在SubType.prototype上面创建不必要的、多余的属性，同时保持原型链不变</p>
-<p>参考：《JavaScript高级程序设计》（第3版）</p>
-]]></content>
-      <categories>
-        <category>前端</category>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>前端</tag>
-        <tag>JavaScript</tag>
-        <tag>继承</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>bootstrap如何给.list-group加上序号</title>
-    <url>/2016/08/02/bootstrap-add-seq-number-to-list-group-class/</url>
-    <content><![CDATA[<p>在bootstrap中，我们可以使用不带任何class的<ol>跟<li>来创建一个有序列表，但是如果加上list-group类，样式有了，但列表前面的数字却没了。</p>
-<p>Bootstrap给list-group-item应用了<code>display:block;</code> 所以显示不了序号，因此我们只要修改一下list item的display就能把序号找回来了</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.list-group</span>&#123;</span><br><span class="line">    <span class="attribute">list-style</span>: decimal inside;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.list-group-item</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>: list-item;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>如果把<code>list-style: decimal inside;</code>写成<code>list-style-type: decimal;</code>，序号会显示在框外</p>
-<p>以下附上一段测试代码及效果图：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Bootstrap list<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">integrity</span>=<span class="string">&quot;sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u&quot;</span> <span class="attr">crossorigin</span>=<span class="string">&quot;anonymous&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://code.jquery.com/jquery-2.2.4.min.js&quot;</span> <span class="attr">integrity</span>=<span class="string">&quot;sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=&quot;</span> <span class="attr">crossorigin</span>=<span class="string">&quot;anonymous&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&quot;</span> <span class="attr">integrity</span>=<span class="string">&quot;sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa&quot;</span> <span class="attr">crossorigin</span>=<span class="string">&quot;anonymous&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">        <span class="selector-class">.list-group</span>&#123;</span></span><br><span class="line">            list-style: decimal inside;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="css">        <span class="selector-class">.list-group-item</span>&#123;</span></span><br><span class="line">            display: list-item;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;list-group&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;list-group-item&quot;</span>&gt;</span>First<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;list-group-item&quot;</span>&gt;</span>Second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;list-group-item&quot;</span>&gt;</span>Third<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--Ordered list--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ol</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>First<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Third<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><img src="http://img.blog.csdn.net/20160802095930742?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="效果图"></p>
-<p>参考：</p>
-<p><a href="http://stackoverflow.com/questions/24230990/how-to-make-an-ordered-list-with-twitter-bootstrap-component">http://stackoverflow.com/questions/24230990/how-to-make-an-ordered-list-with-twitter-bootstrap-component</a></p>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>bootstrap</tag>
-        <tag>CSS</tag>
-        <tag>.list-group</tag>
       </tags>
   </entry>
   <entry>
@@ -262,6 +188,99 @@
         <tag>前端</tag>
         <tag>JavaScript</tag>
         <tag>对象</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript的几种继承方式</title>
+    <url>/2016/07/15/javascript-inheritance/</url>
+    <content><![CDATA[<p>看《JavaScript高级程序设计》做的一些笔记</p>
+<p>ECMAScript只支持实现继承，不支持接口继承（因为函数没有签名）</p>
+<p>原型链（实现继承的主要方法）：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.property = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SuperType.prototype.getSuperValue = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span>.property;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.subproperty = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//继承SuperType</span></span><br><span class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SubType.prototype.getSubValue = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span>.subproperty;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> SubType();</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://img.blog.csdn.net/20160715123200377?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="inheritance_1"></p>
+<p>通过原型链实现继承时不能使用对象字面量创建原型方法，否则会重写原型链<br>例如：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义SubType的原型方法</span></span><br><span class="line">SubType.prototype = &#123;  <span class="comment">//这样定义会使上面那行代码无效</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>所有函数的默认原型都是Object的实例，因此SuperType.prototype中的[[Prototype]]会指向Object.Prototype</p>
+<p>问题：<br>原型变成另一个类型的实例，原来的实例属性就变成原型属性了，因此包含引用类型值的属性会被所有SubType实例共享（例如数组）</p>
+<p>借用构造函数：</p>
+<p>在子类型的构造函数中使用call()或apply()调用超类型的构造函数</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.colors = [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="comment">//继承SuperType</span></span><br><span class="line">  SuperType.call(<span class="built_in">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以在子类型构造函数中向超类型构造函数传递参数</p>
+<p>问题：<br>方法都在构造函数中定义，函数无法复用（类似构造函数模式）；在超类型原型中定义的方法对子类型不可见</p>
+<p>组合继承(常用继承模式)：</p>
+<p>将原型链和借用构造函数组合到一块（类似组合使用构造函数模式和原型模式）<br>用原型链实现对原型属性和方法的继承，用借用构造函数实现对实例属性的继承</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name;</span><br><span class="line">  <span class="built_in">this</span>.colors = [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SuperType.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params">name, age</span>)</span>&#123;</span><br><span class="line">  <span class="comment">//继承属性</span></span><br><span class="line">  SuperType.call(<span class="built_in">this</span>, name);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//继承方法</span></span><br><span class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SubType.prototype.sayAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> SubType(<span class="string">&#x27;myName&#x27;</span>, <span class="number">66</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://img.blog.csdn.net/20160715123502990?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="inheritance_2"></p>
+<p>问题：<br>无论什么情况下都会调用两次超类型构造函数<br>同时，父类构造函数中的属性会被继承到子类的原型上</p>
+<p>原型式继承：</p>
+<p>基于已有的对象创建新对象，同时还不必因此创建自定义类型</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">object</span>(<span class="params">o</span>)</span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">  F.prototype = o;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> F();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">  name:<span class="string">&#x27;myName&#x27;</span>,</span><br><span class="line">  friends:[]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> anotherPerson = object(person);</span><br><span class="line">anotherPerson.name = <span class="string">&#x27;anotherName&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>ECMAScript5通过Object.create()规范原型式继承</p>
+<p>问题：<br>与使用原型模式一样，包含引用类型的值会共享</p>
+<p>寄生式继承：</p>
+<p>将继承过程封装成函数，并增强对象</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createAnother</span>(<span class="params">original</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> clone = object(original);</span><br><span class="line">  clone.sayHi = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">  <span class="keyword">return</span> clone;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person = &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> anotherPerson = createAnother(person);</span><br><span class="line">anotherPerson.sayHi();</span><br></pre></td></tr></table></figure>
+
+<p>问题：<br>不能做到函数复用，降低效率，与构造函数模式类似</p>
+<p>寄生组合式继承：</p>
+<p>使用寄生式继承来继承超类型的原型，再将结果指定给子类型的原型</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">inheritPrototype</span>(<span class="params">subType, superType</span>)</span>&#123;  <span class="comment">//参数为两个类型的构造函数</span></span><br><span class="line">  <span class="keyword">var</span> prototype = object(superType.prototype);</span><br><span class="line">  prototype.constructor = subType;  <span class="comment">//为创建的副本添加因重写原型而失去的constructor属性</span></span><br><span class="line">  subType.prototype = prototype;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = name;</span><br><span class="line">  <span class="built_in">this</span>.colors = [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SuperType.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params">name, age</span>)</span>&#123;</span><br><span class="line">  SuperType.call(<span class="built_in">this</span>, name);</span><br><span class="line">  <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">inheritPrototype(SubType, SuperType);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SubType.prototype.sayAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>只调用了一次SuperType的构造函数，并且避免了在SubType.prototype上面创建不必要的、多余的属性，同时保持原型链不变</p>
+<p>参考：《JavaScript高级程序设计》（第3版）</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+        <tag>JavaScript</tag>
+        <tag>继承</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>checkbox全选与反选</title>
+    <url>/2016/07/27/checkbox-check-all-and-inverse/</url>
+    <content><![CDATA[<p>用原生js跟jquery实现checkbox全选反选的一个例子</p>
+<p>原生js：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>checkbox<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;check-all&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;check-all&quot;</span>&gt;</span>全选</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> checkAll = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;[name=check-all]&#x27;</span>);</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> subCheckbox = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">//绑定全选、反选事件</span></span></span><br><span class="line"><span class="javascript">    checkAll.addEventListener(<span class="string">&#x27;change&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (<span class="built_in">this</span>.checked) &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; subCheckbox.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">                subCheckbox[i].checked = <span class="literal">true</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; subCheckbox.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">                subCheckbox[i].checked = <span class="literal">false</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="javascript">    &#125;, <span class="literal">false</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">//绑定sub checkbox的事件</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; subCheckbox.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">        subCheckbox[i].addEventListener(<span class="string">&#x27;change&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> checkboxnum = subCheckbox.length;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> checked = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;[name=sub-checkbox]:checked&#x27;</span>).length;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (checkboxnum == checked) &#123;  <span class="comment">//如果选中的sub checkbox与全部的sub checkbox一样多，则勾选全选的checkbox</span></span></span><br><span class="line"><span class="javascript">                checkAll.checked = <span class="literal">true</span>;</span></span><br><span class="line"><span class="javascript">            &#125; <span class="keyword">else</span> &#123;  <span class="comment">//反之取消勾选</span></span></span><br><span class="line"><span class="javascript">                checkAll.checked = <span class="literal">false</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line"><span class="javascript">        &#125;, <span class="literal">false</span>);</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>jquery（需引入jquery）：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//checkbox select all</span></span><br><span class="line">    $(<span class="built_in">document</span>).on(<span class="string">&#x27;change&#x27;</span>, <span class="string">&#x27;[name=check-all]&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ($(<span class="built_in">this</span>).prop(<span class="string">&#x27;checked&#x27;</span>)) &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//sub checkbox</span></span><br><span class="line">    $(<span class="built_in">document</span>).on(<span class="string">&#x27;change&#x27;</span>, <span class="string">&#x27;[name=sub-checkbox]&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> checkboxnum = $(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>).length;</span><br><span class="line">        <span class="keyword">var</span> checked = $(<span class="string">&#x27;[name=sub-checkbox]:checked&#x27;</span>).length;</span><br><span class="line">        <span class="keyword">if</span> (checkboxnum == checked) &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=check-all]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=check-all]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>思路都是一样的，给总复选框绑定事件实现全选反选功能；给子复选框绑定事件，当所有的子复选框都选中时总复选框勾选，当有一个子复选框被取消勾选时，总复选框取消勾选，这个功能是通过比较被选中子复选框数量跟所有子复选框数量来实现的。<br>需要注意的是jquery中获取checkbox勾选状态时用prop()，不用attr()。<br>绑定事件 由于querySelectorAll()返回的是一个NodeList，所以要写个循环一个节点一个节点绑定。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>checkbox</tag>
+        <tag>html</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>bootstrap如何给.list-group加上序号</title>
+    <url>/2016/08/02/bootstrap-add-seq-number-to-list-group-class/</url>
+    <content><![CDATA[<p>在bootstrap中，我们可以使用不带任何class的<ol>跟<li>来创建一个有序列表，但是如果加上list-group类，样式有了，但列表前面的数字却没了。</p>
+<p>Bootstrap给list-group-item应用了<code>display:block;</code> 所以显示不了序号，因此我们只要修改一下list item的display就能把序号找回来了</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.list-group</span>&#123;</span><br><span class="line">    <span class="attribute">list-style</span>: decimal inside;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.list-group-item</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>: list-item;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>如果把<code>list-style: decimal inside;</code>写成<code>list-style-type: decimal;</code>，序号会显示在框外</p>
+<p>以下附上一段测试代码及效果图：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Bootstrap list<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">integrity</span>=<span class="string">&quot;sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u&quot;</span> <span class="attr">crossorigin</span>=<span class="string">&quot;anonymous&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://code.jquery.com/jquery-2.2.4.min.js&quot;</span> <span class="attr">integrity</span>=<span class="string">&quot;sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=&quot;</span> <span class="attr">crossorigin</span>=<span class="string">&quot;anonymous&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&quot;</span> <span class="attr">integrity</span>=<span class="string">&quot;sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa&quot;</span> <span class="attr">crossorigin</span>=<span class="string">&quot;anonymous&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">        <span class="selector-class">.list-group</span>&#123;</span></span><br><span class="line">            list-style: decimal inside;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="css">        <span class="selector-class">.list-group-item</span>&#123;</span></span><br><span class="line">            display: list-item;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;list-group&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;list-group-item&quot;</span>&gt;</span>First<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;list-group-item&quot;</span>&gt;</span>Second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;list-group-item&quot;</span>&gt;</span>Third<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--Ordered list--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ol</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>First<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Third<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://img.blog.csdn.net/20160802095930742?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="效果图"></p>
+<p>参考：</p>
+<p><a href="http://stackoverflow.com/questions/24230990/how-to-make-an-ordered-list-with-twitter-bootstrap-component">http://stackoverflow.com/questions/24230990/how-to-make-an-ordered-list-with-twitter-bootstrap-component</a></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>bootstrap</tag>
+        <tag>CSS</tag>
+        <tag>.list-group</tag>
       </tags>
   </entry>
   <entry>
@@ -384,25 +403,6 @@
       </tags>
   </entry>
   <entry>
-    <title>checkbox全选与反选</title>
-    <url>/2016/07/27/checkbox-check-all-and-inverse/</url>
-    <content><![CDATA[<p>用原生js跟jquery实现checkbox全选反选的一个例子</p>
-<p>原生js：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>checkbox<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;check-all&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;check-all&quot;</span>&gt;</span>全选</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> checkAll = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;[name=check-all]&#x27;</span>);</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> subCheckbox = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">//绑定全选、反选事件</span></span></span><br><span class="line"><span class="javascript">    checkAll.addEventListener(<span class="string">&#x27;change&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (<span class="built_in">this</span>.checked) &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; subCheckbox.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">                subCheckbox[i].checked = <span class="literal">true</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; subCheckbox.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">                subCheckbox[i].checked = <span class="literal">false</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="javascript">    &#125;, <span class="literal">false</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">//绑定sub checkbox的事件</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; subCheckbox.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">        subCheckbox[i].addEventListener(<span class="string">&#x27;change&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> checkboxnum = subCheckbox.length;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> checked = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;[name=sub-checkbox]:checked&#x27;</span>).length;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (checkboxnum == checked) &#123;  <span class="comment">//如果选中的sub checkbox与全部的sub checkbox一样多，则勾选全选的checkbox</span></span></span><br><span class="line"><span class="javascript">                checkAll.checked = <span class="literal">true</span>;</span></span><br><span class="line"><span class="javascript">            &#125; <span class="keyword">else</span> &#123;  <span class="comment">//反之取消勾选</span></span></span><br><span class="line"><span class="javascript">                checkAll.checked = <span class="literal">false</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line"><span class="javascript">        &#125;, <span class="literal">false</span>);</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>jquery（需引入jquery）：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//checkbox select all</span></span><br><span class="line">    $(<span class="built_in">document</span>).on(<span class="string">&#x27;change&#x27;</span>, <span class="string">&#x27;[name=check-all]&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ($(<span class="built_in">this</span>).prop(<span class="string">&#x27;checked&#x27;</span>)) &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//sub checkbox</span></span><br><span class="line">    $(<span class="built_in">document</span>).on(<span class="string">&#x27;change&#x27;</span>, <span class="string">&#x27;[name=sub-checkbox]&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> checkboxnum = $(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>).length;</span><br><span class="line">        <span class="keyword">var</span> checked = $(<span class="string">&#x27;[name=sub-checkbox]:checked&#x27;</span>).length;</span><br><span class="line">        <span class="keyword">if</span> (checkboxnum == checked) &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=check-all]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=check-all]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>思路都是一样的，给总复选框绑定事件实现全选反选功能；给子复选框绑定事件，当所有的子复选框都选中时总复选框勾选，当有一个子复选框被取消勾选时，总复选框取消勾选，这个功能是通过比较被选中子复选框数量跟所有子复选框数量来实现的。<br>需要注意的是jquery中获取checkbox勾选状态时用prop()，不用attr()。<br>绑定事件 由于querySelectorAll()返回的是一个NodeList，所以要写个循环一个节点一个节点绑定。</p>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>checkbox</tag>
-        <tag>html</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JavaScript笔记——this的取值</title>
     <url>/2016/08/09/how-to-get-this-value/</url>
     <content><![CDATA[<p><strong>有关ECMAScript定义如何获取this请移步<a href="http://blog.csdn.net/azureternite/article/details/52153809">ECMAScript中关于如何获取this的定义</a></strong></p>
@@ -485,6 +485,21 @@
       </categories>
       <tags>
         <tag>test</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>set my domain</title>
+    <url>/2016/08/13/set-my-domain/</url>
+    <content><![CDATA[<h1 id="新域名启用"><a href="#新域名启用" class="headerlink" title="新域名启用"></a>新域名启用</h1><p>大半夜的弄好了域名</p>
+<p><a href="http://c2ccc.space/">C2CCC.space</a></p>
+<p>后面会慢慢建起来（大概吧）</p>
+<p>亦可赛艇</p>
+]]></content>
+      <categories>
+        <category>personal</category>
+      </categories>
+      <tags>
+        <tag>domain</tag>
       </tags>
   </entry>
   <entry>
@@ -613,18 +628,32 @@
       </tags>
   </entry>
   <entry>
-    <title>set my domain</title>
-    <url>/2016/08/13/set-my-domain/</url>
-    <content><![CDATA[<h1 id="新域名启用"><a href="#新域名启用" class="headerlink" title="新域名启用"></a>新域名启用</h1><p>大半夜的弄好了域名</p>
-<p><a href="http://c2ccc.space/">C2CCC.space</a></p>
-<p>后面会慢慢建起来（大概吧）</p>
-<p>亦可赛艇</p>
+    <title>Node.js exports与module.exports的关系</title>
+    <url>/2016/08/16/nodejs-exports-and-module.exports/</url>
+    <content><![CDATA[<p>今天搜索module.exports时看到CNode社区上发的Hack Sparrow一篇相关文章的链接<br><a href="http://www.hacksparrow.com/node-js-exports-vs-module-exports.html">Node.js Module – exports vs module.exports</a><br>一篇5年前的远古巨坟…</p>
+<p>网上也有相应的翻译，<a href="http://www.jb51.net/article/33269.htm">nodejs中exports与module.exports的区别详细介绍</a></p>
+<p>又看了下CNode上的一篇介绍，<a href="http://cnodejs.org/topic/5231a630101e574521e45ef8">exports 和 module.exports 的区别</a></p>
+<p>下面做个总结，感谢CNode社区上<a href="http://cnodejs.org/user/manecocomph">@manecocomph</a>的解释，十分直白（在上面那篇文章的评论里）</p>
+<p>其实exports跟module.exports初始时指向的是同一个空对象{}，因此在exports上添加的属性也会被添加到module.exports上<br>而在另一个文件中，require的返回值是module.exports，因此当exports跟module.exports不指向同一个对象时，exports中的属性便不会被导出</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">exports</span>);  <span class="comment">//&#123;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>.exports);  <span class="comment">//&#123;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">exports</span> === <span class="built_in">module</span>.exports);  <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p>rocker.js</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exports</span>.name = <span class="string">&#x27;naive&#x27;</span>;  <span class="comment">//&#123; name: &#x27;naive&#x27; &#125;</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;&#125;;  <span class="comment">//&#123;&#125;，与exports不再指向同一个对象</span></span><br></pre></td></tr></table></figure>
+<p>app.js</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> rocker = <span class="built_in">require</span>(<span class="string">&#x27;./rocker.js&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(rocker.name);  <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考：</p>
+<ul>
+<li><a href="http://www.hacksparrow.com/node-js-exports-vs-module-exports.html">Node.js Module – exports vs module.exports</a></li>
+<li><a href="http://cnodejs.org/topic/5231a630101e574521e45ef8">exports 和 module.exports 的区别</a></li>
+</ul>
 ]]></content>
       <categories>
-        <category>personal</category>
+        <category>Node.js</category>
       </categories>
       <tags>
-        <tag>domain</tag>
+        <tag>Node.js</tag>
+        <tag>module</tag>
       </tags>
   </entry>
   <entry>
@@ -679,68 +708,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Node.js exports与module.exports的关系</title>
-    <url>/2016/08/16/nodejs-exports-and-module.exports/</url>
-    <content><![CDATA[<p>今天搜索module.exports时看到CNode社区上发的Hack Sparrow一篇相关文章的链接<br><a href="http://www.hacksparrow.com/node-js-exports-vs-module-exports.html">Node.js Module – exports vs module.exports</a><br>一篇5年前的远古巨坟…</p>
-<p>网上也有相应的翻译，<a href="http://www.jb51.net/article/33269.htm">nodejs中exports与module.exports的区别详细介绍</a></p>
-<p>又看了下CNode上的一篇介绍，<a href="http://cnodejs.org/topic/5231a630101e574521e45ef8">exports 和 module.exports 的区别</a></p>
-<p>下面做个总结，感谢CNode社区上<a href="http://cnodejs.org/user/manecocomph">@manecocomph</a>的解释，十分直白（在上面那篇文章的评论里）</p>
-<p>其实exports跟module.exports初始时指向的是同一个空对象{}，因此在exports上添加的属性也会被添加到module.exports上<br>而在另一个文件中，require的返回值是module.exports，因此当exports跟module.exports不指向同一个对象时，exports中的属性便不会被导出</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">exports</span>);  <span class="comment">//&#123;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>.exports);  <span class="comment">//&#123;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">exports</span> === <span class="built_in">module</span>.exports);  <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-<hr>
-<p>rocker.js</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exports</span>.name = <span class="string">&#x27;naive&#x27;</span>;  <span class="comment">//&#123; name: &#x27;naive&#x27; &#125;</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;&#125;;  <span class="comment">//&#123;&#125;，与exports不再指向同一个对象</span></span><br></pre></td></tr></table></figure>
-<p>app.js</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> rocker = <span class="built_in">require</span>(<span class="string">&#x27;./rocker.js&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(rocker.name);  <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure>
-<hr>
-<p>参考：</p>
-<ul>
-<li><a href="http://www.hacksparrow.com/node-js-exports-vs-module-exports.html">Node.js Module – exports vs module.exports</a></li>
-<li><a href="http://cnodejs.org/topic/5231a630101e574521e45ef8">exports 和 module.exports 的区别</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Node.js</category>
-      </categories>
-      <tags>
-        <tag>Node.js</tag>
-        <tag>module</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>通过Gulp使用Browsersync实现浏览器实时响应文件更改</title>
-    <url>/2016/08/17/use-browser-sync-with-gulp/</url>
-    <content><![CDATA[<ul>
-<li>目录<br>{:toc}</li>
-</ul>
-<h1 id="Gulp是什么鬼"><a href="#Gulp是什么鬼" class="headerlink" title="Gulp是什么鬼"></a>Gulp是什么鬼</h1><p>Gulp是一种基于node.js的构建工具，有关构建工具的概念请移步<a href="http://blog.csdn.net/azureternite/article/details/52213589">什么是构建工具</a></p>
-<p>Gulp的安装及基本使用，可参考[一点| gulp详细入门教程][],写得十分6，通俗易懂</p>
-<h1 id="Browsersync又是什么鬼"><a href="#Browsersync又是什么鬼" class="headerlink" title="Browsersync又是什么鬼"></a>Browsersync又是什么鬼</h1><p>Browsersync可以让浏览器实时响应所做的文件更改，包括html, js, css, less, sass等，并自动刷新页面<br>而且可以在多个浏览器、多个设备（PC、平板、手机等）下同时进行调试，是提高开发效率的利器</p>
-<h1 id="如何安装使用Browsersync"><a href="#如何安装使用Browsersync" class="headerlink" title="如何安装使用Browsersync"></a>如何安装使用Browsersync</h1><p><a href="https://www.browsersync.io/">官网</a>上有各种安装使用方式，这边我用gulp</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>1.全局安装</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g browser-sync</span><br></pre></td></tr></table></figure>
-<p>2.在本地项目目录下安装，同时装一下gulp跟gulp的插件（如果有用到gulp插件的话，比如gulp-less）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install browser-sync --save-dev</span><br><span class="line">npm install gulp --save-dev</span><br><span class="line">npm install gulp-less --save-dev</span><br></pre></td></tr></table></figure>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>1.配置gulpfile.js</p>
-<p>在项目根目录底下新建文件gulpfile.js，然后填入内容：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//引入gulp、gulp插件以及browser-sync</span></span><br><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">&#x27;gulp&#x27;</span>),</span><br><span class="line">    browserSync = <span class="built_in">require</span>(<span class="string">&#x27;browser-sync&#x27;</span>).create(),</span><br><span class="line">    less = <span class="built_in">require</span>(<span class="string">&#x27;gulp-less&#x27;</span>);</span><br><span class="line"><span class="comment">//创建一个新的gulp任务</span></span><br><span class="line">gulp.task(<span class="string">&#x27;serve&#x27;</span>,[<span class="string">&#x27;less&#x27;</span>],<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//初始化项目跟目录为&#x27;./&#x27;（也可以使用代理proxy: &quot;yourlocal.dev&quot;）</span></span><br><span class="line">    browserSync.init(&#123;</span><br><span class="line">        server: <span class="string">&#x27;./&#x27;</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//创建gulp监听器，监听less文件的变化，自动执行&#x27;less&#x27;任务，编译less并生成css文件</span></span><br><span class="line">    gulp.watch(<span class="string">&#x27;./less/*.less&#x27;</span>, [<span class="string">&#x27;less&#x27;</span>]).on(<span class="string">&#x27;change&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;File &#x27;</span> + event.path + <span class="string">&#x27; was &#x27;</span> + event.type + <span class="string">&#x27;, running tasks...&#x27;</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//监听html文件的变化，自动重新载入</span></span><br><span class="line">    gulp.watch(<span class="string">&#x27;./*.html&#x27;</span>).on(<span class="string">&#x27;change&#x27;</span>, browserSync.reload);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//创建自动编译less的任务，这边需要return stream以保证browserSync.reload在正确的时机调用</span></span><br><span class="line">gulp.task(<span class="string">&#x27;less&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> gulp.src(<span class="string">&#x27;./less/*.less&#x27;</span>)</span><br><span class="line">        .pipe(less())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">&#x27;./css&#x27;</span>))</span><br><span class="line">        .pipe(browserSync.stream());</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//默认启动的gulp任务数组[&#x27;serve&#x27;]</span></span><br><span class="line">gulp.task(<span class="string">&#x27;default&#x27;</span>, [<span class="string">&#x27;serve&#x27;</span>]);</span><br></pre></td></tr></table></figure>
-<p>2.运行gulp</p>
-<p>在项目根目录命令行执行<code>gulp</code>或<code>gulp default</code><br>项目启动后在命令行中会输出Access URLs，包括本地跟外部访问的URL以及项目跟UI控制界面的URL<br>项目默认启动在<a href="http://localhost:3000/">http://localhost:3000</a><br>UI控制界面默认启动在<a href="http://localhost:3001/">http://localhost:3001</a></p>
-<h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><p><img src="http://img.blog.csdn.net/20160817012323155" alt="browser-sync-demo"></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li>[一点| gulp详细入门教程][]</li>
-<li><a href="https://www.browsersync.io/docs/gulp">Browsersync + Gulp.js</a> </li>
-</ul>
-]]></content>
-      <categories>
-        <category>构建工具</category>
-      </categories>
-      <tags>
-        <tag>gulp</tag>
-        <tag>browsersync</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Node.js用ES6原生Promise对异步函数进行封装</title>
     <url>/2016/08/19/use-es6-promise-to-encapsule-async-functions/</url>
     <content><![CDATA[<h1 id="Promise的概念"><a href="#Promise的概念" class="headerlink" title="Promise的概念"></a>Promise的概念</h1><blockquote>
@@ -781,6 +748,39 @@
         <tag>Node.js</tag>
         <tag>异步</tag>
         <tag>Promise</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通过Gulp使用Browsersync实现浏览器实时响应文件更改</title>
+    <url>/2016/08/17/use-browser-sync-with-gulp/</url>
+    <content><![CDATA[<ul>
+<li>目录<br>{:toc}</li>
+</ul>
+<h1 id="Gulp是什么鬼"><a href="#Gulp是什么鬼" class="headerlink" title="Gulp是什么鬼"></a>Gulp是什么鬼</h1><p>Gulp是一种基于node.js的构建工具，有关构建工具的概念请移步<a href="http://blog.csdn.net/azureternite/article/details/52213589">什么是构建工具</a></p>
+<p>Gulp的安装及基本使用，可参考[一点| gulp详细入门教程][],写得十分6，通俗易懂</p>
+<h1 id="Browsersync又是什么鬼"><a href="#Browsersync又是什么鬼" class="headerlink" title="Browsersync又是什么鬼"></a>Browsersync又是什么鬼</h1><p>Browsersync可以让浏览器实时响应所做的文件更改，包括html, js, css, less, sass等，并自动刷新页面<br>而且可以在多个浏览器、多个设备（PC、平板、手机等）下同时进行调试，是提高开发效率的利器</p>
+<h1 id="如何安装使用Browsersync"><a href="#如何安装使用Browsersync" class="headerlink" title="如何安装使用Browsersync"></a>如何安装使用Browsersync</h1><p><a href="https://www.browsersync.io/">官网</a>上有各种安装使用方式，这边我用gulp</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>1.全局安装</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g browser-sync</span><br></pre></td></tr></table></figure>
+<p>2.在本地项目目录下安装，同时装一下gulp跟gulp的插件（如果有用到gulp插件的话，比如gulp-less）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install browser-sync --save-dev</span><br><span class="line">npm install gulp --save-dev</span><br><span class="line">npm install gulp-less --save-dev</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>1.配置gulpfile.js</p>
+<p>在项目根目录底下新建文件gulpfile.js，然后填入内容：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//引入gulp、gulp插件以及browser-sync</span></span><br><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">&#x27;gulp&#x27;</span>),</span><br><span class="line">    browserSync = <span class="built_in">require</span>(<span class="string">&#x27;browser-sync&#x27;</span>).create(),</span><br><span class="line">    less = <span class="built_in">require</span>(<span class="string">&#x27;gulp-less&#x27;</span>);</span><br><span class="line"><span class="comment">//创建一个新的gulp任务</span></span><br><span class="line">gulp.task(<span class="string">&#x27;serve&#x27;</span>,[<span class="string">&#x27;less&#x27;</span>],<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//初始化项目跟目录为&#x27;./&#x27;（也可以使用代理proxy: &quot;yourlocal.dev&quot;）</span></span><br><span class="line">    browserSync.init(&#123;</span><br><span class="line">        server: <span class="string">&#x27;./&#x27;</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//创建gulp监听器，监听less文件的变化，自动执行&#x27;less&#x27;任务，编译less并生成css文件</span></span><br><span class="line">    gulp.watch(<span class="string">&#x27;./less/*.less&#x27;</span>, [<span class="string">&#x27;less&#x27;</span>]).on(<span class="string">&#x27;change&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;File &#x27;</span> + event.path + <span class="string">&#x27; was &#x27;</span> + event.type + <span class="string">&#x27;, running tasks...&#x27;</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//监听html文件的变化，自动重新载入</span></span><br><span class="line">    gulp.watch(<span class="string">&#x27;./*.html&#x27;</span>).on(<span class="string">&#x27;change&#x27;</span>, browserSync.reload);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//创建自动编译less的任务，这边需要return stream以保证browserSync.reload在正确的时机调用</span></span><br><span class="line">gulp.task(<span class="string">&#x27;less&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> gulp.src(<span class="string">&#x27;./less/*.less&#x27;</span>)</span><br><span class="line">        .pipe(less())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">&#x27;./css&#x27;</span>))</span><br><span class="line">        .pipe(browserSync.stream());</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//默认启动的gulp任务数组[&#x27;serve&#x27;]</span></span><br><span class="line">gulp.task(<span class="string">&#x27;default&#x27;</span>, [<span class="string">&#x27;serve&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+<p>2.运行gulp</p>
+<p>在项目根目录命令行执行<code>gulp</code>或<code>gulp default</code><br>项目启动后在命令行中会输出Access URLs，包括本地跟外部访问的URL以及项目跟UI控制界面的URL<br>项目默认启动在<a href="http://localhost:3000/">http://localhost:3000</a><br>UI控制界面默认启动在<a href="http://localhost:3001/">http://localhost:3001</a></p>
+<h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><p><img src="http://img.blog.csdn.net/20160817012323155" alt="browser-sync-demo"></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>[一点| gulp详细入门教程][]</li>
+<li><a href="https://www.browsersync.io/docs/gulp">Browsersync + Gulp.js</a> </li>
+</ul>
+]]></content>
+      <categories>
+        <category>构建工具</category>
+      </categories>
+      <tags>
+        <tag>gulp</tag>
+        <tag>browsersync</tag>
       </tags>
   </entry>
   <entry>
@@ -984,6 +984,42 @@
       </tags>
   </entry>
   <entry>
+    <title>CentOS利用postfix搭建邮件服务器</title>
+    <url>/2016/08/31/centos-use-postfix/</url>
+    <content><![CDATA[<p>之前我用nodemailer通过163邮箱来发送邮件，不过没过几天就一直ETIMEDOUT，不知道什么原因，想着还是自己搭一个来发邮件可能靠谱点（flag？）</p>
+<h1 id="安装postfix"><a href="#安装postfix" class="headerlink" title="安装postfix"></a>安装postfix</h1><p>CentOS 7 自带了postfix服务，在/etc/postfix 目录下</p>
+<p>没有安装的可以用yum安装</p>
+<h1 id="为域名添加DNS解析"><a href="#为域名添加DNS解析" class="headerlink" title="为域名添加DNS解析"></a>为域名添加DNS解析</h1><p>需要添加三条记录，A记录、MX记录、TXT记录</p>
+<h1 id="配置postfix"><a href="#配置postfix" class="headerlink" title="配置postfix"></a>配置postfix</h1><p>我接触postfix的时候貌似已经被人玩烂了，网上一搜几年前的文章一大把。</p>
+<p>有关域名解析、postfix配置跟使用telnet测试发送邮件，可以参照这篇文章，亲测。</p>
+<p><a href="http://www.cnblogs.com/dudu/archive/2012/12/12/linux-postfix-mailserver.html">阿里云CentOS Linux服务器上用postfix搭建邮件服务器</a></p>
+<h1 id="Nodemailer连接本机邮件服务器"><a href="#Nodemailer连接本机邮件服务器" class="headerlink" title="Nodemailer连接本机邮件服务器"></a>Nodemailer连接本机邮件服务器</h1><p>配置好postfix后，就可以用自己的服务器发送邮件了。</p>
+<p>smtp没有通过ssl加密时的端口是25</p>
+<p>所以之前定义的transport</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtps://username%40163.com:password@smtp.163.com&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>修改为</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtp://@127.0.0.1:25&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>即可。</p>
+<p>相应的，mailOptions里面的from改成<a href="mailto:&#120;&#120;&#x78;&#x40;&#x64;&#x6f;&#x6d;&#x61;&#105;&#110;&#x2e;&#x74;&#108;&#x64;">&#120;&#120;&#x78;&#x40;&#x64;&#x6f;&#x6d;&#x61;&#105;&#110;&#x2e;&#x74;&#108;&#x64;</a>（你自己的域名，其实改成其他任意域名都可以成功发送）</p>
+<p><img src="http://img.blog.csdn.net/20160831012617040" alt="test mail"></p>
+<p><img src="http://img.blog.csdn.net/20160831012638899" alt="other domain"></p>
+<p>一般会在辣鸡邮件里面找到你发的邮件</p>
+<h1 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h1><p>可以为自己的邮件服务器添加smtp认证跟ssl加密。</p>
+<p>网上搜索sasl之类的。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://www.cnblogs.com/dudu/archive/2012/12/12/linux-postfix-mailserver.html">阿里云CentOS Linux服务器上用postfix搭建邮件服务器</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>CentOS</tag>
+        <tag>邮件服务器</tag>
+        <tag>postfix</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Node.js抓取网页</title>
     <url>/2016/08/29/nodejs-web-crawl/</url>
     <content><![CDATA[<p>前几天四六级成绩出来（然而我没考），用Node.js做了一个模拟表单提交并抓取数据的Web<br>总结一下用到的知识，简单的网页抓取大概就是这个流程了</p>
@@ -1021,42 +1057,6 @@
       <tags>
         <tag>Node.js</tag>
         <tag>网页抓取</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CentOS利用postfix搭建邮件服务器</title>
-    <url>/2016/08/31/centos-use-postfix/</url>
-    <content><![CDATA[<p>之前我用nodemailer通过163邮箱来发送邮件，不过没过几天就一直ETIMEDOUT，不知道什么原因，想着还是自己搭一个来发邮件可能靠谱点（flag？）</p>
-<h1 id="安装postfix"><a href="#安装postfix" class="headerlink" title="安装postfix"></a>安装postfix</h1><p>CentOS 7 自带了postfix服务，在/etc/postfix 目录下</p>
-<p>没有安装的可以用yum安装</p>
-<h1 id="为域名添加DNS解析"><a href="#为域名添加DNS解析" class="headerlink" title="为域名添加DNS解析"></a>为域名添加DNS解析</h1><p>需要添加三条记录，A记录、MX记录、TXT记录</p>
-<h1 id="配置postfix"><a href="#配置postfix" class="headerlink" title="配置postfix"></a>配置postfix</h1><p>我接触postfix的时候貌似已经被人玩烂了，网上一搜几年前的文章一大把。</p>
-<p>有关域名解析、postfix配置跟使用telnet测试发送邮件，可以参照这篇文章，亲测。</p>
-<p><a href="http://www.cnblogs.com/dudu/archive/2012/12/12/linux-postfix-mailserver.html">阿里云CentOS Linux服务器上用postfix搭建邮件服务器</a></p>
-<h1 id="Nodemailer连接本机邮件服务器"><a href="#Nodemailer连接本机邮件服务器" class="headerlink" title="Nodemailer连接本机邮件服务器"></a>Nodemailer连接本机邮件服务器</h1><p>配置好postfix后，就可以用自己的服务器发送邮件了。</p>
-<p>smtp没有通过ssl加密时的端口是25</p>
-<p>所以之前定义的transport</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtps://username%40163.com:password@smtp.163.com&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<p>修改为</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtp://@127.0.0.1:25&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<p>即可。</p>
-<p>相应的，mailOptions里面的from改成<a href="mailto:&#x78;&#x78;&#120;&#x40;&#x64;&#x6f;&#x6d;&#97;&#105;&#110;&#46;&#116;&#x6c;&#100;">&#x78;&#x78;&#120;&#x40;&#x64;&#x6f;&#x6d;&#97;&#105;&#110;&#46;&#116;&#x6c;&#100;</a>（你自己的域名，其实改成其他任意域名都可以成功发送）</p>
-<p><img src="http://img.blog.csdn.net/20160831012617040" alt="test mail"></p>
-<p><img src="http://img.blog.csdn.net/20160831012638899" alt="other domain"></p>
-<p>一般会在辣鸡邮件里面找到你发的邮件</p>
-<h1 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h1><p>可以为自己的邮件服务器添加smtp认证跟ssl加密。</p>
-<p>网上搜索sasl之类的。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="http://www.cnblogs.com/dudu/archive/2012/12/12/linux-postfix-mailserver.html">阿里云CentOS Linux服务器上用postfix搭建邮件服务器</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>CentOS</tag>
-        <tag>邮件服务器</tag>
-        <tag>postfix</tag>
       </tags>
   </entry>
   <entry>
@@ -1213,6 +1213,24 @@
       </tags>
   </entry>
   <entry>
+    <title>div直接包裹行内元素高度变高的问题</title>
+    <url>/2016/09/18/div-wrapping-inline-elements/</url>
+    <content><![CDATA[<h1 id="问题的发现"><a href="#问题的发现" class="headerlink" title="问题的发现"></a>问题的发现</h1><p>最近搞一个页面，用div直接包裹了两个button，本以为很寻常的东西，div的高度却被莫名其妙的撑开了。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">  html&#123;</span><br><span class="line">    font-size: 100px;</span><br><span class="line">  &#125;</span><br><span class="line">  button&#123;</span><br><span class="line">    font-size: 0.16rem;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span>&gt;</span>Button 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>想来想去怀疑是line-height的问题，于是查了一下，搜到zxx的一篇文章<a href="http://www.zhangxinxu.com/wordpress/2015/08/css-deep-understand-vertical-align-and-line-height/">CSS深入理解vertical-align和line-height的基友关系</a></p>
+<p>于是把div的line-height设置成0，button的vertical-align设置成top或bottom，问题解决。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#div2</span>&#123;</span></span><br><span class="line">    line-height: 0;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="css">  <span class="selector-id">#btn2</span>&#123;</span></span><br><span class="line">    vertical-align: top;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div2&quot;</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn2&quot;</span>&gt;</span>Button 2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>不过vertical-align设置成middle时button距离上边会有1px的间隙。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#div3</span>&#123;</span></span><br><span class="line">    line-height: 0;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="css">  <span class="selector-id">#btn3</span>&#123;</span></span><br><span class="line">    vertical-align: middle;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div3&quot;</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn3&quot;</span>&gt;</span>Button 3<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>研究中…</p>
+<p>贴上测试代码</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&#x27;utf-8&#x27;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>test<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">  html&#123;</span><br><span class="line">    font-size: 100px;</span><br><span class="line">  &#125;</span><br><span class="line">  button&#123;</span><br><span class="line">    font-size: 0.16rem;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn1&quot;</span>&gt;</span>button 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#div2</span>&#123;</span></span><br><span class="line">    line-height: 0;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="css">  <span class="selector-id">#btn2</span>&#123;</span></span><br><span class="line">    vertical-align: top;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div2&quot;</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn2&quot;</span>&gt;</span>Button 2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#div3</span>&#123;</span></span><br><span class="line">    line-height: 0;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="css">  <span class="selector-id">#btn3</span>&#123;</span></span><br><span class="line">    vertical-align: middle;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div3&quot;</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn3&quot;</span>&gt;</span>Button 3<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://www.zhangxinxu.com/wordpress/2015/08/css-deep-understand-vertical-align-and-line-height/">CSS深入理解vertical-align和line-height的基友关系</a></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>ES6学习笔记（一）</title>
     <url>/2016/09/18/learning-es6-1/</url>
     <content><![CDATA[<p><strong>声明：本篇blog部分内容摘自<a href="http://www.ruanyifeng.com/home.html">阮一峰</a>老师的<a href="http://es6.ruanyifeng.com/">ECMAScript 6入门</a>，全部内容参考自上述链接</strong></p>
@@ -1355,22 +1373,53 @@
 ]]></content>
   </entry>
   <entry>
-    <title>div直接包裹行内元素高度变高的问题</title>
-    <url>/2016/09/18/div-wrapping-inline-elements/</url>
-    <content><![CDATA[<h1 id="问题的发现"><a href="#问题的发现" class="headerlink" title="问题的发现"></a>问题的发现</h1><p>最近搞一个页面，用div直接包裹了两个button，本以为很寻常的东西，div的高度却被莫名其妙的撑开了。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">  html&#123;</span><br><span class="line">    font-size: 100px;</span><br><span class="line">  &#125;</span><br><span class="line">  button&#123;</span><br><span class="line">    font-size: 0.16rem;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span>&gt;</span>Button 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>想来想去怀疑是line-height的问题，于是查了一下，搜到zxx的一篇文章<a href="http://www.zhangxinxu.com/wordpress/2015/08/css-deep-understand-vertical-align-and-line-height/">CSS深入理解vertical-align和line-height的基友关系</a></p>
-<p>于是把div的line-height设置成0，button的vertical-align设置成top或bottom，问题解决。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#div2</span>&#123;</span></span><br><span class="line">    line-height: 0;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="css">  <span class="selector-id">#btn2</span>&#123;</span></span><br><span class="line">    vertical-align: top;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div2&quot;</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn2&quot;</span>&gt;</span>Button 2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>不过vertical-align设置成middle时button距离上边会有1px的间隙。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#div3</span>&#123;</span></span><br><span class="line">    line-height: 0;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="css">  <span class="selector-id">#btn3</span>&#123;</span></span><br><span class="line">    vertical-align: middle;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div3&quot;</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn3&quot;</span>&gt;</span>Button 3<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>研究中…</p>
-<p>贴上测试代码</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&#x27;utf-8&#x27;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>test<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">  html&#123;</span><br><span class="line">    font-size: 100px;</span><br><span class="line">  &#125;</span><br><span class="line">  button&#123;</span><br><span class="line">    font-size: 0.16rem;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn1&quot;</span>&gt;</span>button 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#div2</span>&#123;</span></span><br><span class="line">    line-height: 0;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="css">  <span class="selector-id">#btn2</span>&#123;</span></span><br><span class="line">    vertical-align: top;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div2&quot;</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn2&quot;</span>&gt;</span>Button 2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#div3</span>&#123;</span></span><br><span class="line">    line-height: 0;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="css">  <span class="selector-id">#btn3</span>&#123;</span></span><br><span class="line">    vertical-align: middle;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div3&quot;</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn3&quot;</span>&gt;</span>Button 3<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+    <title>JavaScript数组去重的几种方法</title>
+    <url>/2016/09/20/javascript-remove-duplicates-from-array/</url>
+    <content><![CDATA[<p>这个老问题，网上普遍都有了，为什么要再写一遍呢，主要是为了记个笔记。。。</p>
+<h1 id="遍历时搜索结果数组"><a href="#遍历时搜索结果数组" class="headerlink" title="遍历时搜索结果数组"></a>遍历时搜索结果数组</h1><p>思路很明确，如下</p>
+<ul>
+<li>新建一个数组存放结果</li>
+<li>循环遍历原数组，对于每一个元素，在结果数组中搜索是否存在</li>
+<li>若不存在则存入结果数组中，返回第二步，直到循环结束</li>
+</ul>
+<p>代码就不上了，网上一大把。</p>
+<p>这是最直接的方法，但由于嵌套了循环，效率不高。</p>
+<h1 id="先排序后比较"><a href="#先排序后比较" class="headerlink" title="先排序后比较"></a>先排序后比较</h1><ul>
+<li>先将原数组进行排序</li>
+<li>新建一个结果数组</li>
+<li>遍历排序后的数组，比较第i个元素与结果数组的最后一个元素是否相等</li>
+<li>如果不相等则存入结果数组</li>
+</ul>
+<p>同不上代码。</p>
+<p>速度是快了些，但返回的是一个排序后的数组，并且有更快的方法。</p>
+<h1 id="使用对象记录已有元素"><a href="#使用对象记录已有元素" class="headerlink" title="使用对象记录已有元素"></a>使用对象记录已有元素</h1><p>这个方法使用hashtable结构，避免了循环嵌套，而且返回的数组顺序没改变，效率也高。</p>
+<p>主要思路是将原数组的元素作为对象的属性名来记录是否出现过：</p>
+<ul>
+<li>新建一个对象与结果数组</li>
+<li>遍历原数组，对于第i个元素，访问对象中属性名为i的属性</li>
+<li>如果属性不存在，则标记此属性为true，并将此元素存入结果数组中，返回第二步直到循环结束</li>
+</ul>
+<p>但是这样做也有个问题，对象的属性名在访问时会被转换为字符串，因此不同类型的值也可能被去重，<br>比如数字0跟字符’0’</p>
+<p>解决办法：将hashtable中的标记 true ，改为保存出现过的类型的数组，在判断元素是否出现时，多判断一步保存的类型数组中是否出现过此类型即可</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">var</span> n = &#123;&#125;, r = [], len = <span class="built_in">this</span>.length, val, type;  </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="built_in">this</span>.length; i++) &#123;  </span><br><span class="line">        val = <span class="built_in">this</span>[i]; <span class="comment">//数组元素</span></span><br><span class="line">        type = <span class="keyword">typeof</span> val;  <span class="comment">//数组元素的类型</span></span><br><span class="line">        <span class="keyword">if</span> (!n[val]) &#123;  <span class="comment">//如果没有记录</span></span><br><span class="line">            n[val] = [type];  <span class="comment">//保存类型</span></span><br><span class="line">            r.push(val);  <span class="comment">//保存元素到结果数组</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (n[val].indexOf(type) &lt; <span class="number">0</span>) &#123; <span class="comment">//如果有记录，判断其类型是否在记录数组中，如果没有 </span></span><br><span class="line">            n[val].push(type);  <span class="comment">//将此类型添加到记录数组中</span></span><br><span class="line">            r.push(val);  <span class="comment">//保存元素到结果数组</span></span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> r;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此方法效率高，并且返回的数组元素顺序不变。</p>
+<h1 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h1><p>ES6的许多新特性让人眼前一亮，最近拜读<a href="http://www.ruanyifeng.com/home.html">阮一峰</a>老师的<a href="http://es6.ruanyifeng.com/">ECMAScript 6入门</a>，又皮卡了一种新的数组去重方法</p>
+<p>就是利用扩展运算符(…)跟Set数据结构的不重复特性来达到给数组去重的目的。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [...new <span class="built_in">Set</span>(<span class="built_in">this</span>)];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>…就一行代码，简洁。</p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="http://www.zhangxinxu.com/wordpress/2015/08/css-deep-understand-vertical-align-and-line-height/">CSS深入理解vertical-align和line-height的基友关系</a></li>
+<li><a href="http://blog.csdn.net/chengxuyuan20100425/article/details/8497277">js数组去重的4个方法</a> 以及底下的评论</li>
+<li><a href="http://www.cnblogs.com/sosoft/archive/2013/12/08/3463830.html">高效率去掉js数组中重复项 - 柔城 - 博客园</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/set-map">Set和Map数据结构 - ECMAScript 6入门</a></li>
 </ul>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>数组去重</tag>
+      </tags>
   </entry>
   <entry>
     <title>HTTP协议入门要点</title>
@@ -1421,55 +1470,6 @@
         <tag>HTTP</tag>
         <tag>协议</tag>
         <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaScript数组去重的几种方法</title>
-    <url>/2016/09/20/javascript-remove-duplicates-from-array/</url>
-    <content><![CDATA[<p>这个老问题，网上普遍都有了，为什么要再写一遍呢，主要是为了记个笔记。。。</p>
-<h1 id="遍历时搜索结果数组"><a href="#遍历时搜索结果数组" class="headerlink" title="遍历时搜索结果数组"></a>遍历时搜索结果数组</h1><p>思路很明确，如下</p>
-<ul>
-<li>新建一个数组存放结果</li>
-<li>循环遍历原数组，对于每一个元素，在结果数组中搜索是否存在</li>
-<li>若不存在则存入结果数组中，返回第二步，直到循环结束</li>
-</ul>
-<p>代码就不上了，网上一大把。</p>
-<p>这是最直接的方法，但由于嵌套了循环，效率不高。</p>
-<h1 id="先排序后比较"><a href="#先排序后比较" class="headerlink" title="先排序后比较"></a>先排序后比较</h1><ul>
-<li>先将原数组进行排序</li>
-<li>新建一个结果数组</li>
-<li>遍历排序后的数组，比较第i个元素与结果数组的最后一个元素是否相等</li>
-<li>如果不相等则存入结果数组</li>
-</ul>
-<p>同不上代码。</p>
-<p>速度是快了些，但返回的是一个排序后的数组，并且有更快的方法。</p>
-<h1 id="使用对象记录已有元素"><a href="#使用对象记录已有元素" class="headerlink" title="使用对象记录已有元素"></a>使用对象记录已有元素</h1><p>这个方法使用hashtable结构，避免了循环嵌套，而且返回的数组顺序没改变，效率也高。</p>
-<p>主要思路是将原数组的元素作为对象的属性名来记录是否出现过：</p>
-<ul>
-<li>新建一个对象与结果数组</li>
-<li>遍历原数组，对于第i个元素，访问对象中属性名为i的属性</li>
-<li>如果属性不存在，则标记此属性为true，并将此元素存入结果数组中，返回第二步直到循环结束</li>
-</ul>
-<p>但是这样做也有个问题，对象的属性名在访问时会被转换为字符串，因此不同类型的值也可能被去重，<br>比如数字0跟字符’0’</p>
-<p>解决办法：将hashtable中的标记 true ，改为保存出现过的类型的数组，在判断元素是否出现时，多判断一步保存的类型数组中是否出现过此类型即可</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">var</span> n = &#123;&#125;, r = [], len = <span class="built_in">this</span>.length, val, type;  </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="built_in">this</span>.length; i++) &#123;  </span><br><span class="line">        val = <span class="built_in">this</span>[i]; <span class="comment">//数组元素</span></span><br><span class="line">        type = <span class="keyword">typeof</span> val;  <span class="comment">//数组元素的类型</span></span><br><span class="line">        <span class="keyword">if</span> (!n[val]) &#123;  <span class="comment">//如果没有记录</span></span><br><span class="line">            n[val] = [type];  <span class="comment">//保存类型</span></span><br><span class="line">            r.push(val);  <span class="comment">//保存元素到结果数组</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (n[val].indexOf(type) &lt; <span class="number">0</span>) &#123; <span class="comment">//如果有记录，判断其类型是否在记录数组中，如果没有 </span></span><br><span class="line">            n[val].push(type);  <span class="comment">//将此类型添加到记录数组中</span></span><br><span class="line">            r.push(val);  <span class="comment">//保存元素到结果数组</span></span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> r;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此方法效率高，并且返回的数组元素顺序不变。</p>
-<h1 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h1><p>ES6的许多新特性让人眼前一亮，最近拜读<a href="http://www.ruanyifeng.com/home.html">阮一峰</a>老师的<a href="http://es6.ruanyifeng.com/">ECMAScript 6入门</a>，又皮卡了一种新的数组去重方法</p>
-<p>就是利用扩展运算符(…)跟Set数据结构的不重复特性来达到给数组去重的目的。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [...new <span class="built_in">Set</span>(<span class="built_in">this</span>)];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>…就一行代码，简洁。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="http://blog.csdn.net/chengxuyuan20100425/article/details/8497277">js数组去重的4个方法</a> 以及底下的评论</li>
-<li><a href="http://www.cnblogs.com/sosoft/archive/2013/12/08/3463830.html">高效率去掉js数组中重复项 - 柔城 - 博客园</a></li>
-<li><a href="http://es6.ruanyifeng.com/#docs/set-map">Set和Map数据结构 - ECMAScript 6入门</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>数组去重</tag>
       </tags>
   </entry>
   <entry>

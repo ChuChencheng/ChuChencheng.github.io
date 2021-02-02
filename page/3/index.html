@@ -133,7 +133,6 @@
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">真香</p>
-      <img class="custom-logo-image" src="/%5Bobject%20Object%5D" alt="CCC 的博客">
   </div>
 
   <div class="site-nav-right">
@@ -1119,6 +1118,109 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/16/nodejs-exports-and-module.exports/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/08/16/nodejs-exports-and-module.exports/" class="post-title-link" itemprop="url">Node.js exports与module.exports的关系</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-08-16 00:00:00" itemprop="dateCreated datePublished" datetime="2016-08-16T00:00:00+08:00">2016-08-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/08/16/nodejs-exports-and-module.exports/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/16/nodejs-exports-and-module.exports/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>今天搜索module.exports时看到CNode社区上发的Hack Sparrow一篇相关文章的链接<br><a target="_blank" rel="noopener" href="http://www.hacksparrow.com/node-js-exports-vs-module-exports.html">Node.js Module – exports vs module.exports</a><br>一篇5年前的远古巨坟…</p>
+<p>网上也有相应的翻译，<a target="_blank" rel="noopener" href="http://www.jb51.net/article/33269.htm">nodejs中exports与module.exports的区别详细介绍</a></p>
+<p>又看了下CNode上的一篇介绍，<a target="_blank" rel="noopener" href="http://cnodejs.org/topic/5231a630101e574521e45ef8">exports 和 module.exports 的区别</a></p>
+<p>下面做个总结，感谢CNode社区上<a target="_blank" rel="noopener" href="http://cnodejs.org/user/manecocomph">@manecocomph</a>的解释，十分直白（在上面那篇文章的评论里）</p>
+<p>其实exports跟module.exports初始时指向的是同一个空对象{}，因此在exports上添加的属性也会被添加到module.exports上<br>而在另一个文件中，require的返回值是module.exports，因此当exports跟module.exports不指向同一个对象时，exports中的属性便不会被导出</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">exports</span>);  <span class="comment">//&#123;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>.exports);  <span class="comment">//&#123;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">exports</span> === <span class="built_in">module</span>.exports);  <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p>rocker.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span>.name = <span class="string">&#x27;naive&#x27;</span>;  <span class="comment">//&#123; name: &#x27;naive&#x27; &#125;</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;&#125;;  <span class="comment">//&#123;&#125;，与exports不再指向同一个对象</span></span><br></pre></td></tr></table></figure>
+<p>app.js</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/08/16/nodejs-exports-and-module.exports/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/16/sharing-front-end/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1204,109 +1306,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/08/16/sharing-front-end/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/16/nodejs-exports-and-module.exports/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CCC">
-      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CCC 的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/08/16/nodejs-exports-and-module.exports/" class="post-title-link" itemprop="url">Node.js exports与module.exports的关系</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-08-16 00:00:00" itemprop="dateCreated datePublished" datetime="2016-08-16T00:00:00+08:00">2016-08-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2016/08/16/nodejs-exports-and-module.exports/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/16/nodejs-exports-and-module.exports/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>今天搜索module.exports时看到CNode社区上发的Hack Sparrow一篇相关文章的链接<br><a target="_blank" rel="noopener" href="http://www.hacksparrow.com/node-js-exports-vs-module-exports.html">Node.js Module – exports vs module.exports</a><br>一篇5年前的远古巨坟…</p>
-<p>网上也有相应的翻译，<a target="_blank" rel="noopener" href="http://www.jb51.net/article/33269.htm">nodejs中exports与module.exports的区别详细介绍</a></p>
-<p>又看了下CNode上的一篇介绍，<a target="_blank" rel="noopener" href="http://cnodejs.org/topic/5231a630101e574521e45ef8">exports 和 module.exports 的区别</a></p>
-<p>下面做个总结，感谢CNode社区上<a target="_blank" rel="noopener" href="http://cnodejs.org/user/manecocomph">@manecocomph</a>的解释，十分直白（在上面那篇文章的评论里）</p>
-<p>其实exports跟module.exports初始时指向的是同一个空对象{}，因此在exports上添加的属性也会被添加到module.exports上<br>而在另一个文件中，require的返回值是module.exports，因此当exports跟module.exports不指向同一个对象时，exports中的属性便不会被导出</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">exports</span>);  <span class="comment">//&#123;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>.exports);  <span class="comment">//&#123;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">exports</span> === <span class="built_in">module</span>.exports);  <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-<hr>
-<p>rocker.js</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span>.name = <span class="string">&#x27;naive&#x27;</span>;  <span class="comment">//&#123; name: &#x27;naive&#x27; &#125;</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;&#125;;  <span class="comment">//&#123;&#125;，与exports不再指向同一个对象</span></span><br></pre></td></tr></table></figure>
-<p>app.js</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/08/16/nodejs-exports-and-module.exports/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

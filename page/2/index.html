@@ -133,7 +133,6 @@
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">真香</p>
-      <img class="custom-logo-image" src="/%5Bobject%20Object%5D" alt="CCC 的博客">
   </div>
 
   <div class="site-nav-right">
@@ -1618,6 +1617,116 @@ hash arguments的key是一个普通的标识符，value则是一个Handlebars表
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/09/20/javascript-remove-duplicates-from-array/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/09/20/javascript-remove-duplicates-from-array/" class="post-title-link" itemprop="url">JavaScript数组去重的几种方法</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-09-20 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-20T00:00:00+08:00">2016-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/09/20/javascript-remove-duplicates-from-array/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/20/javascript-remove-duplicates-from-array/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>这个老问题，网上普遍都有了，为什么要再写一遍呢，主要是为了记个笔记。。。</p>
+<h1 id="遍历时搜索结果数组"><a href="#遍历时搜索结果数组" class="headerlink" title="遍历时搜索结果数组"></a>遍历时搜索结果数组</h1><p>思路很明确，如下</p>
+<ul>
+<li>新建一个数组存放结果</li>
+<li>循环遍历原数组，对于每一个元素，在结果数组中搜索是否存在</li>
+<li>若不存在则存入结果数组中，返回第二步，直到循环结束</li>
+</ul>
+<p>代码就不上了，网上一大把。</p>
+<p>这是最直接的方法，但由于嵌套了循环，效率不高。</p>
+<h1 id="先排序后比较"><a href="#先排序后比较" class="headerlink" title="先排序后比较"></a>先排序后比较</h1><ul>
+<li>先将原数组进行排序</li>
+<li>新建一个结果数组</li>
+<li>遍历排序后的数组，比较第i个元素与结果数组的最后一个元素是否相等</li>
+<li>如果不相等则存入结果数组</li>
+</ul>
+<p>同不上代码。</p>
+<p>速度是快了些，但返回的是一个排序后的数组，并且有更快的方法。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/09/20/javascript-remove-duplicates-from-array/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/09/20/http-getting-start-points/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1719,7 +1828,7 @@ hash arguments的key是一个普通的标识符，value则是一个Handlebars表
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/09/20/javascript-remove-duplicates-from-array/">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/09/18/div-wrapping-inline-elements/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -1732,7 +1841,7 @@ hash arguments的key是一个普通的标识符，value则是一个Handlebars表
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/09/20/javascript-remove-duplicates-from-array/" class="post-title-link" itemprop="url">JavaScript数组去重的几种方法</a>
+          <a href="/2016/09/18/div-wrapping-inline-elements/" class="post-title-link" itemprop="url">div直接包裹行内元素高度变高的问题</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1743,16 +1852,7 @@ hash arguments的key是一个普通的标识符，value则是一个Handlebars表
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2016-09-20 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-20T00:00:00+08:00">2016-09-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-        </span>
+      <time title="创建时间：2016-09-18 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-18T00:00:00+08:00">2016-09-18</time>
     </span>
 
   
@@ -1764,8 +1864,8 @@ hash arguments的key是一个普通的标识符，value则是一个Handlebars表
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2016/09/20/javascript-remove-duplicates-from-array/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/20/javascript-remove-duplicates-from-array/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2016/09/18/div-wrapping-inline-elements/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/18/div-wrapping-inline-elements/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1779,26 +1879,18 @@ hash arguments的key是一个普通的标识符，value则是一个Handlebars表
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>这个老问题，网上普遍都有了，为什么要再写一遍呢，主要是为了记个笔记。。。</p>
-<h1 id="遍历时搜索结果数组"><a href="#遍历时搜索结果数组" class="headerlink" title="遍历时搜索结果数组"></a>遍历时搜索结果数组</h1><p>思路很明确，如下</p>
-<ul>
-<li>新建一个数组存放结果</li>
-<li>循环遍历原数组，对于每一个元素，在结果数组中搜索是否存在</li>
-<li>若不存在则存入结果数组中，返回第二步，直到循环结束</li>
-</ul>
-<p>代码就不上了，网上一大把。</p>
-<p>这是最直接的方法，但由于嵌套了循环，效率不高。</p>
-<h1 id="先排序后比较"><a href="#先排序后比较" class="headerlink" title="先排序后比较"></a>先排序后比较</h1><ul>
-<li>先将原数组进行排序</li>
-<li>新建一个结果数组</li>
-<li>遍历排序后的数组，比较第i个元素与结果数组的最后一个元素是否相等</li>
-<li>如果不相等则存入结果数组</li>
-</ul>
-<p>同不上代码。</p>
-<p>速度是快了些，但返回的是一个排序后的数组，并且有更快的方法。</p>
+          <h1 id="问题的发现"><a href="#问题的发现" class="headerlink" title="问题的发现"></a>问题的发现</h1><p>最近搞一个页面，用div直接包裹了两个button，本以为很寻常的东西，div的高度却被莫名其妙的撑开了。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">  html&#123;</span><br><span class="line">    font-size: 100px;</span><br><span class="line">  &#125;</span><br><span class="line">  button&#123;</span><br><span class="line">    font-size: 0.16rem;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span>&gt;</span>Button 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>想来想去怀疑是line-height的问题，于是查了一下，搜到zxx的一篇文章<a target="_blank" rel="noopener" href="http://www.zhangxinxu.com/wordpress/2015/08/css-deep-understand-vertical-align-and-line-height/">CSS深入理解vertical-align和line-height的基友关系</a></p>
+<p>于是把div的line-height设置成0，button的vertical-align设置成top或bottom，问题解决。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#div2</span>&#123;</span></span><br><span class="line">    line-height: 0;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="css">  <span class="selector-id">#btn2</span>&#123;</span></span><br><span class="line">    vertical-align: top;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div2&quot;</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn2&quot;</span>&gt;</span>Button 2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>不过vertical-align设置成middle时button距离上边会有1px的间隙。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#div3</span>&#123;</span></span><br><span class="line">    line-height: 0;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="css">  <span class="selector-id">#btn3</span>&#123;</span></span><br><span class="line">    vertical-align: middle;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div3&quot;</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn3&quot;</span>&gt;</span>Button 3<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>研究中…</p>
+<p>贴上测试代码</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/09/20/javascript-remove-duplicates-from-array/#more" rel="contents">
+              <a class="btn" href="/2016/09/18/div-wrapping-inline-elements/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1956,99 +2048,6 @@ hash arguments的key是一个普通的标识符，value则是一个Handlebars表
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/09/18/learning-es6-1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/09/18/div-wrapping-inline-elements/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CCC">
-      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CCC 的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/09/18/div-wrapping-inline-elements/" class="post-title-link" itemprop="url">div直接包裹行内元素高度变高的问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-09-18 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-18T00:00:00+08:00">2016-09-18</time>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2016/09/18/div-wrapping-inline-elements/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/18/div-wrapping-inline-elements/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="问题的发现"><a href="#问题的发现" class="headerlink" title="问题的发现"></a>问题的发现</h1><p>最近搞一个页面，用div直接包裹了两个button，本以为很寻常的东西，div的高度却被莫名其妙的撑开了。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">  html&#123;</span><br><span class="line">    font-size: 100px;</span><br><span class="line">  &#125;</span><br><span class="line">  button&#123;</span><br><span class="line">    font-size: 0.16rem;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span>&gt;</span>Button 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>想来想去怀疑是line-height的问题，于是查了一下，搜到zxx的一篇文章<a target="_blank" rel="noopener" href="http://www.zhangxinxu.com/wordpress/2015/08/css-deep-understand-vertical-align-and-line-height/">CSS深入理解vertical-align和line-height的基友关系</a></p>
-<p>于是把div的line-height设置成0，button的vertical-align设置成top或bottom，问题解决。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#div2</span>&#123;</span></span><br><span class="line">    line-height: 0;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="css">  <span class="selector-id">#btn2</span>&#123;</span></span><br><span class="line">    vertical-align: top;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div2&quot;</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn2&quot;</span>&gt;</span>Button 2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>不过vertical-align设置成middle时button距离上边会有1px的间隙。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#div3</span>&#123;</span></span><br><span class="line">    line-height: 0;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="css">  <span class="selector-id">#btn3</span>&#123;</span></span><br><span class="line">    vertical-align: middle;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div3&quot;</span> <span class="attr">style</span>=<span class="string">&quot;background-color:aqua;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn3&quot;</span>&gt;</span>Button 3<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>研究中…</p>
-<p>贴上测试代码</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/09/18/div-wrapping-inline-elements/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
