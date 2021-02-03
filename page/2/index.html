@@ -222,7 +222,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-count">69</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -235,7 +235,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">72</span>
+        <span class="site-state-item-count">73</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -277,6 +277,113 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2017/09/08/iview%E6%A0%91%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/09/08/iview%E6%A0%91%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">iview树组件源码阅读笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-09-08 00:00:00" itemprop="dateCreated datePublished" datetime="2017-09-08T00:00:00+08:00">2017-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/vue/" itemprop="url" rel="index"><span itemprop="name">vue</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/08/iview%E6%A0%91%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/08/iview树组件源码阅读笔记/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>好久没有记一些东西了，本菜鸡又来水文章了。</p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><ul>
+<li><p>iview里面的树组件思路跟vue官网上的<a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/examples/tree-view.html">树形视图</a>示例类似，应用了组件的递归使用（好像是废话</p>
+</li>
+<li><p>整个树组件里有两个vue文件，一个是递归使用的node.vue，一个是父组件tree.vue</p>
+</li>
+<li><p>组件内的事件大致分为三种：expand（展开）、select（点击节点title触发）和check（复选框的选中与取消触发）</p>
+</li>
+</ul>
+<h1 id="node-vue"><a href="#node-vue" class="headerlink" title="node.vue"></a>node.vue</h1><p>这个组件内包括树组件的一个选项，以及它的children（如果有）</p>
+<h2 id="template"><a href="#template" class="headerlink" title="template"></a>template</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;collapse-transition&gt;</span><br><span class="line">        &lt;ul :class&#x3D;&quot;classes&quot; v-show&#x3D;&quot;visible&quot;&gt;</span><br><span class="line">            &lt;li&gt;</span><br><span class="line">                &lt;span :class&#x3D;&quot;arrowClasses&quot; @click&#x3D;&quot;handleExpand&quot;&gt;</span><br><span class="line">                    &lt;Icon type&#x3D;&quot;arrow-right-b&quot;&gt;&lt;&#x2F;Icon&gt;</span><br><span class="line">                &lt;&#x2F;span&gt;</span><br><span class="line">                &lt;Checkbox</span><br><span class="line">                        v-if&#x3D;&quot;showCheckbox&quot;</span><br><span class="line">                        :value&#x3D;&quot;data.checked&quot;</span><br><span class="line">                        :indeterminate&#x3D;&quot;indeterminate&quot;</span><br><span class="line">                        :disabled&#x3D;&quot;data.disabled || data.disableCheckbox&quot;</span><br><span class="line">                        @click.native.prevent&#x3D;&quot;handleCheck&quot;&gt;&lt;&#x2F;Checkbox&gt;</span><br><span class="line">                &lt;span :class&#x3D;&quot;titleClasses&quot; v-html&#x3D;&quot;data.title&quot; @click&#x3D;&quot;handleSelect&quot;&gt;&lt;&#x2F;span&gt;</span><br><span class="line">                &lt;Tree-node</span><br><span class="line">                        v-for&#x3D;&quot;item in data.children&quot;</span><br><span class="line">                        :key&#x3D;&quot;item.nodeKey&quot;</span><br><span class="line">                        :data&#x3D;&quot;item&quot;</span><br><span class="line">                        :visible&#x3D;&quot;data.expand&quot;</span><br><span class="line">                        :multiple&#x3D;&quot;multiple&quot;</span><br><span class="line">                        :show-checkbox&#x3D;&quot;showCheckbox&quot;&gt;</span><br><span class="line">                &lt;&#x2F;Tree-node&gt;</span><br><span class="line">            &lt;&#x2F;li&gt;</span><br><span class="line">        &lt;&#x2F;ul&gt;</span><br><span class="line">    &lt;&#x2F;collapse-transition&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br></pre></td></tr></table></figure>
+<p><code>collapse-transition</code>应该是父节点展开收起的动画效果，<code>ul</code>则是包括一个父节点，里面的<code>tree-node</code>是这个父节点的所有子节点，通过<code>v-for</code>循环渲染出来，而其子节点的每一项跟父节点是一样的结构，所以<code>tree-node</code>实际上就是<code>node.vue</code>组件本身。</p>
+<p>然后是<strong>script部分</strong></p>
+<h2 id="主要props"><a href="#主要props" class="headerlink" title="主要props"></a>主要props</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/09/08/iview%E6%A0%91%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1617,6 +1724,107 @@ hash arguments的key是一个普通的标识符，value则是一个Handlebars表
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/09/20/http-getting-start-points/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/09/20/http-getting-start-points/" class="post-title-link" itemprop="url">HTTP协议入门要点</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-09-20 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-20T00:00:00+08:00">2016-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index"><span itemprop="name">协议</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/09/20/http-getting-start-points/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/20/http-getting-start-points/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><strong>应用层协议、基于tcp</strong></p>
+<h1 id="HTTP-0-9"><a href="#HTTP-0-9" class="headerlink" title="HTTP/0.9"></a>HTTP/0.9</h1><h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p><code>GET</code></p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li>服务器只能回应HTML字符串</li>
+<li>服务器发送完毕后就关闭tcp连接</li>
+</ul>
+<h1 id="HTTP-1-0"><a href="#HTTP-1-0" class="headerlink" title="HTTP/1.0"></a>HTTP/1.0</h1><h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><p><code>GET</code> <code>POST</code> <code>HEAD</code></p>
+<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/09/20/http-getting-start-points/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/09/20/javascript-remove-duplicates-from-array/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1697,107 +1905,6 @@ hash arguments的key是一个普通的标识符，value则是一个Handlebars表
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/09/20/javascript-remove-duplicates-from-array/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/09/20/http-getting-start-points/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CCC">
-      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CCC 的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/09/20/http-getting-start-points/" class="post-title-link" itemprop="url">HTTP协议入门要点</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-09-20 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-20T00:00:00+08:00">2016-09-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index"><span itemprop="name">协议</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2016/09/20/http-getting-start-points/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/20/http-getting-start-points/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><strong>应用层协议、基于tcp</strong></p>
-<h1 id="HTTP-0-9"><a href="#HTTP-0-9" class="headerlink" title="HTTP/0.9"></a>HTTP/0.9</h1><h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p><code>GET</code></p>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
-<li>服务器只能回应HTML字符串</li>
-<li>服务器发送完毕后就关闭tcp连接</li>
-</ul>
-<h1 id="HTTP-1-0"><a href="#HTTP-1-0" class="headerlink" title="HTTP/1.0"></a>HTTP/1.0</h1><h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><p><code>GET</code> <code>POST</code> <code>HEAD</code></p>
-<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/09/20/http-getting-start-points/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -2358,106 +2465,6 @@ hash arguments的key是一个普通的标识符，value则是一个Handlebars表
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/09/09/gulp-less-no-stopping-running-tasks-on-error/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/31/centos-use-postfix/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CCC">
-      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CCC 的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/08/31/centos-use-postfix/" class="post-title-link" itemprop="url">CentOS利用postfix搭建邮件服务器</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-08-31 00:00:00" itemprop="dateCreated datePublished" datetime="2016-08-31T00:00:00+08:00">2016-08-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2016/08/31/centos-use-postfix/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/31/centos-use-postfix/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>之前我用nodemailer通过163邮箱来发送邮件，不过没过几天就一直ETIMEDOUT，不知道什么原因，想着还是自己搭一个来发邮件可能靠谱点（flag？）</p>
-<h1 id="安装postfix"><a href="#安装postfix" class="headerlink" title="安装postfix"></a>安装postfix</h1><p>CentOS 7 自带了postfix服务，在/etc/postfix 目录下</p>
-<p>没有安装的可以用yum安装</p>
-<h1 id="为域名添加DNS解析"><a href="#为域名添加DNS解析" class="headerlink" title="为域名添加DNS解析"></a>为域名添加DNS解析</h1><p>需要添加三条记录，A记录、MX记录、TXT记录</p>
-<h1 id="配置postfix"><a href="#配置postfix" class="headerlink" title="配置postfix"></a>配置postfix</h1><p>我接触postfix的时候貌似已经被人玩烂了，网上一搜几年前的文章一大把。</p>
-<p>有关域名解析、postfix配置跟使用telnet测试发送邮件，可以参照这篇文章，亲测。</p>
-<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/dudu/archive/2012/12/12/linux-postfix-mailserver.html">阿里云CentOS Linux服务器上用postfix搭建邮件服务器</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/08/31/centos-use-postfix/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

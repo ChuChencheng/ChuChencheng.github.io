@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>pushState()、popstate事件配合ajax实现浏览器前进后退页面局部刷新</title>
+    <url>/2015/06/06/pushstate-popstate-ajax-and-partial-refresh/</url>
+    <content><![CDATA[<p>最近研究pushState，看了网上的文章还是不怎么会用，于是自己摸索着理解使用，终于实现局部刷新同时前进后退。</p>
+<p>首先说说pushState()，这个函数将当前的url等信息加入history堆栈中；<br>当点击浏览器的前进后退按钮时，会触发popstate事件，所以可以在onpopstate的时候使用ajax实现局部刷新前进后退。</p>
+<p>我的方法(用jQuery)：<br>1、定义两个函数</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ajaxLoad</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="comment">//里面加载ajax</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setState</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="keyword">var</span> stateobj = (&#123;<span class="comment">//里面存放url等信息，stateobj将作为pushState()的第一个参数</span></span><br><span class="line">url:url,</span><br><span class="line">title:title</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">window</span>.history.pushState(stateobj,<span class="literal">null</span>,url);<span class="comment">//将当前url加入堆栈中</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>2、正常浏览使用ajax时</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&#x27;a&#x27;</span>).on(<span class="string">&#x27;click&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;<span class="comment">//假设点击a标签加载ajax</span></span><br><span class="line">event.preventDefault();<span class="comment">//防止跳转</span></span><br><span class="line">ajaxLoad();</span><br><span class="line">setState();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>3、onpopstate</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;popstate&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> state = event.state;<span class="comment">//取得目标url的state，这样就可以通过state.url等方式访问之前stateobj中的内容</span></span><br><span class="line">ajaxLoad();</span><br><span class="line"><span class="comment">//注意：此处不要调用setState();了，因为在历史记录堆栈中跳转时不需要往堆栈中写入数据</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>注意：<br>setState()的作用是往历史记录堆栈中添加一条记录；<br>ajax载入进来的元素（如a、button标签等）如有事件要在载入后重新绑定事件；</p>
+<p>前端小白学习时所得，如有更好的方法欢迎讨论，代码写得菜求轻喷~</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+        <tag>pushState</tag>
+        <tag>popstate</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于新增元素使用jQuery on()方法重复绑定的问题</title>
     <url>/2015/06/08/jquery-on-repeat-binding-problem/</url>
     <content><![CDATA[<p>最近写ajax新增元素button绑定click事件的时候发现元素重新添加进来的时候会多执行一次事件函数，找了半天，怀疑是on()的问题，于是测试了一下，果然是因为on()的使用方式造成了有的新增元素会执行多次绑定事件函数。</p>
@@ -35,30 +59,6 @@
       <tags>
         <tag>UWP</tag>
         <tag>ComboBox</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>pushState()、popstate事件配合ajax实现浏览器前进后退页面局部刷新</title>
-    <url>/2015/06/06/pushstate-popstate-ajax-and-partial-refresh/</url>
-    <content><![CDATA[<p>最近研究pushState，看了网上的文章还是不怎么会用，于是自己摸索着理解使用，终于实现局部刷新同时前进后退。</p>
-<p>首先说说pushState()，这个函数将当前的url等信息加入history堆栈中；<br>当点击浏览器的前进后退按钮时，会触发popstate事件，所以可以在onpopstate的时候使用ajax实现局部刷新前进后退。</p>
-<p>我的方法(用jQuery)：<br>1、定义两个函数</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ajaxLoad</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="comment">//里面加载ajax</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setState</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="keyword">var</span> stateobj = (&#123;<span class="comment">//里面存放url等信息，stateobj将作为pushState()的第一个参数</span></span><br><span class="line">url:url,</span><br><span class="line">title:title</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">window</span>.history.pushState(stateobj,<span class="literal">null</span>,url);<span class="comment">//将当前url加入堆栈中</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>2、正常浏览使用ajax时</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&#x27;a&#x27;</span>).on(<span class="string">&#x27;click&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;<span class="comment">//假设点击a标签加载ajax</span></span><br><span class="line">event.preventDefault();<span class="comment">//防止跳转</span></span><br><span class="line">ajaxLoad();</span><br><span class="line">setState();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>3、onpopstate</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;popstate&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> state = event.state;<span class="comment">//取得目标url的state，这样就可以通过state.url等方式访问之前stateobj中的内容</span></span><br><span class="line">ajaxLoad();</span><br><span class="line"><span class="comment">//注意：此处不要调用setState();了，因为在历史记录堆栈中跳转时不需要往堆栈中写入数据</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>注意：<br>setState()的作用是往历史记录堆栈中添加一条记录；<br>ajax载入进来的元素（如a、button标签等）如有事件要在载入后重新绑定事件；</p>
-<p>前端小白学习时所得，如有更好的方法欢迎讨论，代码写得菜求轻喷~</p>
-]]></content>
-      <categories>
-        <category>前端</category>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>前端</tag>
-        <tag>pushState</tag>
-        <tag>popstate</tag>
       </tags>
   </entry>
   <entry>
@@ -440,6 +440,29 @@
       </tags>
   </entry>
   <entry>
+    <title>how to remove .html extension</title>
+    <url>/2016/08/12/how-to-remove-html-extension/</url>
+    <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>Just add permalink: pretty to _config.yml</p>
+]]></content>
+      <categories>
+        <category>jekyll</category>
+      </categories>
+      <tags>
+        <tag>jekyll</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2016/08/12/test-post-article/</url>
+    <content><![CDATA[<h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1><h2 id="test-1"><a href="#test-1" class="headerlink" title="test"></a>test</h2><h3 id="test-2"><a href="#test-2" class="headerlink" title="test"></a>test</h3><h4 id="test-3"><a href="#test-3" class="headerlink" title="test"></a>test</h4><h5 id="test-4"><a href="#test-4" class="headerlink" title="test"></a>test</h5><h6 id="test-5"><a href="#test-5" class="headerlink" title="test"></a>test</h6>]]></content>
+      <categories>
+        <category>test</category>
+      </categories>
+      <tags>
+        <tag>test</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaScript对寄生组合式继承的理解</title>
     <url>/2016/08/11/the-understanding-of-Parasitic-Combination-Inheritance-in-JavaScript/</url>
     <content><![CDATA[<p><strong>有关JavaScript的几种继承方式请移步<a href="http://blog.csdn.net/azureternite/article/details/51916673">JavaScript的几种继承方式</a></strong></p>
@@ -462,29 +485,6 @@
         <tag>前端</tag>
         <tag>JavaScript</tag>
         <tag>继承</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>how to remove .html extension</title>
-    <url>/2016/08/12/how-to-remove-html-extension/</url>
-    <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>Just add permalink: pretty to _config.yml</p>
-]]></content>
-      <categories>
-        <category>jekyll</category>
-      </categories>
-      <tags>
-        <tag>jekyll</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2016/08/12/test-post-article/</url>
-    <content><![CDATA[<h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1><h2 id="test-1"><a href="#test-1" class="headerlink" title="test"></a>test</h2><h3 id="test-2"><a href="#test-2" class="headerlink" title="test"></a>test</h3><h4 id="test-3"><a href="#test-3" class="headerlink" title="test"></a>test</h4><h5 id="test-4"><a href="#test-4" class="headerlink" title="test"></a>test</h5><h6 id="test-5"><a href="#test-5" class="headerlink" title="test"></a>test</h6>]]></content>
-      <categories>
-        <category>test</category>
-      </categories>
-      <tags>
-        <tag>test</tag>
       </tags>
   </entry>
   <entry>
@@ -708,6 +708,39 @@
       </tags>
   </entry>
   <entry>
+    <title>通过Gulp使用Browsersync实现浏览器实时响应文件更改</title>
+    <url>/2016/08/17/use-browser-sync-with-gulp/</url>
+    <content><![CDATA[<ul>
+<li>目录<br>{:toc}</li>
+</ul>
+<h1 id="Gulp是什么鬼"><a href="#Gulp是什么鬼" class="headerlink" title="Gulp是什么鬼"></a>Gulp是什么鬼</h1><p>Gulp是一种基于node.js的构建工具，有关构建工具的概念请移步<a href="http://blog.csdn.net/azureternite/article/details/52213589">什么是构建工具</a></p>
+<p>Gulp的安装及基本使用，可参考[一点| gulp详细入门教程][],写得十分6，通俗易懂</p>
+<h1 id="Browsersync又是什么鬼"><a href="#Browsersync又是什么鬼" class="headerlink" title="Browsersync又是什么鬼"></a>Browsersync又是什么鬼</h1><p>Browsersync可以让浏览器实时响应所做的文件更改，包括html, js, css, less, sass等，并自动刷新页面<br>而且可以在多个浏览器、多个设备（PC、平板、手机等）下同时进行调试，是提高开发效率的利器</p>
+<h1 id="如何安装使用Browsersync"><a href="#如何安装使用Browsersync" class="headerlink" title="如何安装使用Browsersync"></a>如何安装使用Browsersync</h1><p><a href="https://www.browsersync.io/">官网</a>上有各种安装使用方式，这边我用gulp</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>1.全局安装</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g browser-sync</span><br></pre></td></tr></table></figure>
+<p>2.在本地项目目录下安装，同时装一下gulp跟gulp的插件（如果有用到gulp插件的话，比如gulp-less）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install browser-sync --save-dev</span><br><span class="line">npm install gulp --save-dev</span><br><span class="line">npm install gulp-less --save-dev</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>1.配置gulpfile.js</p>
+<p>在项目根目录底下新建文件gulpfile.js，然后填入内容：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//引入gulp、gulp插件以及browser-sync</span></span><br><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">&#x27;gulp&#x27;</span>),</span><br><span class="line">    browserSync = <span class="built_in">require</span>(<span class="string">&#x27;browser-sync&#x27;</span>).create(),</span><br><span class="line">    less = <span class="built_in">require</span>(<span class="string">&#x27;gulp-less&#x27;</span>);</span><br><span class="line"><span class="comment">//创建一个新的gulp任务</span></span><br><span class="line">gulp.task(<span class="string">&#x27;serve&#x27;</span>,[<span class="string">&#x27;less&#x27;</span>],<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//初始化项目跟目录为&#x27;./&#x27;（也可以使用代理proxy: &quot;yourlocal.dev&quot;）</span></span><br><span class="line">    browserSync.init(&#123;</span><br><span class="line">        server: <span class="string">&#x27;./&#x27;</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//创建gulp监听器，监听less文件的变化，自动执行&#x27;less&#x27;任务，编译less并生成css文件</span></span><br><span class="line">    gulp.watch(<span class="string">&#x27;./less/*.less&#x27;</span>, [<span class="string">&#x27;less&#x27;</span>]).on(<span class="string">&#x27;change&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;File &#x27;</span> + event.path + <span class="string">&#x27; was &#x27;</span> + event.type + <span class="string">&#x27;, running tasks...&#x27;</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//监听html文件的变化，自动重新载入</span></span><br><span class="line">    gulp.watch(<span class="string">&#x27;./*.html&#x27;</span>).on(<span class="string">&#x27;change&#x27;</span>, browserSync.reload);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//创建自动编译less的任务，这边需要return stream以保证browserSync.reload在正确的时机调用</span></span><br><span class="line">gulp.task(<span class="string">&#x27;less&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> gulp.src(<span class="string">&#x27;./less/*.less&#x27;</span>)</span><br><span class="line">        .pipe(less())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">&#x27;./css&#x27;</span>))</span><br><span class="line">        .pipe(browserSync.stream());</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//默认启动的gulp任务数组[&#x27;serve&#x27;]</span></span><br><span class="line">gulp.task(<span class="string">&#x27;default&#x27;</span>, [<span class="string">&#x27;serve&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+<p>2.运行gulp</p>
+<p>在项目根目录命令行执行<code>gulp</code>或<code>gulp default</code><br>项目启动后在命令行中会输出Access URLs，包括本地跟外部访问的URL以及项目跟UI控制界面的URL<br>项目默认启动在<a href="http://localhost:3000/">http://localhost:3000</a><br>UI控制界面默认启动在<a href="http://localhost:3001/">http://localhost:3001</a></p>
+<h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><p><img src="http://img.blog.csdn.net/20160817012323155" alt="browser-sync-demo"></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>[一点| gulp详细入门教程][]</li>
+<li><a href="https://www.browsersync.io/docs/gulp">Browsersync + Gulp.js</a> </li>
+</ul>
+]]></content>
+      <categories>
+        <category>构建工具</category>
+      </categories>
+      <tags>
+        <tag>gulp</tag>
+        <tag>browsersync</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Node.js用ES6原生Promise对异步函数进行封装</title>
     <url>/2016/08/19/use-es6-promise-to-encapsule-async-functions/</url>
     <content><![CDATA[<h1 id="Promise的概念"><a href="#Promise的概念" class="headerlink" title="Promise的概念"></a>Promise的概念</h1><blockquote>
@@ -748,39 +781,6 @@
         <tag>Node.js</tag>
         <tag>异步</tag>
         <tag>Promise</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>通过Gulp使用Browsersync实现浏览器实时响应文件更改</title>
-    <url>/2016/08/17/use-browser-sync-with-gulp/</url>
-    <content><![CDATA[<ul>
-<li>目录<br>{:toc}</li>
-</ul>
-<h1 id="Gulp是什么鬼"><a href="#Gulp是什么鬼" class="headerlink" title="Gulp是什么鬼"></a>Gulp是什么鬼</h1><p>Gulp是一种基于node.js的构建工具，有关构建工具的概念请移步<a href="http://blog.csdn.net/azureternite/article/details/52213589">什么是构建工具</a></p>
-<p>Gulp的安装及基本使用，可参考[一点| gulp详细入门教程][],写得十分6，通俗易懂</p>
-<h1 id="Browsersync又是什么鬼"><a href="#Browsersync又是什么鬼" class="headerlink" title="Browsersync又是什么鬼"></a>Browsersync又是什么鬼</h1><p>Browsersync可以让浏览器实时响应所做的文件更改，包括html, js, css, less, sass等，并自动刷新页面<br>而且可以在多个浏览器、多个设备（PC、平板、手机等）下同时进行调试，是提高开发效率的利器</p>
-<h1 id="如何安装使用Browsersync"><a href="#如何安装使用Browsersync" class="headerlink" title="如何安装使用Browsersync"></a>如何安装使用Browsersync</h1><p><a href="https://www.browsersync.io/">官网</a>上有各种安装使用方式，这边我用gulp</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>1.全局安装</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g browser-sync</span><br></pre></td></tr></table></figure>
-<p>2.在本地项目目录下安装，同时装一下gulp跟gulp的插件（如果有用到gulp插件的话，比如gulp-less）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install browser-sync --save-dev</span><br><span class="line">npm install gulp --save-dev</span><br><span class="line">npm install gulp-less --save-dev</span><br></pre></td></tr></table></figure>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>1.配置gulpfile.js</p>
-<p>在项目根目录底下新建文件gulpfile.js，然后填入内容：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//引入gulp、gulp插件以及browser-sync</span></span><br><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">&#x27;gulp&#x27;</span>),</span><br><span class="line">    browserSync = <span class="built_in">require</span>(<span class="string">&#x27;browser-sync&#x27;</span>).create(),</span><br><span class="line">    less = <span class="built_in">require</span>(<span class="string">&#x27;gulp-less&#x27;</span>);</span><br><span class="line"><span class="comment">//创建一个新的gulp任务</span></span><br><span class="line">gulp.task(<span class="string">&#x27;serve&#x27;</span>,[<span class="string">&#x27;less&#x27;</span>],<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//初始化项目跟目录为&#x27;./&#x27;（也可以使用代理proxy: &quot;yourlocal.dev&quot;）</span></span><br><span class="line">    browserSync.init(&#123;</span><br><span class="line">        server: <span class="string">&#x27;./&#x27;</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//创建gulp监听器，监听less文件的变化，自动执行&#x27;less&#x27;任务，编译less并生成css文件</span></span><br><span class="line">    gulp.watch(<span class="string">&#x27;./less/*.less&#x27;</span>, [<span class="string">&#x27;less&#x27;</span>]).on(<span class="string">&#x27;change&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;File &#x27;</span> + event.path + <span class="string">&#x27; was &#x27;</span> + event.type + <span class="string">&#x27;, running tasks...&#x27;</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//监听html文件的变化，自动重新载入</span></span><br><span class="line">    gulp.watch(<span class="string">&#x27;./*.html&#x27;</span>).on(<span class="string">&#x27;change&#x27;</span>, browserSync.reload);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//创建自动编译less的任务，这边需要return stream以保证browserSync.reload在正确的时机调用</span></span><br><span class="line">gulp.task(<span class="string">&#x27;less&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> gulp.src(<span class="string">&#x27;./less/*.less&#x27;</span>)</span><br><span class="line">        .pipe(less())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">&#x27;./css&#x27;</span>))</span><br><span class="line">        .pipe(browserSync.stream());</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//默认启动的gulp任务数组[&#x27;serve&#x27;]</span></span><br><span class="line">gulp.task(<span class="string">&#x27;default&#x27;</span>, [<span class="string">&#x27;serve&#x27;</span>]);</span><br></pre></td></tr></table></figure>
-<p>2.运行gulp</p>
-<p>在项目根目录命令行执行<code>gulp</code>或<code>gulp default</code><br>项目启动后在命令行中会输出Access URLs，包括本地跟外部访问的URL以及项目跟UI控制界面的URL<br>项目默认启动在<a href="http://localhost:3000/">http://localhost:3000</a><br>UI控制界面默认启动在<a href="http://localhost:3001/">http://localhost:3001</a></p>
-<h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><p><img src="http://img.blog.csdn.net/20160817012323155" alt="browser-sync-demo"></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li>[一点| gulp详细入门教程][]</li>
-<li><a href="https://www.browsersync.io/docs/gulp">Browsersync + Gulp.js</a> </li>
-</ul>
-]]></content>
-      <categories>
-        <category>构建工具</category>
-      </categories>
-      <tags>
-        <tag>gulp</tag>
-        <tag>browsersync</tag>
       </tags>
   </entry>
   <entry>
@@ -930,6 +930,29 @@
       </tags>
   </entry>
   <entry>
+    <title>用Node.js发送邮件</title>
+    <url>/2016/08/29/nodejs-send-mail/</url>
+    <content><![CDATA[<p><strong>本文讲的是用Node.js通过一个开启smtp的已有的邮箱账号发送邮件，而不是如何创建一个邮件服务器</strong></p>
+<h1 id="开启smtp服务"><a href="#开启smtp服务" class="headerlink" title="开启smtp服务"></a>开启smtp服务</h1><p>首先要去要使用的邮箱中设置开启smtp，才能正常发送邮件</p>
+<p>这边以163邮箱为例</p>
+<p><img src="http://img.blog.csdn.net/20160829152743891" alt="163mail set smtp"></p>
+<h1 id="安装Nodemailer模块"><a href="#安装Nodemailer模块" class="headerlink" title="安装Nodemailer模块"></a>安装Nodemailer模块</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install nodemailer --save-dev</span><br></pre></td></tr></table></figure>
+<h1 id="设置Nodemailer"><a href="#设置Nodemailer" class="headerlink" title="设置Nodemailer"></a>设置Nodemailer</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> nodemailer = <span class="built_in">require</span>(<span class="string">&#x27;nodemailer&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//username替换为邮箱名，%40后面是邮件服务器的地址，比如163.com，password替换为邮箱密码（或独立密码，如果有设置的话），@后面填SMTP服务器地址，如163的smtp地址为smtp.163.com</span></span><br><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtps://username%40163.com:password@smtp.163.com&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> mailOptions = &#123;</span><br><span class="line">  <span class="keyword">from</span>: <span class="string">&#x27;example@163.com&#x27;</span>,  <span class="comment">//发件人</span></span><br><span class="line">  to: <span class="string">&#x27;abc@163.com, def@163.com&#x27;</span>,  <span class="comment">//收件人，可以设置多个</span></span><br><span class="line">  subject: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件主题</span></span><br><span class="line">  text: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件文本</span></span><br><span class="line">  html: <span class="string">&#x27;&#x27;</span>  <span class="comment">//html格式文本</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">transport.sendMail(mailOptions, <span class="function"><span class="keyword">function</span>(<span class="params">err, info</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(err)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">console</span>.log(err);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Message sent: &#x27;</span> + info.response);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>成功运行后，去查看一下发件邮箱的已发送，里面会有发送的记录</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://nodemailer.com/">Nodemailer &#8211; Send e-mails with Node.JS</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Node.js</category>
+      </categories>
+      <tags>
+        <tag>Node.js</tag>
+        <tag>邮件</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>(译)如何在CentOS/RHEL &amp; Fedora上安装MongoDB 3.2</title>
     <url>/2016/08/29/how-to-install-mongodb-3.2-on-centos-rhel-and-fedora/</url>
     <content><![CDATA[<p>MongoDB（名称取自“huMONGOus“）是一个有着全面灵活的索引支持和丰富的查询的数据库。MongoDB通过GridFS提供强大的媒体存储。点击<a href="http://www.10gen.com/products/mongodb">这里</a>获取MongoDB的更多信息</p>
@@ -958,65 +981,6 @@
       <tags>
         <tag>CentOS</tag>
         <tag>MongoDB</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>用Node.js发送邮件</title>
-    <url>/2016/08/29/nodejs-send-mail/</url>
-    <content><![CDATA[<p><strong>本文讲的是用Node.js通过一个开启smtp的已有的邮箱账号发送邮件，而不是如何创建一个邮件服务器</strong></p>
-<h1 id="开启smtp服务"><a href="#开启smtp服务" class="headerlink" title="开启smtp服务"></a>开启smtp服务</h1><p>首先要去要使用的邮箱中设置开启smtp，才能正常发送邮件</p>
-<p>这边以163邮箱为例</p>
-<p><img src="http://img.blog.csdn.net/20160829152743891" alt="163mail set smtp"></p>
-<h1 id="安装Nodemailer模块"><a href="#安装Nodemailer模块" class="headerlink" title="安装Nodemailer模块"></a>安装Nodemailer模块</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install nodemailer --save-dev</span><br></pre></td></tr></table></figure>
-<h1 id="设置Nodemailer"><a href="#设置Nodemailer" class="headerlink" title="设置Nodemailer"></a>设置Nodemailer</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> nodemailer = <span class="built_in">require</span>(<span class="string">&#x27;nodemailer&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//username替换为邮箱名，%40后面是邮件服务器的地址，比如163.com，password替换为邮箱密码（或独立密码，如果有设置的话），@后面填SMTP服务器地址，如163的smtp地址为smtp.163.com</span></span><br><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtps://username%40163.com:password@smtp.163.com&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> mailOptions = &#123;</span><br><span class="line">  <span class="keyword">from</span>: <span class="string">&#x27;example@163.com&#x27;</span>,  <span class="comment">//发件人</span></span><br><span class="line">  to: <span class="string">&#x27;abc@163.com, def@163.com&#x27;</span>,  <span class="comment">//收件人，可以设置多个</span></span><br><span class="line">  subject: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件主题</span></span><br><span class="line">  text: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件文本</span></span><br><span class="line">  html: <span class="string">&#x27;&#x27;</span>  <span class="comment">//html格式文本</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h1 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">transport.sendMail(mailOptions, <span class="function"><span class="keyword">function</span>(<span class="params">err, info</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(err)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">console</span>.log(err);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Message sent: &#x27;</span> + info.response);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>成功运行后，去查看一下发件邮箱的已发送，里面会有发送的记录</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="http://nodemailer.com/">Nodemailer &#8211; Send e-mails with Node.JS</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Node.js</category>
-      </categories>
-      <tags>
-        <tag>Node.js</tag>
-        <tag>邮件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CentOS利用postfix搭建邮件服务器</title>
-    <url>/2016/08/31/centos-use-postfix/</url>
-    <content><![CDATA[<p>之前我用nodemailer通过163邮箱来发送邮件，不过没过几天就一直ETIMEDOUT，不知道什么原因，想着还是自己搭一个来发邮件可能靠谱点（flag？）</p>
-<h1 id="安装postfix"><a href="#安装postfix" class="headerlink" title="安装postfix"></a>安装postfix</h1><p>CentOS 7 自带了postfix服务，在/etc/postfix 目录下</p>
-<p>没有安装的可以用yum安装</p>
-<h1 id="为域名添加DNS解析"><a href="#为域名添加DNS解析" class="headerlink" title="为域名添加DNS解析"></a>为域名添加DNS解析</h1><p>需要添加三条记录，A记录、MX记录、TXT记录</p>
-<h1 id="配置postfix"><a href="#配置postfix" class="headerlink" title="配置postfix"></a>配置postfix</h1><p>我接触postfix的时候貌似已经被人玩烂了，网上一搜几年前的文章一大把。</p>
-<p>有关域名解析、postfix配置跟使用telnet测试发送邮件，可以参照这篇文章，亲测。</p>
-<p><a href="http://www.cnblogs.com/dudu/archive/2012/12/12/linux-postfix-mailserver.html">阿里云CentOS Linux服务器上用postfix搭建邮件服务器</a></p>
-<h1 id="Nodemailer连接本机邮件服务器"><a href="#Nodemailer连接本机邮件服务器" class="headerlink" title="Nodemailer连接本机邮件服务器"></a>Nodemailer连接本机邮件服务器</h1><p>配置好postfix后，就可以用自己的服务器发送邮件了。</p>
-<p>smtp没有通过ssl加密时的端口是25</p>
-<p>所以之前定义的transport</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtps://username%40163.com:password@smtp.163.com&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<p>修改为</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtp://@127.0.0.1:25&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<p>即可。</p>
-<p>相应的，mailOptions里面的from改成<a href="mailto:&#120;&#120;&#x78;&#x40;&#x64;&#x6f;&#x6d;&#x61;&#105;&#110;&#x2e;&#x74;&#108;&#x64;">&#120;&#120;&#x78;&#x40;&#x64;&#x6f;&#x6d;&#x61;&#105;&#110;&#x2e;&#x74;&#108;&#x64;</a>（你自己的域名，其实改成其他任意域名都可以成功发送）</p>
-<p><img src="http://img.blog.csdn.net/20160831012617040" alt="test mail"></p>
-<p><img src="http://img.blog.csdn.net/20160831012638899" alt="other domain"></p>
-<p>一般会在辣鸡邮件里面找到你发的邮件</p>
-<h1 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h1><p>可以为自己的邮件服务器添加smtp认证跟ssl加密。</p>
-<p>网上搜索sasl之类的。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="http://www.cnblogs.com/dudu/archive/2012/12/12/linux-postfix-mailserver.html">阿里云CentOS Linux服务器上用postfix搭建邮件服务器</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>CentOS</tag>
-        <tag>邮件服务器</tag>
-        <tag>postfix</tag>
       </tags>
   </entry>
   <entry>
@@ -1057,6 +1021,42 @@
       <tags>
         <tag>Node.js</tag>
         <tag>网页抓取</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CentOS利用postfix搭建邮件服务器</title>
+    <url>/2016/08/31/centos-use-postfix/</url>
+    <content><![CDATA[<p>之前我用nodemailer通过163邮箱来发送邮件，不过没过几天就一直ETIMEDOUT，不知道什么原因，想着还是自己搭一个来发邮件可能靠谱点（flag？）</p>
+<h1 id="安装postfix"><a href="#安装postfix" class="headerlink" title="安装postfix"></a>安装postfix</h1><p>CentOS 7 自带了postfix服务，在/etc/postfix 目录下</p>
+<p>没有安装的可以用yum安装</p>
+<h1 id="为域名添加DNS解析"><a href="#为域名添加DNS解析" class="headerlink" title="为域名添加DNS解析"></a>为域名添加DNS解析</h1><p>需要添加三条记录，A记录、MX记录、TXT记录</p>
+<h1 id="配置postfix"><a href="#配置postfix" class="headerlink" title="配置postfix"></a>配置postfix</h1><p>我接触postfix的时候貌似已经被人玩烂了，网上一搜几年前的文章一大把。</p>
+<p>有关域名解析、postfix配置跟使用telnet测试发送邮件，可以参照这篇文章，亲测。</p>
+<p><a href="http://www.cnblogs.com/dudu/archive/2012/12/12/linux-postfix-mailserver.html">阿里云CentOS Linux服务器上用postfix搭建邮件服务器</a></p>
+<h1 id="Nodemailer连接本机邮件服务器"><a href="#Nodemailer连接本机邮件服务器" class="headerlink" title="Nodemailer连接本机邮件服务器"></a>Nodemailer连接本机邮件服务器</h1><p>配置好postfix后，就可以用自己的服务器发送邮件了。</p>
+<p>smtp没有通过ssl加密时的端口是25</p>
+<p>所以之前定义的transport</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtps://username%40163.com:password@smtp.163.com&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>修改为</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtp://@127.0.0.1:25&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>即可。</p>
+<p>相应的，mailOptions里面的from改成<a href="mailto:&#x78;&#x78;&#x78;&#64;&#100;&#x6f;&#109;&#x61;&#105;&#x6e;&#46;&#x74;&#x6c;&#x64;">&#x78;&#x78;&#x78;&#64;&#100;&#x6f;&#109;&#x61;&#105;&#x6e;&#46;&#x74;&#x6c;&#x64;</a>（你自己的域名，其实改成其他任意域名都可以成功发送）</p>
+<p><img src="http://img.blog.csdn.net/20160831012617040" alt="test mail"></p>
+<p><img src="http://img.blog.csdn.net/20160831012638899" alt="other domain"></p>
+<p>一般会在辣鸡邮件里面找到你发的邮件</p>
+<h1 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h1><p>可以为自己的邮件服务器添加smtp认证跟ssl加密。</p>
+<p>网上搜索sasl之类的。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://www.cnblogs.com/dudu/archive/2012/12/12/linux-postfix-mailserver.html">阿里云CentOS Linux服务器上用postfix搭建邮件服务器</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>CentOS</tag>
+        <tag>邮件服务器</tag>
+        <tag>postfix</tag>
       </tags>
   </entry>
   <entry>
@@ -1373,55 +1373,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>JavaScript数组去重的几种方法</title>
-    <url>/2016/09/20/javascript-remove-duplicates-from-array/</url>
-    <content><![CDATA[<p>这个老问题，网上普遍都有了，为什么要再写一遍呢，主要是为了记个笔记。。。</p>
-<h1 id="遍历时搜索结果数组"><a href="#遍历时搜索结果数组" class="headerlink" title="遍历时搜索结果数组"></a>遍历时搜索结果数组</h1><p>思路很明确，如下</p>
-<ul>
-<li>新建一个数组存放结果</li>
-<li>循环遍历原数组，对于每一个元素，在结果数组中搜索是否存在</li>
-<li>若不存在则存入结果数组中，返回第二步，直到循环结束</li>
-</ul>
-<p>代码就不上了，网上一大把。</p>
-<p>这是最直接的方法，但由于嵌套了循环，效率不高。</p>
-<h1 id="先排序后比较"><a href="#先排序后比较" class="headerlink" title="先排序后比较"></a>先排序后比较</h1><ul>
-<li>先将原数组进行排序</li>
-<li>新建一个结果数组</li>
-<li>遍历排序后的数组，比较第i个元素与结果数组的最后一个元素是否相等</li>
-<li>如果不相等则存入结果数组</li>
-</ul>
-<p>同不上代码。</p>
-<p>速度是快了些，但返回的是一个排序后的数组，并且有更快的方法。</p>
-<h1 id="使用对象记录已有元素"><a href="#使用对象记录已有元素" class="headerlink" title="使用对象记录已有元素"></a>使用对象记录已有元素</h1><p>这个方法使用hashtable结构，避免了循环嵌套，而且返回的数组顺序没改变，效率也高。</p>
-<p>主要思路是将原数组的元素作为对象的属性名来记录是否出现过：</p>
-<ul>
-<li>新建一个对象与结果数组</li>
-<li>遍历原数组，对于第i个元素，访问对象中属性名为i的属性</li>
-<li>如果属性不存在，则标记此属性为true，并将此元素存入结果数组中，返回第二步直到循环结束</li>
-</ul>
-<p>但是这样做也有个问题，对象的属性名在访问时会被转换为字符串，因此不同类型的值也可能被去重，<br>比如数字0跟字符’0’</p>
-<p>解决办法：将hashtable中的标记 true ，改为保存出现过的类型的数组，在判断元素是否出现时，多判断一步保存的类型数组中是否出现过此类型即可</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">var</span> n = &#123;&#125;, r = [], len = <span class="built_in">this</span>.length, val, type;  </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="built_in">this</span>.length; i++) &#123;  </span><br><span class="line">        val = <span class="built_in">this</span>[i]; <span class="comment">//数组元素</span></span><br><span class="line">        type = <span class="keyword">typeof</span> val;  <span class="comment">//数组元素的类型</span></span><br><span class="line">        <span class="keyword">if</span> (!n[val]) &#123;  <span class="comment">//如果没有记录</span></span><br><span class="line">            n[val] = [type];  <span class="comment">//保存类型</span></span><br><span class="line">            r.push(val);  <span class="comment">//保存元素到结果数组</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (n[val].indexOf(type) &lt; <span class="number">0</span>) &#123; <span class="comment">//如果有记录，判断其类型是否在记录数组中，如果没有 </span></span><br><span class="line">            n[val].push(type);  <span class="comment">//将此类型添加到记录数组中</span></span><br><span class="line">            r.push(val);  <span class="comment">//保存元素到结果数组</span></span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> r;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此方法效率高，并且返回的数组元素顺序不变。</p>
-<h1 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h1><p>ES6的许多新特性让人眼前一亮，最近拜读<a href="http://www.ruanyifeng.com/home.html">阮一峰</a>老师的<a href="http://es6.ruanyifeng.com/">ECMAScript 6入门</a>，又皮卡了一种新的数组去重方法</p>
-<p>就是利用扩展运算符(…)跟Set数据结构的不重复特性来达到给数组去重的目的。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [...new <span class="built_in">Set</span>(<span class="built_in">this</span>)];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>…就一行代码，简洁。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="http://blog.csdn.net/chengxuyuan20100425/article/details/8497277">js数组去重的4个方法</a> 以及底下的评论</li>
-<li><a href="http://www.cnblogs.com/sosoft/archive/2013/12/08/3463830.html">高效率去掉js数组中重复项 - 柔城 - 博客园</a></li>
-<li><a href="http://es6.ruanyifeng.com/#docs/set-map">Set和Map数据结构 - ECMAScript 6入门</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>数组去重</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>HTTP协议入门要点</title>
     <url>/2016/09/20/http-getting-start-points/</url>
     <content><![CDATA[<p><strong>应用层协议、基于tcp</strong></p>
@@ -1470,6 +1421,55 @@
         <tag>HTTP</tag>
         <tag>协议</tag>
         <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript数组去重的几种方法</title>
+    <url>/2016/09/20/javascript-remove-duplicates-from-array/</url>
+    <content><![CDATA[<p>这个老问题，网上普遍都有了，为什么要再写一遍呢，主要是为了记个笔记。。。</p>
+<h1 id="遍历时搜索结果数组"><a href="#遍历时搜索结果数组" class="headerlink" title="遍历时搜索结果数组"></a>遍历时搜索结果数组</h1><p>思路很明确，如下</p>
+<ul>
+<li>新建一个数组存放结果</li>
+<li>循环遍历原数组，对于每一个元素，在结果数组中搜索是否存在</li>
+<li>若不存在则存入结果数组中，返回第二步，直到循环结束</li>
+</ul>
+<p>代码就不上了，网上一大把。</p>
+<p>这是最直接的方法，但由于嵌套了循环，效率不高。</p>
+<h1 id="先排序后比较"><a href="#先排序后比较" class="headerlink" title="先排序后比较"></a>先排序后比较</h1><ul>
+<li>先将原数组进行排序</li>
+<li>新建一个结果数组</li>
+<li>遍历排序后的数组，比较第i个元素与结果数组的最后一个元素是否相等</li>
+<li>如果不相等则存入结果数组</li>
+</ul>
+<p>同不上代码。</p>
+<p>速度是快了些，但返回的是一个排序后的数组，并且有更快的方法。</p>
+<h1 id="使用对象记录已有元素"><a href="#使用对象记录已有元素" class="headerlink" title="使用对象记录已有元素"></a>使用对象记录已有元素</h1><p>这个方法使用hashtable结构，避免了循环嵌套，而且返回的数组顺序没改变，效率也高。</p>
+<p>主要思路是将原数组的元素作为对象的属性名来记录是否出现过：</p>
+<ul>
+<li>新建一个对象与结果数组</li>
+<li>遍历原数组，对于第i个元素，访问对象中属性名为i的属性</li>
+<li>如果属性不存在，则标记此属性为true，并将此元素存入结果数组中，返回第二步直到循环结束</li>
+</ul>
+<p>但是这样做也有个问题，对象的属性名在访问时会被转换为字符串，因此不同类型的值也可能被去重，<br>比如数字0跟字符’0’</p>
+<p>解决办法：将hashtable中的标记 true ，改为保存出现过的类型的数组，在判断元素是否出现时，多判断一步保存的类型数组中是否出现过此类型即可</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">var</span> n = &#123;&#125;, r = [], len = <span class="built_in">this</span>.length, val, type;  </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="built_in">this</span>.length; i++) &#123;  </span><br><span class="line">        val = <span class="built_in">this</span>[i]; <span class="comment">//数组元素</span></span><br><span class="line">        type = <span class="keyword">typeof</span> val;  <span class="comment">//数组元素的类型</span></span><br><span class="line">        <span class="keyword">if</span> (!n[val]) &#123;  <span class="comment">//如果没有记录</span></span><br><span class="line">            n[val] = [type];  <span class="comment">//保存类型</span></span><br><span class="line">            r.push(val);  <span class="comment">//保存元素到结果数组</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (n[val].indexOf(type) &lt; <span class="number">0</span>) &#123; <span class="comment">//如果有记录，判断其类型是否在记录数组中，如果没有 </span></span><br><span class="line">            n[val].push(type);  <span class="comment">//将此类型添加到记录数组中</span></span><br><span class="line">            r.push(val);  <span class="comment">//保存元素到结果数组</span></span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> r;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此方法效率高，并且返回的数组元素顺序不变。</p>
+<h1 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h1><p>ES6的许多新特性让人眼前一亮，最近拜读<a href="http://www.ruanyifeng.com/home.html">阮一峰</a>老师的<a href="http://es6.ruanyifeng.com/">ECMAScript 6入门</a>，又皮卡了一种新的数组去重方法</p>
+<p>就是利用扩展运算符(…)跟Set数据结构的不重复特性来达到给数组去重的目的。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [...new <span class="built_in">Set</span>(<span class="built_in">this</span>)];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>…就一行代码，简洁。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://blog.csdn.net/chengxuyuan20100425/article/details/8497277">js数组去重的4个方法</a> 以及底下的评论</li>
+<li><a href="http://www.cnblogs.com/sosoft/archive/2013/12/08/3463830.html">高效率去掉js数组中重复项 - 柔城 - 博客园</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/set-map">Set和Map数据结构 - ECMAScript 6入门</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>数组去重</tag>
       </tags>
   </entry>
   <entry>
@@ -2136,6 +2136,40 @@ helper:
       </tags>
   </entry>
   <entry>
+    <title>iview clickoutside指令</title>
+    <url>/2017/09/18/iview-clickoutside-directive/</url>
+    <content><![CDATA[<h1 id="clickoutside指令介绍"><a href="#clickoutside指令介绍" class="headerlink" title="clickoutside指令介绍"></a>clickoutside指令介绍</h1><p>iview里面有个clickoutside指令，用来处理点击元素外面的事件。</p>
+<p>比如在cascader组件里的最外层div就用到了该指令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div :class&#x3D;&quot;classes&quot; v-clickoutside&#x3D;&quot;handleClose&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>当用户点击了这个元素的外面，就会执行传到指令中的<code>handleClose</code>函数。</p>
+<h1 id="clickoutside指令原理"><a href="#clickoutside指令原理" class="headerlink" title="clickoutside指令原理"></a>clickoutside指令原理</h1><p>首先来看一下该指令的源码：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    bind (el, binding, vnode) &#123;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">documentHandler</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (el.contains(e.target)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (binding.expression) &#123;</span><br><span class="line">                binding.value(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        el.__vueClickOutside__ = documentHandler;</span><br><span class="line">        <span class="built_in">document</span>.addEventListener(<span class="string">&#x27;click&#x27;</span>, documentHandler);</span><br><span class="line">    &#125;,</span><br><span class="line">    update () &#123;</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line">    unbind (el, binding) &#123;</span><br><span class="line">        <span class="built_in">document</span>.removeEventListener(<span class="string">&#x27;click&#x27;</span>, el.__vueClickOutside__);</span><br><span class="line">        <span class="keyword">delete</span> el.__vueClickOutside__;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>定义了bind和unbind两个钩子函数。</p>
+<p>有关Vue自定义指令钩子函数的知识参照<a href="https://cn.vuejs.org/v2/guide/custom-directive.html">官方文档</a></p>
+<h2 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h2><p>在bind函数中，给使用了该指令的元素添加了一个<code>__vueClickOutside__</code>属性。</p>
+<p>然后在document上绑定了一个click事件，<code>documentHandler</code>。</p>
+<p>该handler做了两件事：</p>
+<ol>
+<li>判断使用指令的元素中是否包含当前被点击的元素，如果是，说明用户点击的是元素里面，则return false停止事件冒泡</li>
+<li>判断使用指令的元素是否有绑定值，若有，则调用绑定的函数。</li>
+</ol>
+<p>需要注意的是，绑定的值必须是一个函数，例如，上述cascader组件中的<code>handleClose</code>就必须是一个函数</p>
+<p>因为<code>binding.value(e)</code>在此例中就相当于<code>handleClose(e)</code>（<code>binding.value</code>为指令的绑定值，在这里绑定了handleClose这个值）</p>
+<h2 id="unbind"><a href="#unbind" class="headerlink" title="unbind"></a>unbind</h2><p>解绑，两个操作</p>
+<ol>
+<li>移除监听器，在bind中定义的<code>el.__vueClickOutside__</code>在这里作为removeEventListener的listener参数</li>
+<li>删除元素上的<code>__vueClickOutside__</code>属性</li>
+</ol>
+]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+        <tag>iview</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>iview树组件源码阅读笔记</title>
     <url>/2017/09/08/iview%E6%A0%91%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>好久没有记一些东西了，本菜鸡又来水文章了。</p>
@@ -2223,40 +2257,6 @@ helper:
 <p>watch中监听了data的变化。当data变化时，在DOM更新完成后，执行<code>updateData</code>方法更新数据，并broadcast一个<code>indeterminate</code>事件。<br>结合<a href="#node.vue-created&mounted">node.vue mounted</a>，在监听到<code>indeterminate</code>事件后，也向下broadcast了该事件，保证所有子节点都能接收到该事件的触发，并执行相应方法。</p>
 <p><strong>tree.vue就讲到这里吧。</strong></p>
 <h1 id="用到的utils-amp-mixins"><a href="#用到的utils-amp-mixins" class="headerlink" title="用到的utils &amp; mixins"></a>用到的utils &amp; mixins</h1><p>先留个坑，会解释dispatch和broadcast，还有 findComponentsDownward 是怎么回事。</p>
-]]></content>
-      <categories>
-        <category>vue</category>
-      </categories>
-      <tags>
-        <tag>vue</tag>
-        <tag>iview</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iview clickoutside指令</title>
-    <url>/2017/09/18/iview-clickoutside-directive/</url>
-    <content><![CDATA[<h1 id="clickoutside指令介绍"><a href="#clickoutside指令介绍" class="headerlink" title="clickoutside指令介绍"></a>clickoutside指令介绍</h1><p>iview里面有个clickoutside指令，用来处理点击元素外面的事件。</p>
-<p>比如在cascader组件里的最外层div就用到了该指令</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div :class&#x3D;&quot;classes&quot; v-clickoutside&#x3D;&quot;handleClose&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>当用户点击了这个元素的外面，就会执行传到指令中的<code>handleClose</code>函数。</p>
-<h1 id="clickoutside指令原理"><a href="#clickoutside指令原理" class="headerlink" title="clickoutside指令原理"></a>clickoutside指令原理</h1><p>首先来看一下该指令的源码：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    bind (el, binding, vnode) &#123;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">documentHandler</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (el.contains(e.target)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (binding.expression) &#123;</span><br><span class="line">                binding.value(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        el.__vueClickOutside__ = documentHandler;</span><br><span class="line">        <span class="built_in">document</span>.addEventListener(<span class="string">&#x27;click&#x27;</span>, documentHandler);</span><br><span class="line">    &#125;,</span><br><span class="line">    update () &#123;</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line">    unbind (el, binding) &#123;</span><br><span class="line">        <span class="built_in">document</span>.removeEventListener(<span class="string">&#x27;click&#x27;</span>, el.__vueClickOutside__);</span><br><span class="line">        <span class="keyword">delete</span> el.__vueClickOutside__;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>定义了bind和unbind两个钩子函数。</p>
-<p>有关Vue自定义指令钩子函数的知识参照<a href="https://cn.vuejs.org/v2/guide/custom-directive.html">官方文档</a></p>
-<h2 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h2><p>在bind函数中，给使用了该指令的元素添加了一个<code>__vueClickOutside__</code>属性。</p>
-<p>然后在document上绑定了一个click事件，<code>documentHandler</code>。</p>
-<p>该handler做了两件事：</p>
-<ol>
-<li>判断使用指令的元素中是否包含当前被点击的元素，如果是，说明用户点击的是元素里面，则return false停止事件冒泡</li>
-<li>判断使用指令的元素是否有绑定值，若有，则调用绑定的函数。</li>
-</ol>
-<p>需要注意的是，绑定的值必须是一个函数，例如，上述cascader组件中的<code>handleClose</code>就必须是一个函数</p>
-<p>因为<code>binding.value(e)</code>在此例中就相当于<code>handleClose(e)</code>（<code>binding.value</code>为指令的绑定值，在这里绑定了handleClose这个值）</p>
-<h2 id="unbind"><a href="#unbind" class="headerlink" title="unbind"></a>unbind</h2><p>解绑，两个操作</p>
-<ol>
-<li>移除监听器，在bind中定义的<code>el.__vueClickOutside__</code>在这里作为removeEventListener的listener参数</li>
-<li>删除元素上的<code>__vueClickOutside__</code>属性</li>
-</ol>
 ]]></content>
       <categories>
         <category>vue</category>
@@ -3308,6 +3308,67 @@ helper:
       <tags>
         <tag>A*</tag>
         <tag>流程图</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>对 React 一些零散的感受</title>
+    <url>/2021/02/02/%E5%AF%B9-React-%E4%B8%80%E4%BA%9B%E9%9B%B6%E6%95%A3%E7%9A%84%E6%84%9F%E5%8F%97/</url>
+    <content><![CDATA[<p>从 Vue 转到 React 快要一年了，虽然写页面用哪个不是搬砖？但实际经历过用两种框架搬砖，还是有所感触的。本文不是什么源码解析，也不是要分个高低，甚至会刻意避开一些技术上的细节，单纯谈谈我个人从 Vue 转 React 后的一些感受上的变化，更偏向感性的认知，并没有什么技术干货。</p>
+<h1 id="设计理念"><a href="#设计理念" class="headerlink" title="设计理念"></a>设计理念</h1><p>“我写 Vue 的时候，从来都不会考虑这些。”</p>
+<p>这是我刚接触一两个月时，最直接的感受。在写 Vue 代码时，不会去想这是什么副作用，有请求就调用方法，有渲染没生效就 nextTick ，也没有受控组件的概念， UI = f(State) 这个公式，仿佛离我很远。</p>
+<p>关于受控这块，有经历过困惑的时候，也知道 Vue 内部对原生 input 标签做了处理，但还是没有写受控组件的意识。之前在写树组件时，用 <code>v-model</code> 去控制了 <code>selected</code> 属性跟 <code>checked</code> 属性，但是 <code>v-model</code> 只能控制一个属性的 <code>value</code> 跟 <code>onChange</code> ，多出来的属性，用 <code>v-sync</code> 总不是很舒服，而且当时本着需要传的 Props 能少就少的想法，提供了许多组件方法，让外部通过 <code>this.$refs.xxx()</code> 来控制子组件内部的状态。这个版本发布不久，我就后悔了，提供了这么多方法给外部来控制内部的状态，虽然当时也没有什么状态的概念，维护起来总有种莫名的难受，也可能是响应式带来的麻烦，我即想响应 <code>value</code> 属性，又想响应 <code>data</code> 属性，来决定选中的内容。</p>
+<p>种种结合起来，虽然在 Vue 组件里最终都能解决，但总感觉不优雅，刚发布了 2.0 版本就想再重构，却无从下手。</p>
+<p>Vue 对各种概念、场景都尽可能封装起来，帮你做了很多事情，所以你可以不用知道许多概念，就能直接上手。而且 Vue 的限制不多，以前开发表单这种有深层对象的东西，子组件直接修改传入的 Props 更是家常便饭，虽然我们都知道这是不好的。</p>
+<p>或许是老外不用 996 ，又或许是自己真的菜， React 能有这么一套理念，这么多的概念可以推广。</p>
+<p>刚上手 React 的那段时间，最经常遇到的疑惑就是：</p>
+<ul>
+<li>怎么又无限循环了？</li>
+<li><code>style</code> 跟 <code>className</code> 为什么不能直接传进去？</li>
+<li>re-render 了好多次耶，不过好像没啥影响，不管了吧？</li>
+<li>状态提升太难受了吧，业务稍微变一下，内部的状态要提升到天上去了</li>
+<li>每次 re-render 都创建了新的函数、新的对象，真的没事吗？</li>
+<li>又要把状态提出来，父组件直接调用子组件的方法不香吗？</li>
+<li>在请求返回后的 <code>then</code> 函数里调用两次 <code>setState</code> ， effect 执行了两次？</li>
+</ul>
+<p>这些问题一股脑地抛出来，对于刚从 Vue 保姆身边出来的人来说，什么 “我要好好学习它的思想” ，不存在的， “TMD 烦死了” 恐怕才是第一且真实的感受。</p>
+<p>对于 “函数式编程” 这个概念，以前对它的印象就是：不是个坏东西；写工具来说挺重要的；但如果要我在业务里用，尤其是一连串函数 compose 起来，那让我死吧。</p>
+<p>无知的时候总是会抗拒不了解的事务，不得不写 React ，倒逼了我去学习它的理念，也改善了我书写组件的方式。这个推动力， React 给了一部分，当然，身边的环境变化也给了一大部分。</p>
+<p>现在写一个组件，不得不考虑的就是，状态，状态，还是状态，一个状态要放在哪里，谁可以动它。或许跟 Vue 里的 data 很像，但 React 函数式的思想使我不得不谨慎考虑，它没法让外部通过 <code>this.$refs.xxx()</code> 去干涉内部的状态，遇到业务变动就可能要提升一堆的状态，所以要考虑提升的成本（在 Vue 里，我可能就 <code>this.$refs</code> 了事），也开始考虑尽可能做成受控组件，同时尽量提供非受控用法，让外部使用起来更方便同时又灵活。</p>
+<p>说了这么多，你们可能觉得我开始捧一踩一了，对着 React 一顿夸。其实我只是从我转变的角度去描述了这么一个变化，从另一个角度说， React 概念多、学习门槛比 Vue 高，不好上手这些网络上老生常谈的点，并不是不存在的。我依然存在抗拒 React 的想法，但相比刚上手时程度没这么严重，认识到自己的无知是很大的一个进步。</p>
+<p>Angular：那我呢？</p>
+<p>学习优秀框架的思想挺重要的，即使内心抗拒使用，抱着学习的心态，也一定会有收获的。在过去的近一年里，我也接触了身边的一些分享，或者跟 React 、Angular 这些框架有关，或者是一些通用的技术。老大不小的人了，希望从现在开始学习，永远不会太晚。</p>
+<h1 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h1><p>在文档方面，两边都挺优秀的。</p>
+<p>但在体验上，我在 Vue 文档更能快速找到想要的内容，或许是门槛低，没有那么多概念的解释，更像一本字典。</p>
+<p>而看 React 文档，则要先理解一些概念，有种看国外产品翻译的文档特有的感觉，稍微有理解成本。</p>
+<h1 id="单向数据流"><a href="#单向数据流" class="headerlink" title="单向数据流"></a>单向数据流</h1><p>实际上，两个框架都希望数据流是单向的，从父组件流向子组件，天经地义，可维护。</p>
+<p>但两边都没有强行限制子组件修改 Props 嵌套对象的行为。</p>
+<p>不过在 React 中，修改状态需要用 <code>setState</code> ，不会直接用赋值的方式，这使得正常书写组件时，如果不是刻意去赋值，是不会修改到 Props 的。</p>
+<p>而在 Vue 中， Props 跟 data 都挂载在 <code>this</code> 上，要修改到 Props 是相对比较容易发生的。</p>
+<h1 id="Hooks"><a href="#Hooks" class="headerlink" title="Hooks"></a>Hooks</h1><p>Hooks ，或者说带有状态的函数，通过控制反转的方式，保留住了状态。</p>
+<p>Hooks 提高了功能的复用能力，使得整个 React 项目代码都由函数组成，不用 class ，没有 options ，整个代码看起来就都是函数，十分纯粹。</p>
+<p>但是有个限制就是实现的 Hooks 都强依赖了 React ，只能在 React 生态里使用。这也能理解，想要实现不限框架的可复用的工具，没有状态的就是个普通函数，有状态的用 class 就好。</p>
+<p>Vue 3 也是向着这个方向转变的，不知道在后端层面是不是个好的实践，至少现在看起来还行，解决了以前复用代码时 Props 来源不明确、命名冲突等问题。</p>
+<p>自写 React 以来，对于引用类型更加敏感了，因为 dependencies 数组，有点观察者的感觉，而且在 <code>useEffect</code> 中，很容易造成无限循环，刚上手时磕磕绊绊地溯源，可以发现大体上存在这些问题：</p>
+<ol>
+<li>某个 dependency 没处理好，意外变化了，导致 <code>useEffect</code> 重新执行了</li>
+<li>dependencies 数组内容特别多，难以定位是哪个依赖引起的</li>
+</ol>
+<p>所以随着代码量的增加，会更注意引用类型的变化、以及 dependencies 数组元素的个数，逐渐使代码优化到一个较好的、更可维护的状态。</p>
+<p>虽然 Vue 就是基于观察者，但对于类似 <code>useEffect</code> 这类自动执行的函数，都是开发者通过 <code>watch</code> 配置的，整个 dependencies 都在掌控之中，因此不会特别在意其他每个引用类型变量的变化，只要管好 <code>watch</code> 的变量就好。而 React 推荐的 eslint 插件能自动补全 dependencies 数组，为了保持代码便于优化，一般都是让 dependencies 自动生成了，因此有时候对于不想 “监听” 的变量，需要有意识地使用 <code>useRef</code> 包裹起来。</p>
+<h1 id="JSX-与模板语法"><a href="#JSX-与模板语法" class="headerlink" title="JSX 与模板语法"></a>JSX 与模板语法</h1><p>关于 JSX ，以前经常看到有争议，我个人是没什么感觉的，其优缺点应该是很明了的。</p>
+<p>JSX 编译过来就是 js ，十分灵活，用 JSX 描述的界面，可以拆分一小块出来作为一个变量，到处复用。而使用模板的 Vue ，只能再套一层组件。</p>
+<p>但模板语法的优势就在于它在编译成 js 代码的过程中，可以 “加点料” ，进行一些优化，比如新出的，静态模板的优化等，这些 Vue 保姆都帮你做好了。</p>
+<p>两者没什么好争的， Vue 也不是不能写 JSX ，写 ejs, handlebars 等模板时，也没什么人吐槽它们的学习成本吧，更多的是喜好问题。</p>
+<h1 id="“你看过源码吗？就知道bb”"><a href="#“你看过源码吗？就知道bb”" class="headerlink" title="“你看过源码吗？就知道bb”"></a>“你看过源码吗？就知道bb”</h1><p>这话不是其他人对我说的，而是这近一年来，对自己说的一句话。</p>
+<p>去年 interview 之前的一段时间，有看了一部分 Vue 的源码，而在过去一年中，学习 React 源码的行动却一鸽再鸽，这不是什么好事。</p>
+<p>不过有幸团队内部有分享过相关的内容，对 Fiber, React 如何利用 <code>requestIdleCallback</code> 和 Fiber 链表暂停渲染工作等也有了大致的一个印象。</p>
+<p>后续还是希望能系统地去学习一下，看别人成套的文章，结合自己去看源码，以及 React 的新特性，了解在我们没有想象到的地方，它是如何抽象并解决现有的开发痛点的。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>react</tag>
       </tags>
   </entry>
 </search>

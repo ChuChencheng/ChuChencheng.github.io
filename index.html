@@ -222,7 +222,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-count">69</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -235,7 +235,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">72</span>
+        <span class="site-state-item-count">73</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -277,6 +277,116 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2021/02/02/%E5%AF%B9-React-%E4%B8%80%E4%BA%9B%E9%9B%B6%E6%95%A3%E7%9A%84%E6%84%9F%E5%8F%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/02/%E5%AF%B9-React-%E4%B8%80%E4%BA%9B%E9%9B%B6%E6%95%A3%E7%9A%84%E6%84%9F%E5%8F%97/" class="post-title-link" itemprop="url">对 React 一些零散的感受</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-02 18:43:39" itemprop="dateCreated datePublished" datetime="2021-02-02T18:43:39+08:00">2021-02-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/02/02/%E5%AF%B9-React-%E4%B8%80%E4%BA%9B%E9%9B%B6%E6%95%A3%E7%9A%84%E6%84%9F%E5%8F%97/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/02/对-React-一些零散的感受/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>从 Vue 转到 React 快要一年了，虽然写页面用哪个不是搬砖？但实际经历过用两种框架搬砖，还是有所感触的。本文不是什么源码解析，也不是要分个高低，甚至会刻意避开一些技术上的细节，单纯谈谈我个人从 Vue 转 React 后的一些感受上的变化，更偏向感性的认知，并没有什么技术干货。</p>
+<h1 id="设计理念"><a href="#设计理念" class="headerlink" title="设计理念"></a>设计理念</h1><p>“我写 Vue 的时候，从来都不会考虑这些。”</p>
+<p>这是我刚接触一两个月时，最直接的感受。在写 Vue 代码时，不会去想这是什么副作用，有请求就调用方法，有渲染没生效就 nextTick ，也没有受控组件的概念， UI = f(State) 这个公式，仿佛离我很远。</p>
+<p>关于受控这块，有经历过困惑的时候，也知道 Vue 内部对原生 input 标签做了处理，但还是没有写受控组件的意识。之前在写树组件时，用 <code>v-model</code> 去控制了 <code>selected</code> 属性跟 <code>checked</code> 属性，但是 <code>v-model</code> 只能控制一个属性的 <code>value</code> 跟 <code>onChange</code> ，多出来的属性，用 <code>v-sync</code> 总不是很舒服，而且当时本着需要传的 Props 能少就少的想法，提供了许多组件方法，让外部通过 <code>this.$refs.xxx()</code> 来控制子组件内部的状态。这个版本发布不久，我就后悔了，提供了这么多方法给外部来控制内部的状态，虽然当时也没有什么状态的概念，维护起来总有种莫名的难受，也可能是响应式带来的麻烦，我即想响应 <code>value</code> 属性，又想响应 <code>data</code> 属性，来决定选中的内容。</p>
+<p>种种结合起来，虽然在 Vue 组件里最终都能解决，但总感觉不优雅，刚发布了 2.0 版本就想再重构，却无从下手。</p>
+<p>Vue 对各种概念、场景都尽可能封装起来，帮你做了很多事情，所以你可以不用知道许多概念，就能直接上手。而且 Vue 的限制不多，以前开发表单这种有深层对象的东西，子组件直接修改传入的 Props 更是家常便饭，虽然我们都知道这是不好的。</p>
+<p>或许是老外不用 996 ，又或许是自己真的菜， React 能有这么一套理念，这么多的概念可以推广。</p>
+<p>刚上手 React 的那段时间，最经常遇到的疑惑就是：</p>
+<ul>
+<li>怎么又无限循环了？</li>
+<li><code>style</code> 跟 <code>className</code> 为什么不能直接传进去？</li>
+<li>re-render 了好多次耶，不过好像没啥影响，不管了吧？</li>
+<li>状态提升太难受了吧，业务稍微变一下，内部的状态要提升到天上去了</li>
+<li>每次 re-render 都创建了新的函数、新的对象，真的没事吗？</li>
+<li>又要把状态提出来，父组件直接调用子组件的方法不香吗？</li>
+<li>在请求返回后的 <code>then</code> 函数里调用两次 <code>setState</code> ， effect 执行了两次？</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/02/%E5%AF%B9-React-%E4%B8%80%E4%BA%9B%E9%9B%B6%E6%95%A3%E7%9A%84%E6%84%9F%E5%8F%97/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2208,113 +2318,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/09/18/iview%E7%BA%A7%E8%81%94%E9%80%89%E6%8B%A9%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2017/09/08/iview%E6%A0%91%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CCC">
-      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CCC 的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/09/08/iview%E6%A0%91%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">iview树组件源码阅读笔记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-09-08 00:00:00" itemprop="dateCreated datePublished" datetime="2017-09-08T00:00:00+08:00">2017-09-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/vue/" itemprop="url" rel="index"><span itemprop="name">vue</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/09/08/iview%E6%A0%91%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/08/iview树组件源码阅读笔记/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>好久没有记一些东西了，本菜鸡又来水文章了。</p>
-<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><ul>
-<li><p>iview里面的树组件思路跟vue官网上的<a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/examples/tree-view.html">树形视图</a>示例类似，应用了组件的递归使用（好像是废话</p>
-</li>
-<li><p>整个树组件里有两个vue文件，一个是递归使用的node.vue，一个是父组件tree.vue</p>
-</li>
-<li><p>组件内的事件大致分为三种：expand（展开）、select（点击节点title触发）和check（复选框的选中与取消触发）</p>
-</li>
-</ul>
-<h1 id="node-vue"><a href="#node-vue" class="headerlink" title="node.vue"></a>node.vue</h1><p>这个组件内包括树组件的一个选项，以及它的children（如果有）</p>
-<h2 id="template"><a href="#template" class="headerlink" title="template"></a>template</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;collapse-transition&gt;</span><br><span class="line">        &lt;ul :class&#x3D;&quot;classes&quot; v-show&#x3D;&quot;visible&quot;&gt;</span><br><span class="line">            &lt;li&gt;</span><br><span class="line">                &lt;span :class&#x3D;&quot;arrowClasses&quot; @click&#x3D;&quot;handleExpand&quot;&gt;</span><br><span class="line">                    &lt;Icon type&#x3D;&quot;arrow-right-b&quot;&gt;&lt;&#x2F;Icon&gt;</span><br><span class="line">                &lt;&#x2F;span&gt;</span><br><span class="line">                &lt;Checkbox</span><br><span class="line">                        v-if&#x3D;&quot;showCheckbox&quot;</span><br><span class="line">                        :value&#x3D;&quot;data.checked&quot;</span><br><span class="line">                        :indeterminate&#x3D;&quot;indeterminate&quot;</span><br><span class="line">                        :disabled&#x3D;&quot;data.disabled || data.disableCheckbox&quot;</span><br><span class="line">                        @click.native.prevent&#x3D;&quot;handleCheck&quot;&gt;&lt;&#x2F;Checkbox&gt;</span><br><span class="line">                &lt;span :class&#x3D;&quot;titleClasses&quot; v-html&#x3D;&quot;data.title&quot; @click&#x3D;&quot;handleSelect&quot;&gt;&lt;&#x2F;span&gt;</span><br><span class="line">                &lt;Tree-node</span><br><span class="line">                        v-for&#x3D;&quot;item in data.children&quot;</span><br><span class="line">                        :key&#x3D;&quot;item.nodeKey&quot;</span><br><span class="line">                        :data&#x3D;&quot;item&quot;</span><br><span class="line">                        :visible&#x3D;&quot;data.expand&quot;</span><br><span class="line">                        :multiple&#x3D;&quot;multiple&quot;</span><br><span class="line">                        :show-checkbox&#x3D;&quot;showCheckbox&quot;&gt;</span><br><span class="line">                &lt;&#x2F;Tree-node&gt;</span><br><span class="line">            &lt;&#x2F;li&gt;</span><br><span class="line">        &lt;&#x2F;ul&gt;</span><br><span class="line">    &lt;&#x2F;collapse-transition&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br></pre></td></tr></table></figure>
-<p><code>collapse-transition</code>应该是父节点展开收起的动画效果，<code>ul</code>则是包括一个父节点，里面的<code>tree-node</code>是这个父节点的所有子节点，通过<code>v-for</code>循环渲染出来，而其子节点的每一项跟父节点是一样的结构，所以<code>tree-node</code>实际上就是<code>node.vue</code>组件本身。</p>
-<p>然后是<strong>script部分</strong></p>
-<h2 id="主要props"><a href="#主要props" class="headerlink" title="主要props"></a>主要props</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/09/08/iview%E6%A0%91%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
