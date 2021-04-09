@@ -81,4 +81,14 @@ class XXXService {
 
 ## TypeScript emitDecoratorMetadata 与 reflect-metadata
 
-Todo
+搜索资料的过程中，发现一个叫 [`reflect-metadata`](https://github.com/rbuckton/reflect-metadata) 的库，在 ts 的 [handbook](https://www.typescriptlang.org/docs/handbook/decorators.html#metadata) 也有相关的介绍，之前基本没用到 decorators 所以没注意。
+
+搜过 Angular 与 Nestjs 的源码后，可以确定它们的依赖注入系统就是利用了这个实验性的 API 。
+
+# 原理探索
+
+## reflect-metadata
+
+从这个库的 [Readme](https://github.com/rbuckton/reflect-metadata) 可以很清晰地看出它能做什么：
+
+简单来说，它给开发者提供了一种能力，可以在定义一个 `class` 时通过 `Reflect.defineMetadata` 存储一些类型相关的数据，在实际调用的这个 `class` 的时候，通过 `Reflect.getMetadata` 获取之前定义的数据。要类比的话，有点像藏在 `class` 里的 `localStorage` 。
