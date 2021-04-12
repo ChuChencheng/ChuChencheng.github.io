@@ -244,6 +244,20 @@ instantiateCat();
 
 所以后续实例化时，我们依然可以通过 `Reflect.getMetadata` 获取 `constructor` 参数
 
+`emitDecoratorMetadata` 会给 metadata 加上哪些 key ？
+
+根据 TypeScript 官网文档：
+
+> When enabled, as long as the reflect-metadata library has been imported, additional design-time type information will be exposed at runtime.
+
+一些设计时的类型(design-time type)会被暴露在运行时，从 [tsconfig 文档](https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata)中看，有这么几种：
+
+- design:type
+- design:paramtypes
+- design:returntype
+
+本文用到的只有 `design:paramtypes` ，有关其他类型的 metadata ，请参阅 TypeScript 文档
+
 至此，整个黑魔法就解释完了
 
 # 其他疑问
