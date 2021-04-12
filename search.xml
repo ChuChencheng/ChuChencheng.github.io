@@ -243,25 +243,6 @@
       </tags>
   </entry>
   <entry>
-    <title>checkbox全选与反选</title>
-    <url>/2016/07/27/checkbox-check-all-and-inverse/</url>
-    <content><![CDATA[<p>用原生js跟jquery实现checkbox全选反选的一个例子</p>
-<p>原生js：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>checkbox<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;check-all&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;check-all&quot;</span>&gt;</span>全选</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> checkAll = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;[name=check-all]&#x27;</span>);</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> subCheckbox = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">//绑定全选、反选事件</span></span></span><br><span class="line"><span class="javascript">    checkAll.addEventListener(<span class="string">&#x27;change&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (<span class="built_in">this</span>.checked) &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; subCheckbox.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">                subCheckbox[i].checked = <span class="literal">true</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; subCheckbox.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">                subCheckbox[i].checked = <span class="literal">false</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="javascript">    &#125;, <span class="literal">false</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">//绑定sub checkbox的事件</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; subCheckbox.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">        subCheckbox[i].addEventListener(<span class="string">&#x27;change&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> checkboxnum = subCheckbox.length;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> checked = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;[name=sub-checkbox]:checked&#x27;</span>).length;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (checkboxnum == checked) &#123;  <span class="comment">//如果选中的sub checkbox与全部的sub checkbox一样多，则勾选全选的checkbox</span></span></span><br><span class="line"><span class="javascript">                checkAll.checked = <span class="literal">true</span>;</span></span><br><span class="line"><span class="javascript">            &#125; <span class="keyword">else</span> &#123;  <span class="comment">//反之取消勾选</span></span></span><br><span class="line"><span class="javascript">                checkAll.checked = <span class="literal">false</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line"><span class="javascript">        &#125;, <span class="literal">false</span>);</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>jquery（需引入jquery）：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//checkbox select all</span></span><br><span class="line">    $(<span class="built_in">document</span>).on(<span class="string">&#x27;change&#x27;</span>, <span class="string">&#x27;[name=check-all]&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ($(<span class="built_in">this</span>).prop(<span class="string">&#x27;checked&#x27;</span>)) &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//sub checkbox</span></span><br><span class="line">    $(<span class="built_in">document</span>).on(<span class="string">&#x27;change&#x27;</span>, <span class="string">&#x27;[name=sub-checkbox]&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> checkboxnum = $(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>).length;</span><br><span class="line">        <span class="keyword">var</span> checked = $(<span class="string">&#x27;[name=sub-checkbox]:checked&#x27;</span>).length;</span><br><span class="line">        <span class="keyword">if</span> (checkboxnum == checked) &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=check-all]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=check-all]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>思路都是一样的，给总复选框绑定事件实现全选反选功能；给子复选框绑定事件，当所有的子复选框都选中时总复选框勾选，当有一个子复选框被取消勾选时，总复选框取消勾选，这个功能是通过比较被选中子复选框数量跟所有子复选框数量来实现的。<br>需要注意的是jquery中获取checkbox勾选状态时用prop()，不用attr()。<br>绑定事件 由于querySelectorAll()返回的是一个NodeList，所以要写个循环一个节点一个节点绑定。</p>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>checkbox</tag>
-        <tag>html</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>bootstrap如何给.list-group加上序号</title>
     <url>/2016/08/02/bootstrap-add-seq-number-to-list-group-class/</url>
     <content><![CDATA[<p>在bootstrap中，我们可以使用不带任何class的<ol>跟<li>来创建一个有序列表，但是如果加上list-group类，样式有了，但列表前面的数字却没了。</p>
@@ -281,56 +262,6 @@
         <tag>bootstrap</tag>
         <tag>CSS</tag>
         <tag>.list-group</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaScript笔记——引用类型之Object类型和Function类型</title>
-    <url>/2016/08/05/JavaScript-Object-and-Function-type/</url>
-    <content><![CDATA[<p><strong>《JavaScript高级程序设计》中介绍的几种JavaScript的引用类型，本文只记了Object跟Function类型</strong></p>
-<h1 id="Object类型"><a href="#Object类型" class="headerlink" title="Object类型"></a>Object类型</h1><h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var person &#x3D; new Object();</span><br><span class="line">var person &#x3D; &#123;&#125;;</span><br><span class="line">&#x2F;&#x2F;二者效果是一样的，但使用对象字面量表示法定义对象时不会调用Object的构造函数</span><br></pre></td></tr></table></figure>
-<h2 id="访问对象属性"><a href="#访问对象属性" class="headerlink" title="访问对象属性"></a>访问对象属性</h2><ul>
-<li>点表示法</li>
-<li>方括号表示法</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">person.name &#x3D; &#39;&#39;;</span><br><span class="line">person[&#39;name&#39;] &#x3D; &#39;&#39;;</span><br><span class="line">&#x2F;&#x2F; 方括号表示法能用变量来访问属性</span><br><span class="line">var propertyName &#x3D; &#39;name&#39;;</span><br><span class="line">person[propertyName] &#x3D; &#39;&#39;;</span><br><span class="line">&#x2F;&#x2F;若属性名包含会导致语法错误的字符或关键字、保留字，可以使用方括号表示法表示</span><br><span class="line">person[&#39;first name&#39;] &#x3D; &#39;&#39;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="Array类型"><a href="#Array类型" class="headerlink" title="Array类型"></a>Array类型</h1><h1 id="Date类型"><a href="#Date类型" class="headerlink" title="Date类型"></a>Date类型</h1><h1 id="RegExp类型"><a href="#RegExp类型" class="headerlink" title="RegExp类型"></a>RegExp类型</h1><h1 id="Function类型"><a href="#Function类型" class="headerlink" title="Function类型"></a>Function类型</h1><p><strong>(函数是对象，函数名是指针)</strong></p>
-<h2 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h2><ul>
-<li>函数声明</li>
-<li>函数表达式</li>
-<li>Function构造函数</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;函数声明</span><br><span class="line">function sum(num1, num2)&#123;</span><br><span class="line">	return num1 + num2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;函数表达式</span><br><span class="line">var sum &#x3D; function(num1, num2)&#123;</span><br><span class="line">	return num1 + num2;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;使用Function构造函数，最后一个参数视为函数体（不推荐）</span><br><span class="line">var sum &#x3D; new Function(&#39;num1&#39;, &#39;num2&#39;, &#39;return num1 + num2&#39;);</span><br></pre></td></tr></table></figure>
-<h2 id="没有重载"><a href="#没有重载" class="headerlink" title="没有重载"></a>没有重载</h2><p><strong>因为函数名是一个指针，所以JavaScript的函数没有重载，后面定义的函数会覆盖前面的定义</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function add(n)&#123;</span><br><span class="line">	return n + 100;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function add(n)&#123;</span><br><span class="line">	return n + 200;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(100);  &#x2F;&#x2F;300</span><br><span class="line"></span><br><span class="line">var add &#x3D; function(n)&#123;</span><br><span class="line">	return n + 100;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var add &#x3D; function(n)&#123;</span><br><span class="line">	return n + 200;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">add(100);  &#x2F;&#x2F;300</span><br></pre></td></tr></table></figure>
-<h2 id="函数声明与函数表达式（解析顺序）"><a href="#函数声明与函数表达式（解析顺序）" class="headerlink" title="函数声明与函数表达式（解析顺序）"></a>函数声明与函数表达式（解析顺序）</h2><p>函数声明会先被解析，而函数表达式要等到执行至定义的那行代码才会被解析</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;正常执行</span><br><span class="line">alert(sum(10, 10));</span><br><span class="line">function sum(n1, n2)&#123;</span><br><span class="line">	return n1 + n2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;报错</span><br><span class="line">alert(sum(10, 10));</span><br><span class="line">var sum &#x3D; function (n1, n2)&#123;</span><br><span class="line">	return n1 + n2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="作为值传递"><a href="#作为值传递" class="headerlink" title="作为值传递"></a>作为值传递</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function callFunction(f, args)&#123;</span><br><span class="line">	return f(args);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function add(num)&#123;</span><br><span class="line">	return num + 10;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">callFunction(add, 10);  &#x2F;&#x2F;20</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;在一个函数中返回另一个函数</span><br><span class="line">function callFunction()&#123;</span><br><span class="line">	return function()&#123;</span><br><span class="line"></span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="函数内部属性"><a href="#函数内部属性" class="headerlink" title="函数内部属性"></a>函数内部属性</h2><p>函数内部有两个特殊对象：arguments和this</p>
-<h3 id="arguments"><a href="#arguments" class="headerlink" title="arguments"></a>arguments</h3><p>arguments.callee属性指向拥有arguments对象的函数，可用于递归调用，消除函数执行与函数名的耦合</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;阶乘</span><br><span class="line">function factorial(num)&#123;</span><br><span class="line">	if(num &lt;&#x3D; 1)&#123;</span><br><span class="line">		return 1;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		return num * arguments.callee(num - 1);  &#x2F;&#x2F;效果相当于return num * factorial(num - 1);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var calFactorial &#x3D; factorial;</span><br><span class="line"></span><br><span class="line">factorial &#x3D; function()&#123;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">calFactorial(5);  &#x2F;&#x2F;120</span><br><span class="line">factorial(5);  &#x2F;&#x2F;0</span><br></pre></td></tr></table></figure>
-<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><p>this引用的是函数执行的环境对象（当在全局作用域中调用函数，this对象引用的是window）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">window.color &#x3D; &#39;red&#39;;</span><br><span class="line">var o &#x3D; &#123;color: &#39;blue&#39;&#125;;</span><br><span class="line"></span><br><span class="line">function sayColor()&#123;</span><br><span class="line">	alert(this.color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sayColor();  &#x2F;&#x2F;&#39;red&#39;</span><br><span class="line"></span><br><span class="line">o.sayColor &#x3D; sayColor;</span><br><span class="line">o.sayColor();  &#x2F;&#x2F;&#39;blue&#39;</span><br></pre></td></tr></table></figure>
-<h3 id="caller属性"><a href="#caller属性" class="headerlink" title="caller属性"></a>caller属性</h3><p>函数对象的属性，保存着调用当前函数的函数的引用，如果是在全局作用域中调用，则值为null</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function outer()&#123;</span><br><span class="line">	inner();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function inner()&#123;</span><br><span class="line">	alert(inner.caller);  &#x2F;&#x2F;或alert(arguments.callee.caller);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">outer();</span><br><span class="line">&#x2F;*</span><br><span class="line">弹窗显示</span><br><span class="line">function outer()&#123;</span><br><span class="line">	inner();</span><br><span class="line">&#125;</span><br><span class="line">*&#x2F;</span><br></pre></td></tr></table></figure>
-<h2 id="函数属性和方法"><a href="#函数属性和方法" class="headerlink" title="函数属性和方法"></a>函数属性和方法</h2><p>length, prototype, call(), apply(), bind()</p>
-<h3 id="length"><a href="#length" class="headerlink" title="length"></a>length</h3><p>length表示函数希望接收命名参数的个数</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function fn1()&#123;&#125;</span><br><span class="line">function fn2(a)&#123;&#125;</span><br><span class="line">function fn3(a, b)&#123;&#125;</span><br><span class="line"></span><br><span class="line">alert(fn1.length);  &#x2F;&#x2F;0</span><br><span class="line">alert(fn2.length);  &#x2F;&#x2F;1</span><br><span class="line">alert(fn3.length);  &#x2F;&#x2F;2</span><br></pre></td></tr></table></figure>
-<h3 id="prototype"><a href="#prototype" class="headerlink" title="prototype"></a>prototype</h3><p>prototype是保存引用类型所有实例方法的地方<br>prototype不可枚举，for-in无法遍历到</p>
-<h3 id="call-和apply"><a href="#call-和apply" class="headerlink" title="call()和apply()"></a>call()和apply()</h3><p>用途：在特定作用域中调用函数（可扩充函数的作用域）<br>相当于改变函数体内this所指的对象<br>接收的第一个参数相同，要代替原this的对象<br>后面的参数是要执行函数的形参，call()逐个接收，apply()可以将参数作为数组传入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">window.num &#x3D; 0;</span><br><span class="line">var o &#x3D; &#123;num: 10&#125;;</span><br><span class="line"></span><br><span class="line">function add(num1, num2)&#123;</span><br><span class="line">	alert(num1 + num2 + this.num);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add.call(this, 10, 10);  &#x2F;&#x2F;20</span><br><span class="line">add.call(window, 10, 10);  &#x2F;&#x2F;20</span><br><span class="line">add.call(o, 10, 10);  &#x2F;&#x2F;30</span><br><span class="line"></span><br><span class="line">add.apply(this, [10, 10]);  &#x2F;&#x2F;20</span><br><span class="line">add.apply(window, [10, 10]);  &#x2F;&#x2F;20</span><br><span class="line">add.apply(o, [10, 10]);  &#x2F;&#x2F;30</span><br></pre></td></tr></table></figure>
-<h3 id="bind"><a href="#bind" class="headerlink" title="bind()"></a>bind()</h3><p>bind()方法会创建一个函数实例，实例的this被绑定为传入bind()中的参数（类似于call和apply第一个参数的作用）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">window.color &#x3D; &#39;red&#39;;</span><br><span class="line">var o &#x3D; &#123;color: &#39;blue&#39;&#125;;</span><br><span class="line"></span><br><span class="line">function sayColor()&#123;</span><br><span class="line">	alert(this.color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var objSayColor &#x3D; sayColor.bind(o);</span><br><span class="line">objSayColor();  &#x2F;&#x2F;&#39;blue&#39;</span><br></pre></td></tr></table></figure>
-<h1 id="基本包装类型"><a href="#基本包装类型" class="headerlink" title="基本包装类型"></a>基本包装类型</h1><h1 id="单体内置对象"><a href="#单体内置对象" class="headerlink" title="单体内置对象"></a>单体内置对象</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><blockquote>
-<p>《JavaScript高级程序设计》（第3版）</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>前端</category>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>前端</tag>
-        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -403,6 +334,75 @@
       </tags>
   </entry>
   <entry>
+    <title>checkbox全选与反选</title>
+    <url>/2016/07/27/checkbox-check-all-and-inverse/</url>
+    <content><![CDATA[<p>用原生js跟jquery实现checkbox全选反选的一个例子</p>
+<p>原生js：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>checkbox<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;check-all&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;check-all&quot;</span>&gt;</span>全选</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sub-checkbox&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> checkAll = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;[name=check-all]&#x27;</span>);</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> subCheckbox = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">//绑定全选、反选事件</span></span></span><br><span class="line"><span class="javascript">    checkAll.addEventListener(<span class="string">&#x27;change&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (<span class="built_in">this</span>.checked) &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; subCheckbox.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">                subCheckbox[i].checked = <span class="literal">true</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; subCheckbox.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">                subCheckbox[i].checked = <span class="literal">false</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="javascript">    &#125;, <span class="literal">false</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">//绑定sub checkbox的事件</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; subCheckbox.length; i++) &#123;</span></span><br><span class="line"><span class="javascript">        subCheckbox[i].addEventListener(<span class="string">&#x27;change&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> checkboxnum = subCheckbox.length;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> checked = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;[name=sub-checkbox]:checked&#x27;</span>).length;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (checkboxnum == checked) &#123;  <span class="comment">//如果选中的sub checkbox与全部的sub checkbox一样多，则勾选全选的checkbox</span></span></span><br><span class="line"><span class="javascript">                checkAll.checked = <span class="literal">true</span>;</span></span><br><span class="line"><span class="javascript">            &#125; <span class="keyword">else</span> &#123;  <span class="comment">//反之取消勾选</span></span></span><br><span class="line"><span class="javascript">                checkAll.checked = <span class="literal">false</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line"><span class="javascript">        &#125;, <span class="literal">false</span>);</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>jquery（需引入jquery）：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//checkbox select all</span></span><br><span class="line">    $(<span class="built_in">document</span>).on(<span class="string">&#x27;change&#x27;</span>, <span class="string">&#x27;[name=check-all]&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ($(<span class="built_in">this</span>).prop(<span class="string">&#x27;checked&#x27;</span>)) &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//sub checkbox</span></span><br><span class="line">    $(<span class="built_in">document</span>).on(<span class="string">&#x27;change&#x27;</span>, <span class="string">&#x27;[name=sub-checkbox]&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> checkboxnum = $(<span class="string">&#x27;[name=sub-checkbox]&#x27;</span>).length;</span><br><span class="line">        <span class="keyword">var</span> checked = $(<span class="string">&#x27;[name=sub-checkbox]:checked&#x27;</span>).length;</span><br><span class="line">        <span class="keyword">if</span> (checkboxnum == checked) &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=check-all]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $(<span class="string">&#x27;[name=check-all]&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>, <span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>思路都是一样的，给总复选框绑定事件实现全选反选功能；给子复选框绑定事件，当所有的子复选框都选中时总复选框勾选，当有一个子复选框被取消勾选时，总复选框取消勾选，这个功能是通过比较被选中子复选框数量跟所有子复选框数量来实现的。<br>需要注意的是jquery中获取checkbox勾选状态时用prop()，不用attr()。<br>绑定事件 由于querySelectorAll()返回的是一个NodeList，所以要写个循环一个节点一个节点绑定。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>checkbox</tag>
+        <tag>html</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript笔记——引用类型之Object类型和Function类型</title>
+    <url>/2016/08/05/JavaScript-Object-and-Function-type/</url>
+    <content><![CDATA[<p><strong>《JavaScript高级程序设计》中介绍的几种JavaScript的引用类型，本文只记了Object跟Function类型</strong></p>
+<h1 id="Object类型"><a href="#Object类型" class="headerlink" title="Object类型"></a>Object类型</h1><h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var person &#x3D; new Object();</span><br><span class="line">var person &#x3D; &#123;&#125;;</span><br><span class="line">&#x2F;&#x2F;二者效果是一样的，但使用对象字面量表示法定义对象时不会调用Object的构造函数</span><br></pre></td></tr></table></figure>
+<h2 id="访问对象属性"><a href="#访问对象属性" class="headerlink" title="访问对象属性"></a>访问对象属性</h2><ul>
+<li>点表示法</li>
+<li>方括号表示法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">person.name &#x3D; &#39;&#39;;</span><br><span class="line">person[&#39;name&#39;] &#x3D; &#39;&#39;;</span><br><span class="line">&#x2F;&#x2F; 方括号表示法能用变量来访问属性</span><br><span class="line">var propertyName &#x3D; &#39;name&#39;;</span><br><span class="line">person[propertyName] &#x3D; &#39;&#39;;</span><br><span class="line">&#x2F;&#x2F;若属性名包含会导致语法错误的字符或关键字、保留字，可以使用方括号表示法表示</span><br><span class="line">person[&#39;first name&#39;] &#x3D; &#39;&#39;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="Array类型"><a href="#Array类型" class="headerlink" title="Array类型"></a>Array类型</h1><h1 id="Date类型"><a href="#Date类型" class="headerlink" title="Date类型"></a>Date类型</h1><h1 id="RegExp类型"><a href="#RegExp类型" class="headerlink" title="RegExp类型"></a>RegExp类型</h1><h1 id="Function类型"><a href="#Function类型" class="headerlink" title="Function类型"></a>Function类型</h1><p><strong>(函数是对象，函数名是指针)</strong></p>
+<h2 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h2><ul>
+<li>函数声明</li>
+<li>函数表达式</li>
+<li>Function构造函数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;函数声明</span><br><span class="line">function sum(num1, num2)&#123;</span><br><span class="line">	return num1 + num2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;函数表达式</span><br><span class="line">var sum &#x3D; function(num1, num2)&#123;</span><br><span class="line">	return num1 + num2;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;使用Function构造函数，最后一个参数视为函数体（不推荐）</span><br><span class="line">var sum &#x3D; new Function(&#39;num1&#39;, &#39;num2&#39;, &#39;return num1 + num2&#39;);</span><br></pre></td></tr></table></figure>
+<h2 id="没有重载"><a href="#没有重载" class="headerlink" title="没有重载"></a>没有重载</h2><p><strong>因为函数名是一个指针，所以JavaScript的函数没有重载，后面定义的函数会覆盖前面的定义</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function add(n)&#123;</span><br><span class="line">	return n + 100;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function add(n)&#123;</span><br><span class="line">	return n + 200;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(100);  &#x2F;&#x2F;300</span><br><span class="line"></span><br><span class="line">var add &#x3D; function(n)&#123;</span><br><span class="line">	return n + 100;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var add &#x3D; function(n)&#123;</span><br><span class="line">	return n + 200;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">add(100);  &#x2F;&#x2F;300</span><br></pre></td></tr></table></figure>
+<h2 id="函数声明与函数表达式（解析顺序）"><a href="#函数声明与函数表达式（解析顺序）" class="headerlink" title="函数声明与函数表达式（解析顺序）"></a>函数声明与函数表达式（解析顺序）</h2><p>函数声明会先被解析，而函数表达式要等到执行至定义的那行代码才会被解析</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;正常执行</span><br><span class="line">alert(sum(10, 10));</span><br><span class="line">function sum(n1, n2)&#123;</span><br><span class="line">	return n1 + n2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;报错</span><br><span class="line">alert(sum(10, 10));</span><br><span class="line">var sum &#x3D; function (n1, n2)&#123;</span><br><span class="line">	return n1 + n2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="作为值传递"><a href="#作为值传递" class="headerlink" title="作为值传递"></a>作为值传递</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function callFunction(f, args)&#123;</span><br><span class="line">	return f(args);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function add(num)&#123;</span><br><span class="line">	return num + 10;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">callFunction(add, 10);  &#x2F;&#x2F;20</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;在一个函数中返回另一个函数</span><br><span class="line">function callFunction()&#123;</span><br><span class="line">	return function()&#123;</span><br><span class="line"></span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="函数内部属性"><a href="#函数内部属性" class="headerlink" title="函数内部属性"></a>函数内部属性</h2><p>函数内部有两个特殊对象：arguments和this</p>
+<h3 id="arguments"><a href="#arguments" class="headerlink" title="arguments"></a>arguments</h3><p>arguments.callee属性指向拥有arguments对象的函数，可用于递归调用，消除函数执行与函数名的耦合</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;阶乘</span><br><span class="line">function factorial(num)&#123;</span><br><span class="line">	if(num &lt;&#x3D; 1)&#123;</span><br><span class="line">		return 1;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		return num * arguments.callee(num - 1);  &#x2F;&#x2F;效果相当于return num * factorial(num - 1);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var calFactorial &#x3D; factorial;</span><br><span class="line"></span><br><span class="line">factorial &#x3D; function()&#123;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">calFactorial(5);  &#x2F;&#x2F;120</span><br><span class="line">factorial(5);  &#x2F;&#x2F;0</span><br></pre></td></tr></table></figure>
+<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><p>this引用的是函数执行的环境对象（当在全局作用域中调用函数，this对象引用的是window）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">window.color &#x3D; &#39;red&#39;;</span><br><span class="line">var o &#x3D; &#123;color: &#39;blue&#39;&#125;;</span><br><span class="line"></span><br><span class="line">function sayColor()&#123;</span><br><span class="line">	alert(this.color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sayColor();  &#x2F;&#x2F;&#39;red&#39;</span><br><span class="line"></span><br><span class="line">o.sayColor &#x3D; sayColor;</span><br><span class="line">o.sayColor();  &#x2F;&#x2F;&#39;blue&#39;</span><br></pre></td></tr></table></figure>
+<h3 id="caller属性"><a href="#caller属性" class="headerlink" title="caller属性"></a>caller属性</h3><p>函数对象的属性，保存着调用当前函数的函数的引用，如果是在全局作用域中调用，则值为null</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function outer()&#123;</span><br><span class="line">	inner();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function inner()&#123;</span><br><span class="line">	alert(inner.caller);  &#x2F;&#x2F;或alert(arguments.callee.caller);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">outer();</span><br><span class="line">&#x2F;*</span><br><span class="line">弹窗显示</span><br><span class="line">function outer()&#123;</span><br><span class="line">	inner();</span><br><span class="line">&#125;</span><br><span class="line">*&#x2F;</span><br></pre></td></tr></table></figure>
+<h2 id="函数属性和方法"><a href="#函数属性和方法" class="headerlink" title="函数属性和方法"></a>函数属性和方法</h2><p>length, prototype, call(), apply(), bind()</p>
+<h3 id="length"><a href="#length" class="headerlink" title="length"></a>length</h3><p>length表示函数希望接收命名参数的个数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function fn1()&#123;&#125;</span><br><span class="line">function fn2(a)&#123;&#125;</span><br><span class="line">function fn3(a, b)&#123;&#125;</span><br><span class="line"></span><br><span class="line">alert(fn1.length);  &#x2F;&#x2F;0</span><br><span class="line">alert(fn2.length);  &#x2F;&#x2F;1</span><br><span class="line">alert(fn3.length);  &#x2F;&#x2F;2</span><br></pre></td></tr></table></figure>
+<h3 id="prototype"><a href="#prototype" class="headerlink" title="prototype"></a>prototype</h3><p>prototype是保存引用类型所有实例方法的地方<br>prototype不可枚举，for-in无法遍历到</p>
+<h3 id="call-和apply"><a href="#call-和apply" class="headerlink" title="call()和apply()"></a>call()和apply()</h3><p>用途：在特定作用域中调用函数（可扩充函数的作用域）<br>相当于改变函数体内this所指的对象<br>接收的第一个参数相同，要代替原this的对象<br>后面的参数是要执行函数的形参，call()逐个接收，apply()可以将参数作为数组传入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">window.num &#x3D; 0;</span><br><span class="line">var o &#x3D; &#123;num: 10&#125;;</span><br><span class="line"></span><br><span class="line">function add(num1, num2)&#123;</span><br><span class="line">	alert(num1 + num2 + this.num);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add.call(this, 10, 10);  &#x2F;&#x2F;20</span><br><span class="line">add.call(window, 10, 10);  &#x2F;&#x2F;20</span><br><span class="line">add.call(o, 10, 10);  &#x2F;&#x2F;30</span><br><span class="line"></span><br><span class="line">add.apply(this, [10, 10]);  &#x2F;&#x2F;20</span><br><span class="line">add.apply(window, [10, 10]);  &#x2F;&#x2F;20</span><br><span class="line">add.apply(o, [10, 10]);  &#x2F;&#x2F;30</span><br></pre></td></tr></table></figure>
+<h3 id="bind"><a href="#bind" class="headerlink" title="bind()"></a>bind()</h3><p>bind()方法会创建一个函数实例，实例的this被绑定为传入bind()中的参数（类似于call和apply第一个参数的作用）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">window.color &#x3D; &#39;red&#39;;</span><br><span class="line">var o &#x3D; &#123;color: &#39;blue&#39;&#125;;</span><br><span class="line"></span><br><span class="line">function sayColor()&#123;</span><br><span class="line">	alert(this.color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var objSayColor &#x3D; sayColor.bind(o);</span><br><span class="line">objSayColor();  &#x2F;&#x2F;&#39;blue&#39;</span><br></pre></td></tr></table></figure>
+<h1 id="基本包装类型"><a href="#基本包装类型" class="headerlink" title="基本包装类型"></a>基本包装类型</h1><h1 id="单体内置对象"><a href="#单体内置对象" class="headerlink" title="单体内置对象"></a>单体内置对象</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><blockquote>
+<p>《JavaScript高级程序设计》（第3版）</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>前端</category>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaScript笔记——this的取值</title>
     <url>/2016/08/09/how-to-get-this-value/</url>
     <content><![CDATA[<p><strong>有关ECMAScript定义如何获取this请移步<a href="http://blog.csdn.net/azureternite/article/details/52153809">ECMAScript中关于如何获取this的定义</a></strong></p>
@@ -440,29 +440,6 @@
       </tags>
   </entry>
   <entry>
-    <title>how to remove .html extension</title>
-    <url>/2016/08/12/how-to-remove-html-extension/</url>
-    <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>Just add permalink: pretty to _config.yml</p>
-]]></content>
-      <categories>
-        <category>jekyll</category>
-      </categories>
-      <tags>
-        <tag>jekyll</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2016/08/12/test-post-article/</url>
-    <content><![CDATA[<h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1><h2 id="test-1"><a href="#test-1" class="headerlink" title="test"></a>test</h2><h3 id="test-2"><a href="#test-2" class="headerlink" title="test"></a>test</h3><h4 id="test-3"><a href="#test-3" class="headerlink" title="test"></a>test</h4><h5 id="test-4"><a href="#test-4" class="headerlink" title="test"></a>test</h5><h6 id="test-5"><a href="#test-5" class="headerlink" title="test"></a>test</h6>]]></content>
-      <categories>
-        <category>test</category>
-      </categories>
-      <tags>
-        <tag>test</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JavaScript对寄生组合式继承的理解</title>
     <url>/2016/08/11/the-understanding-of-Parasitic-Combination-Inheritance-in-JavaScript/</url>
     <content><![CDATA[<p><strong>有关JavaScript的几种继承方式请移步<a href="http://blog.csdn.net/azureternite/article/details/51916673">JavaScript的几种继承方式</a></strong></p>
@@ -488,18 +465,26 @@
       </tags>
   </entry>
   <entry>
-    <title>set my domain</title>
-    <url>/2016/08/13/set-my-domain/</url>
-    <content><![CDATA[<h1 id="新域名启用"><a href="#新域名启用" class="headerlink" title="新域名启用"></a>新域名启用</h1><p>大半夜的弄好了域名</p>
-<p><a href="http://c2ccc.space/">C2CCC.space</a></p>
-<p>后面会慢慢建起来（大概吧）</p>
-<p>亦可赛艇</p>
+    <title>how to remove .html extension</title>
+    <url>/2016/08/12/how-to-remove-html-extension/</url>
+    <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>Just add permalink: pretty to _config.yml</p>
 ]]></content>
       <categories>
-        <category>personal</category>
+        <category>jekyll</category>
       </categories>
       <tags>
-        <tag>domain</tag>
+        <tag>jekyll</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2016/08/12/test-post-article/</url>
+    <content><![CDATA[<h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1><h2 id="test-1"><a href="#test-1" class="headerlink" title="test"></a>test</h2><h3 id="test-2"><a href="#test-2" class="headerlink" title="test"></a>test</h3><h4 id="test-3"><a href="#test-3" class="headerlink" title="test"></a>test</h4><h5 id="test-4"><a href="#test-4" class="headerlink" title="test"></a>test</h5><h6 id="test-5"><a href="#test-5" class="headerlink" title="test"></a>test</h6>]]></content>
+      <categories>
+        <category>test</category>
+      </categories>
+      <tags>
+        <tag>test</tag>
       </tags>
   </entry>
   <entry>
@@ -591,6 +576,21 @@
       <tags>
         <tag>CSS</tag>
         <tag>Less</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>set my domain</title>
+    <url>/2016/08/13/set-my-domain/</url>
+    <content><![CDATA[<h1 id="新域名启用"><a href="#新域名启用" class="headerlink" title="新域名启用"></a>新域名启用</h1><p>大半夜的弄好了域名</p>
+<p><a href="http://c2ccc.space/">C2CCC.space</a></p>
+<p>后面会慢慢建起来（大概吧）</p>
+<p>亦可赛艇</p>
+]]></content>
+      <categories>
+        <category>personal</category>
+      </categories>
+      <tags>
+        <tag>domain</tag>
       </tags>
   </entry>
   <entry>
@@ -930,29 +930,6 @@
       </tags>
   </entry>
   <entry>
-    <title>用Node.js发送邮件</title>
-    <url>/2016/08/29/nodejs-send-mail/</url>
-    <content><![CDATA[<p><strong>本文讲的是用Node.js通过一个开启smtp的已有的邮箱账号发送邮件，而不是如何创建一个邮件服务器</strong></p>
-<h1 id="开启smtp服务"><a href="#开启smtp服务" class="headerlink" title="开启smtp服务"></a>开启smtp服务</h1><p>首先要去要使用的邮箱中设置开启smtp，才能正常发送邮件</p>
-<p>这边以163邮箱为例</p>
-<p><img src="http://img.blog.csdn.net/20160829152743891" alt="163mail set smtp"></p>
-<h1 id="安装Nodemailer模块"><a href="#安装Nodemailer模块" class="headerlink" title="安装Nodemailer模块"></a>安装Nodemailer模块</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install nodemailer --save-dev</span><br></pre></td></tr></table></figure>
-<h1 id="设置Nodemailer"><a href="#设置Nodemailer" class="headerlink" title="设置Nodemailer"></a>设置Nodemailer</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> nodemailer = <span class="built_in">require</span>(<span class="string">&#x27;nodemailer&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//username替换为邮箱名，%40后面是邮件服务器的地址，比如163.com，password替换为邮箱密码（或独立密码，如果有设置的话），@后面填SMTP服务器地址，如163的smtp地址为smtp.163.com</span></span><br><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtps://username%40163.com:password@smtp.163.com&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> mailOptions = &#123;</span><br><span class="line">  <span class="keyword">from</span>: <span class="string">&#x27;example@163.com&#x27;</span>,  <span class="comment">//发件人</span></span><br><span class="line">  to: <span class="string">&#x27;abc@163.com, def@163.com&#x27;</span>,  <span class="comment">//收件人，可以设置多个</span></span><br><span class="line">  subject: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件主题</span></span><br><span class="line">  text: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件文本</span></span><br><span class="line">  html: <span class="string">&#x27;&#x27;</span>  <span class="comment">//html格式文本</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h1 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">transport.sendMail(mailOptions, <span class="function"><span class="keyword">function</span>(<span class="params">err, info</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(err)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">console</span>.log(err);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Message sent: &#x27;</span> + info.response);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>成功运行后，去查看一下发件邮箱的已发送，里面会有发送的记录</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="http://nodemailer.com/">Nodemailer &#8211; Send e-mails with Node.JS</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Node.js</category>
-      </categories>
-      <tags>
-        <tag>Node.js</tag>
-        <tag>邮件</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>(译)如何在CentOS/RHEL &amp; Fedora上安装MongoDB 3.2</title>
     <url>/2016/08/29/how-to-install-mongodb-3.2-on-centos-rhel-and-fedora/</url>
     <content><![CDATA[<p>MongoDB（名称取自“huMONGOus“）是一个有着全面灵活的索引支持和丰富的查询的数据库。MongoDB通过GridFS提供强大的媒体存储。点击<a href="http://www.10gen.com/products/mongodb">这里</a>获取MongoDB的更多信息</p>
@@ -981,6 +958,29 @@
       <tags>
         <tag>CentOS</tag>
         <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用Node.js发送邮件</title>
+    <url>/2016/08/29/nodejs-send-mail/</url>
+    <content><![CDATA[<p><strong>本文讲的是用Node.js通过一个开启smtp的已有的邮箱账号发送邮件，而不是如何创建一个邮件服务器</strong></p>
+<h1 id="开启smtp服务"><a href="#开启smtp服务" class="headerlink" title="开启smtp服务"></a>开启smtp服务</h1><p>首先要去要使用的邮箱中设置开启smtp，才能正常发送邮件</p>
+<p>这边以163邮箱为例</p>
+<p><img src="http://img.blog.csdn.net/20160829152743891" alt="163mail set smtp"></p>
+<h1 id="安装Nodemailer模块"><a href="#安装Nodemailer模块" class="headerlink" title="安装Nodemailer模块"></a>安装Nodemailer模块</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install nodemailer --save-dev</span><br></pre></td></tr></table></figure>
+<h1 id="设置Nodemailer"><a href="#设置Nodemailer" class="headerlink" title="设置Nodemailer"></a>设置Nodemailer</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> nodemailer = <span class="built_in">require</span>(<span class="string">&#x27;nodemailer&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//username替换为邮箱名，%40后面是邮件服务器的地址，比如163.com，password替换为邮箱密码（或独立密码，如果有设置的话），@后面填SMTP服务器地址，如163的smtp地址为smtp.163.com</span></span><br><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtps://username%40163.com:password@smtp.163.com&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> mailOptions = &#123;</span><br><span class="line">  <span class="keyword">from</span>: <span class="string">&#x27;example@163.com&#x27;</span>,  <span class="comment">//发件人</span></span><br><span class="line">  to: <span class="string">&#x27;abc@163.com, def@163.com&#x27;</span>,  <span class="comment">//收件人，可以设置多个</span></span><br><span class="line">  subject: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件主题</span></span><br><span class="line">  text: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件文本</span></span><br><span class="line">  html: <span class="string">&#x27;&#x27;</span>  <span class="comment">//html格式文本</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">transport.sendMail(mailOptions, <span class="function"><span class="keyword">function</span>(<span class="params">err, info</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(err)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">console</span>.log(err);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Message sent: &#x27;</span> + info.response);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>成功运行后，去查看一下发件邮箱的已发送，里面会有发送的记录</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://nodemailer.com/">Nodemailer &#8211; Send e-mails with Node.JS</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Node.js</category>
+      </categories>
+      <tags>
+        <tag>Node.js</tag>
+        <tag>邮件</tag>
       </tags>
   </entry>
   <entry>
@@ -1040,7 +1040,7 @@
 <p>修改为</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtp://@127.0.0.1:25&#x27;</span>);</span><br></pre></td></tr></table></figure>
 <p>即可。</p>
-<p>相应的，mailOptions里面的from改成<a href="mailto:&#x78;&#x78;&#x78;&#64;&#100;&#x6f;&#109;&#x61;&#105;&#x6e;&#46;&#x74;&#x6c;&#x64;">&#x78;&#x78;&#x78;&#64;&#100;&#x6f;&#109;&#x61;&#105;&#x6e;&#46;&#x74;&#x6c;&#x64;</a>（你自己的域名，其实改成其他任意域名都可以成功发送）</p>
+<p>相应的，mailOptions里面的from改成<a href="mailto:&#120;&#120;&#120;&#64;&#x64;&#x6f;&#109;&#97;&#105;&#110;&#46;&#116;&#x6c;&#100;">&#120;&#120;&#120;&#64;&#x64;&#x6f;&#109;&#97;&#105;&#110;&#46;&#116;&#x6c;&#100;</a>（你自己的域名，其实改成其他任意域名都可以成功发送）</p>
 <p><img src="http://img.blog.csdn.net/20160831012617040" alt="test mail"></p>
 <p><img src="http://img.blog.csdn.net/20160831012638899" alt="other domain"></p>
 <p>一般会在辣鸡邮件里面找到你发的邮件</p>
@@ -1473,6 +1473,22 @@
       </tags>
   </entry>
   <entry>
+    <title>Array.prototype.filter()的实现</title>
+    <url>/2016/09/22/javascript-filter-realize/</url>
+    <content><![CDATA[<h1 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h1><p>今年某前端笔试的一道题，大概就是实现一遍filter，包括一个可以改变上下文的要求，其实就是改变this啦，跟原生的filter一样的功能跟参数。</p>
+<h1 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h1><p>filter的功能就是过滤，传入一个函数作为条件，返回true则将元素加入最终返回的数组中。</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.filter = <span class="function"><span class="keyword">function</span>(<span class="params">cb, context</span>)</span>&#123;</span><br><span class="line">  context = context || <span class="built_in">this</span>;  <span class="comment">//确定上下文，默认为this</span></span><br><span class="line">  <span class="keyword">var</span> len = <span class="built_in">this</span>.length;  <span class="comment">//数组的长度</span></span><br><span class="line">  <span class="keyword">var</span> r = [];  <span class="comment">//最终将返回的结果数组</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(cb.call(context, <span class="built_in">this</span>[i], i, <span class="built_in">this</span>))&#123;  <span class="comment">//filter回调函数的三个参数：元素值，元素索引，原数组</span></span><br><span class="line">      r.push(<span class="built_in">this</span>[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h1><p>个人觉得考察的是call的使用</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>filter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>页面两列布局高度填满</title>
     <url>/2016/09/22/html-2-column-layout-height-filled/</url>
     <content><![CDATA[<h1 id="问题来源"><a href="#问题来源" class="headerlink" title="问题来源"></a>问题来源</h1><p>昨天早上某面试提出的一个问题，脑子一热漏写了一个条件，心塞。</p>
@@ -1493,22 +1509,6 @@
       <tags>
         <tag>前端</tag>
         <tag>CSS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Array.prototype.filter()的实现</title>
-    <url>/2016/09/22/javascript-filter-realize/</url>
-    <content><![CDATA[<h1 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h1><p>今年某前端笔试的一道题，大概就是实现一遍filter，包括一个可以改变上下文的要求，其实就是改变this啦，跟原生的filter一样的功能跟参数。</p>
-<h1 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h1><p>filter的功能就是过滤，传入一个函数作为条件，返回true则将元素加入最终返回的数组中。</p>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.filter = <span class="function"><span class="keyword">function</span>(<span class="params">cb, context</span>)</span>&#123;</span><br><span class="line">  context = context || <span class="built_in">this</span>;  <span class="comment">//确定上下文，默认为this</span></span><br><span class="line">  <span class="keyword">var</span> len = <span class="built_in">this</span>.length;  <span class="comment">//数组的长度</span></span><br><span class="line">  <span class="keyword">var</span> r = [];  <span class="comment">//最终将返回的结果数组</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(cb.call(context, <span class="built_in">this</span>[i], i, <span class="built_in">this</span>))&#123;  <span class="comment">//filter回调函数的三个参数：元素值，元素索引，原数组</span></span><br><span class="line">      r.push(<span class="built_in">this</span>[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h1 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h1><p>个人觉得考察的是call的使用</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>filter</tag>
       </tags>
   </entry>
   <entry>
@@ -2136,40 +2136,6 @@ helper:
       </tags>
   </entry>
   <entry>
-    <title>iview clickoutside指令</title>
-    <url>/2017/09/18/iview-clickoutside-directive/</url>
-    <content><![CDATA[<h1 id="clickoutside指令介绍"><a href="#clickoutside指令介绍" class="headerlink" title="clickoutside指令介绍"></a>clickoutside指令介绍</h1><p>iview里面有个clickoutside指令，用来处理点击元素外面的事件。</p>
-<p>比如在cascader组件里的最外层div就用到了该指令</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div :class&#x3D;&quot;classes&quot; v-clickoutside&#x3D;&quot;handleClose&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>当用户点击了这个元素的外面，就会执行传到指令中的<code>handleClose</code>函数。</p>
-<h1 id="clickoutside指令原理"><a href="#clickoutside指令原理" class="headerlink" title="clickoutside指令原理"></a>clickoutside指令原理</h1><p>首先来看一下该指令的源码：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    bind (el, binding, vnode) &#123;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">documentHandler</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (el.contains(e.target)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (binding.expression) &#123;</span><br><span class="line">                binding.value(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        el.__vueClickOutside__ = documentHandler;</span><br><span class="line">        <span class="built_in">document</span>.addEventListener(<span class="string">&#x27;click&#x27;</span>, documentHandler);</span><br><span class="line">    &#125;,</span><br><span class="line">    update () &#123;</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line">    unbind (el, binding) &#123;</span><br><span class="line">        <span class="built_in">document</span>.removeEventListener(<span class="string">&#x27;click&#x27;</span>, el.__vueClickOutside__);</span><br><span class="line">        <span class="keyword">delete</span> el.__vueClickOutside__;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>定义了bind和unbind两个钩子函数。</p>
-<p>有关Vue自定义指令钩子函数的知识参照<a href="https://cn.vuejs.org/v2/guide/custom-directive.html">官方文档</a></p>
-<h2 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h2><p>在bind函数中，给使用了该指令的元素添加了一个<code>__vueClickOutside__</code>属性。</p>
-<p>然后在document上绑定了一个click事件，<code>documentHandler</code>。</p>
-<p>该handler做了两件事：</p>
-<ol>
-<li>判断使用指令的元素中是否包含当前被点击的元素，如果是，说明用户点击的是元素里面，则return false停止事件冒泡</li>
-<li>判断使用指令的元素是否有绑定值，若有，则调用绑定的函数。</li>
-</ol>
-<p>需要注意的是，绑定的值必须是一个函数，例如，上述cascader组件中的<code>handleClose</code>就必须是一个函数</p>
-<p>因为<code>binding.value(e)</code>在此例中就相当于<code>handleClose(e)</code>（<code>binding.value</code>为指令的绑定值，在这里绑定了handleClose这个值）</p>
-<h2 id="unbind"><a href="#unbind" class="headerlink" title="unbind"></a>unbind</h2><p>解绑，两个操作</p>
-<ol>
-<li>移除监听器，在bind中定义的<code>el.__vueClickOutside__</code>在这里作为removeEventListener的listener参数</li>
-<li>删除元素上的<code>__vueClickOutside__</code>属性</li>
-</ol>
-]]></content>
-      <categories>
-        <category>vue</category>
-      </categories>
-      <tags>
-        <tag>vue</tag>
-        <tag>iview</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>iview树组件源码阅读笔记</title>
     <url>/2017/09/08/iview%E6%A0%91%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>好久没有记一些东西了，本菜鸡又来水文章了。</p>
@@ -2257,6 +2223,40 @@ helper:
 <p>watch中监听了data的变化。当data变化时，在DOM更新完成后，执行<code>updateData</code>方法更新数据，并broadcast一个<code>indeterminate</code>事件。<br>结合<a href="#node.vue-created&mounted">node.vue mounted</a>，在监听到<code>indeterminate</code>事件后，也向下broadcast了该事件，保证所有子节点都能接收到该事件的触发，并执行相应方法。</p>
 <p><strong>tree.vue就讲到这里吧。</strong></p>
 <h1 id="用到的utils-amp-mixins"><a href="#用到的utils-amp-mixins" class="headerlink" title="用到的utils &amp; mixins"></a>用到的utils &amp; mixins</h1><p>先留个坑，会解释dispatch和broadcast，还有 findComponentsDownward 是怎么回事。</p>
+]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+        <tag>iview</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iview clickoutside指令</title>
+    <url>/2017/09/18/iview-clickoutside-directive/</url>
+    <content><![CDATA[<h1 id="clickoutside指令介绍"><a href="#clickoutside指令介绍" class="headerlink" title="clickoutside指令介绍"></a>clickoutside指令介绍</h1><p>iview里面有个clickoutside指令，用来处理点击元素外面的事件。</p>
+<p>比如在cascader组件里的最外层div就用到了该指令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div :class&#x3D;&quot;classes&quot; v-clickoutside&#x3D;&quot;handleClose&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>当用户点击了这个元素的外面，就会执行传到指令中的<code>handleClose</code>函数。</p>
+<h1 id="clickoutside指令原理"><a href="#clickoutside指令原理" class="headerlink" title="clickoutside指令原理"></a>clickoutside指令原理</h1><p>首先来看一下该指令的源码：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    bind (el, binding, vnode) &#123;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">documentHandler</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (el.contains(e.target)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (binding.expression) &#123;</span><br><span class="line">                binding.value(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        el.__vueClickOutside__ = documentHandler;</span><br><span class="line">        <span class="built_in">document</span>.addEventListener(<span class="string">&#x27;click&#x27;</span>, documentHandler);</span><br><span class="line">    &#125;,</span><br><span class="line">    update () &#123;</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line">    unbind (el, binding) &#123;</span><br><span class="line">        <span class="built_in">document</span>.removeEventListener(<span class="string">&#x27;click&#x27;</span>, el.__vueClickOutside__);</span><br><span class="line">        <span class="keyword">delete</span> el.__vueClickOutside__;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>定义了bind和unbind两个钩子函数。</p>
+<p>有关Vue自定义指令钩子函数的知识参照<a href="https://cn.vuejs.org/v2/guide/custom-directive.html">官方文档</a></p>
+<h2 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h2><p>在bind函数中，给使用了该指令的元素添加了一个<code>__vueClickOutside__</code>属性。</p>
+<p>然后在document上绑定了一个click事件，<code>documentHandler</code>。</p>
+<p>该handler做了两件事：</p>
+<ol>
+<li>判断使用指令的元素中是否包含当前被点击的元素，如果是，说明用户点击的是元素里面，则return false停止事件冒泡</li>
+<li>判断使用指令的元素是否有绑定值，若有，则调用绑定的函数。</li>
+</ol>
+<p>需要注意的是，绑定的值必须是一个函数，例如，上述cascader组件中的<code>handleClose</code>就必须是一个函数</p>
+<p>因为<code>binding.value(e)</code>在此例中就相当于<code>handleClose(e)</code>（<code>binding.value</code>为指令的绑定值，在这里绑定了handleClose这个值）</p>
+<h2 id="unbind"><a href="#unbind" class="headerlink" title="unbind"></a>unbind</h2><p>解绑，两个操作</p>
+<ol>
+<li>移除监听器，在bind中定义的<code>el.__vueClickOutside__</code>在这里作为removeEventListener的listener参数</li>
+<li>删除元素上的<code>__vueClickOutside__</code>属性</li>
+</ol>
 ]]></content>
       <categories>
         <category>vue</category>
@@ -3369,6 +3369,88 @@ helper:
       </categories>
       <tags>
         <tag>react</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TypeScript 中如何实现依赖注入</title>
+    <url>/2021/04/06/TypeScript-%E4%B8%AD%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/</url>
+    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>如果有接触过 Angular 或者 Node 服务开发，应该会知道，代码里一般是充满了装饰器的，并且利用控制反转实现了依赖注入。</p>
+<p>这本身没什么问题，开发者写的都是一个个的 <code>class</code> ，至于什么时候实例化，都是交给框架去做。</p>
+<p>但是有关注入的方式，让我怎么也想不通：</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> HttpService <span class="keyword">from</span> <span class="string">&#x27;nestjs&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XXXService</span> </span>&#123;</span><br><span class="line">  <span class="title">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> httpService: HttpService,</span></span><br><span class="line"><span class="params">  </span>) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>就是框架在实例化 service 的时候，如何知道要给 constructor 传入什么的</p>
+<h1 id="试图分析"><a href="#试图分析" class="headerlink" title="试图分析"></a>试图分析</h1><h2 id="运行时固定传入参数？"><a href="#运行时固定传入参数？" class="headerlink" title="运行时固定传入参数？"></a>运行时固定传入参数？</h2><p>由于 <code>HttpService</code> 在 <code>constructor</code> 中是作为 ts 的类型使用的，因此在运行时 js 是不知道其类型的</p>
+<p>这个逻辑至少是确定的（后面打脸</p>
+<p>那么，在实例化 <code>XXXService</code> 的时候，固定会传入一个 <code>httpService</code> 实例？</p>
+<p>随着文档阅读下去、慢慢开始自己写代码后，很容易发现这个推断是站不住脚的：</p>
+<ol>
+<li>首先，在 <code>constructor</code> 中，第一个参数也可以是其他的 Service</li>
+<li>其次，使用依赖注入时，可以注入多个 Services ，跟 <code>constructor</code> 参数的顺序根本无关</li>
+</ol>
+<p>例如：</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XXXService</span> </span>&#123;</span><br><span class="line">  <span class="title">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> catsService: CatsService,</span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> dogsService: DogsService,</span></span><br><span class="line"><span class="params">  </span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Or</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XXXService</span> </span>&#123;</span><br><span class="line">  <span class="title">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> dogsService: DogsService,</span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> catsService: CatsService,</span></span><br><span class="line"><span class="params">  </span>) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上两种写法，效果是一样的，都会注入正确的 <code>catsService</code> 与 <code>dogsService</code> 实例。</p>
+<p>所以，这个猜想是不成立的。</p>
+<h2 id="编译时特殊处理？"><a href="#编译时特殊处理？" class="headerlink" title="编译时特殊处理？"></a>编译时特殊处理？</h2><p>既然无法纯靠运行时达到依赖注入的效果，那么就是在编译的时候进行了特殊的处理？</p>
+<p>之前有稍微听说过，在 Angular 中，把原生的 <code>setTimeout</code> 啥的都重写了来实现更新检测相关的机制，那么这样一个风格的开源框架，自己在编译的时候加点料好像也不是什么稀奇的事情。</p>
+<p>有可能是 tsc 的时候有些钩子让开发者加料？又或者是 Angular 团队自己写了个 ts 的 compiler ？</p>
+<p>不管是哪种方式，实现起来都挺魔幻的，让人一时无法想明白，而且自己维护 compiler 的话，成本应该也不小的。</p>
+<p>而 nestjs 文档中有说明，其依赖注入的设计是参考的 Angular ，这么一看，难道 nest 用的 compiler 跟 Angular 一样？还是 nest 团队也自己搞了一套？</p>
+<p>在猜想越发离谱的情况下，还是老老实实去搜搜到底是怎么实现的吧。</p>
+<h2 id="TypeScript-emitDecoratorMetadata-与-reflect-metadata"><a href="#TypeScript-emitDecoratorMetadata-与-reflect-metadata" class="headerlink" title="TypeScript emitDecoratorMetadata 与 reflect-metadata"></a>TypeScript emitDecoratorMetadata 与 reflect-metadata</h2><p>搜索资料的过程中，发现一个叫 <a href="https://github.com/rbuckton/reflect-metadata"><code>reflect-metadata</code></a> 的库，在 ts 的 <a href="https://www.typescriptlang.org/docs/handbook/decorators.html#metadata">handbook</a> 也有相关的介绍，之前基本没用到 decorators 所以没注意。</p>
+<p>搜过 Angular 与 Nestjs 的源码后，可以确定它们的依赖注入系统就是利用了这个实验性的 API 。</p>
+<h1 id="原理探索"><a href="#原理探索" class="headerlink" title="原理探索"></a>原理探索</h1><h2 id="reflect-metadata"><a href="#reflect-metadata" class="headerlink" title="reflect-metadata"></a>reflect-metadata</h2><p>从这个库的 <a href="https://github.com/rbuckton/reflect-metadata">Readme</a> 可以很清晰地看出它能做什么：</p>
+<p>简单来说，它给开发者提供了一种能力，可以在定义一个 <code>class</code> 时通过 <code>Reflect.defineMetadata</code> 存储一些类型相关的数据，在实际调用的这个 <code>class</code> 的时候，通过 <code>Reflect.getMetadata</code> 获取之前定义的数据。要类比的话，有点像藏在 <code>class</code> 里的 <code>localStorage</code> 。</p>
+<p>这里还涉及一个 <a href="https://en.wikipedia.org/wiki/Metaprogramming">元编程</a> 的概念，简单地说，就是平常写程序，是处理外部输入的数据，而元编程提供了将程序当做数据的能力，也就是处理程序的程序。在 JavaScript 中，也不是什么新鲜的特性了， ES6 提供的 <code>Proxy</code>, <code>Reflect</code> 甚至之前的 <code>defineProperty</code> 等，就给开发者提供了元编程的能力。详见 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Meta_programming">MDN</a></p>
+<p>扯回正题，我们直接通过一个简单的例子看看 <code>reflect-metadata</code> 到底能做啥</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;reflect-metadata&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Injectable = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">target: <span class="built_in">any</span></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">Reflect</span>.defineMetadata(<span class="string">&#x27;say&#x27;</span>, <span class="string">&#x27;meow&#x27;</span>, target)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> instantiateCat = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> say = <span class="built_in">Reflect</span>.getMetadata(<span class="string">&#x27;say&#x27;</span>, Cat)</span><br><span class="line">  <span class="built_in">console</span>.log(say) <span class="comment">// meow</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">instantiateCat()</span><br></pre></td></tr></table></figure>
+<p>通过以上这个例子可以看到， <code>Injectable</code> 通过 <code>Reflect.defineMetadata</code> 给 <code>Cat</code> 加了个 key 为 <code>say</code> 的 metadata</p>
+<p>而在实例化的时候，通过 <code>Reflect.getMetadata</code> 就可以拿到定义的 metadata 了</p>
+<p>那么，我们如果把 <code>constructor</code> 的参数定义为 metadata ，在实例化的时候也就知道要传入哪些参数了，就像下面的例子：</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;reflect-metadata&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Injectable = <span class="function">(<span class="params">constructorArguments: <span class="built_in">any</span>[]</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">target: <span class="built_in">any</span></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">Reflect</span>.defineMetadata(<span class="string">&#x27;args&#x27;</span>, <span class="title">constructorArguments</span>, <span class="title">target</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title">class</span> <span class="title">Tail</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>([Tail])</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> </span>&#123;</span><br><span class="line">  <span class="title">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> tail: Tail,</span></span><br><span class="line"><span class="params">  </span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> instantiateCat = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> args = <span class="built_in">Reflect</span>.getMetadata(<span class="string">&#x27;args&#x27;</span>, Cat)</span><br><span class="line">  <span class="built_in">console</span>.log(args) <span class="comment">// [Tail]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">instantiateCat()</span><br></pre></td></tr></table></figure>
+<p>但很显然，我们实际在写 Angular 或者 nest 的时候，是不会给 <code>Injectable</code> 传入 <code>constructor</code> 的参数的，那框架是如何知道参数信息的？</p>
+<p>以下就是黑魔法了</p>
+<h2 id="emitDecoratorMetadata"><a href="#emitDecoratorMetadata" class="headerlink" title="emitDecoratorMetadata"></a>emitDecoratorMetadata</h2><p>tsconfig 里有这么一个配置 <a href="https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata"><code>emitDecoratorMetadata</code></a> ，没有想了解依赖注入之前，完全没注意到这个是干啥的，加上官网文档中，其属于实验性的 API ，就更没想要了解了。</p>
+<p>不过官网也指明了这个选项是跟 <code>reflect-metadata</code> 配合的，明显是我们要了解的、跟依赖注入有关的选项。</p>
+<p>让我们接着以上的例子来说明，先把 <code>emitDecoratorMetadata</code> 在 <code>tsconfig.json</code> 中打开，然后运行以下示例：</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;reflect-metadata&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Injectable = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">target: <span class="built_in">any</span></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 移除 Reflect.defineMetadata</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tail</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 移除参数</span></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> </span>&#123;</span><br><span class="line">  <span class="title">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> tail: Tail,</span></span><br><span class="line"><span class="params">  </span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> instantiateCat = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// args 改为 design:paramtypes</span></span><br><span class="line">  <span class="keyword">const</span> args = <span class="built_in">Reflect</span>.getMetadata(<span class="string">&#x27;design:paramtypes&#x27;</span>, Cat)</span><br><span class="line">  <span class="built_in">console</span>.log(args) <span class="comment">// [Tail]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">instantiateCat()</span><br></pre></td></tr></table></figure>
+<p>可以发现，我们把 <code>Injectable</code> 的参数去掉了，把 <code>Reflect.defineMetadata</code> 也移除了，效果还是一样，能读取到 <code>constructor</code> 的参数</p>
+<p>ohhhhhhhhhhh</p>
+<p>这时候可能会有个疑问， <code>Injectable</code> 啥也没做啊，能不能移除掉</p>
+<p>答案当然是 不一定能</p>
+<p>因为 <code>emitDecoratorMetadata</code> 选项是针对装饰器的，没有装饰器了，就没有作用了</p>
+<p>当然，如果随便加一个其他乱七八糟的装饰器，那还是会起作用的</p>
+<p>那么 <code>emitDecoratorMetadata</code> 这个黑魔法做了啥呢？我们在 TypeScript Playground 把代码贴上去看看会生成什么样的 JS 代码：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> __decorate = (<span class="built_in">this</span> &amp;&amp; <span class="built_in">this</span>.__decorate) || <span class="function"><span class="keyword">function</span> (<span class="params">decorators, target, key, desc</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> c = <span class="built_in">arguments</span>.length, r = c &lt; <span class="number">3</span> ? target : desc === <span class="literal">null</span> ? desc = <span class="built_in">Object</span>.getOwnPropertyDescriptor(target, key) : desc, d;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">Reflect</span> === <span class="string">&quot;object&quot;</span> &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">Reflect</span>.decorate === <span class="string">&quot;function&quot;</span>) r = <span class="built_in">Reflect</span>.decorate(decorators, target, key, desc);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">for</span> (<span class="keyword">var</span> i = decorators.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) <span class="keyword">if</span> (d = decorators[i]) r = (c &lt; <span class="number">3</span> ? d(r) : c &gt; <span class="number">3</span> ? d(target, key, r) : d(target, key)) || r;</span><br><span class="line">    <span class="keyword">return</span> c &gt; <span class="number">3</span> &amp;&amp; r &amp;&amp; <span class="built_in">Object</span>.defineProperty(target, key, r), r;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ***** 重点1 ******</span></span><br><span class="line"><span class="keyword">var</span> __metadata = (<span class="built_in">this</span> &amp;&amp; <span class="built_in">this</span>.__metadata) || <span class="function"><span class="keyword">function</span> (<span class="params">k, v</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Reflect.metadata 是 Reflect.defineMetadata 的装饰器版本</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">Reflect</span> === <span class="string">&quot;object&quot;</span> &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">Reflect</span>.metadata === <span class="string">&quot;function&quot;</span>) <span class="keyword">return</span> <span class="built_in">Reflect</span>.metadata(k, v);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;reflect-metadata&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> Injectable = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">target</span>) </span>&#123;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tail</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> Cat = <span class="class"><span class="keyword">class</span> <span class="title">Cat</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">tail</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.tail = tail;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">Cat = __decorate([</span><br><span class="line">    Injectable(),</span><br><span class="line">    <span class="comment">// ****** 重点2 ******</span></span><br><span class="line">    __metadata(<span class="string">&quot;design:paramtypes&quot;</span>, [Tail])</span><br><span class="line">], Cat);</span><br><span class="line"><span class="keyword">const</span> instantiateCat = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> args = <span class="built_in">Reflect</span>.getMetadata(<span class="string">&#x27;design:paramtypes&#x27;</span>, Cat);</span><br><span class="line">    <span class="built_in">console</span>.log(args); <span class="comment">// [Tail]</span></span><br><span class="line">&#125;;</span><br><span class="line">instantiateCat();</span><br></pre></td></tr></table></figure>
+<p>可以看到，生成的代码自动给我们加上了类似 <code>Reflect.defineMetadata(&#39;design:paramtypes&#39;, [Tail], Cat)</code> 的片段</p>
+<p>所以后续实例化时，我们依然可以通过 <code>Reflect.getMetadata</code> 获取 <code>constructor</code> 参数</p>
+<p>至此，整个黑魔法就解释完了</p>
+<h1 id="其他疑问"><a href="#其他疑问" class="headerlink" title="其他疑问"></a>其他疑问</h1><p>关于 TypeScript 依赖注入的黑魔法是清楚了，实际上，因为语言本身不支持，加上用得不多，所以第一次了解下来会感觉很魔幻，在其他语言中应该是很平常的做法。</p>
+<p>还有一个跟依赖注入原理关系不大的问题：</p>
+<p><code>Injectable</code> 就这么放空？</p>
+<p>当然不是，根据本人的合理推断， <code>Injectable</code> 内部做的应该是把当前 class 注册到管理依赖注入的系统中，提供给其他 class 注入使用。</p>
+<p>以下是对这个猜想不负责任的一个简单实现，不代表框架内部就是这样做的</p>
+<iframe src="https://codesandbox.io/embed/modern-lake-3r7u9?expanddevtools=1&fontsize=14&hidenavigation=1&module=%2Fsrc%2Findex.ts&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="modern-lake-3r7u9"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;reflect-metadata&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> providers: <span class="built_in">any</span>[] = []</span><br><span class="line"><span class="keyword">const</span> instanceMap = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Injectable = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">target: <span class="built_in">any</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!providers.includes(target)) &#123;</span><br><span class="line">      providers.push(target)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Yarn</span> </span>&#123;</span><br><span class="line">  roll () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;yarn roll!&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tail</span> </span>&#123;</span><br><span class="line">  wag () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;wag!&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> </span>&#123;</span><br><span class="line">  <span class="title">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> tail: Tail,</span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> yarn: Yarn,</span></span><br><span class="line"><span class="params">  </span>) &#123;</span><br><span class="line">    tail.wag()</span><br><span class="line">    yarn.roll()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> instantiate = <span class="function">(<span class="params">target: <span class="built_in">any</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> args = <span class="built_in">Reflect</span>.getMetadata(<span class="string">&#x27;design:paramtypes&#x27;</span>, target)</span><br><span class="line">  <span class="keyword">const</span> ctorArgs = (args || []).map(<span class="function">(<span class="params">arg: <span class="built_in">any</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!providers.includes(arg)) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`<span class="subst">$&#123;arg&#125;</span> not injectable`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> cache = instanceMap.get(arg)</span><br><span class="line">    <span class="keyword">if</span> (cache) <span class="keyword">return</span> cache</span><br><span class="line">    <span class="keyword">const</span> instance = instantiate(arg)</span><br><span class="line">    instanceMap.set(arg, instance)</span><br><span class="line">    <span class="keyword">return</span> instance</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> target(...ctorArgs)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> instantiateCat = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> instantiate(Cat)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">instantiateCat()</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://github.com/rbuckton/reflect-metadata">reflect-metadata</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Meta_programming">Meta programming - JavaScript | MDN</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Metaprogramming">Metaprogramming - Wikipedia</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/decorators.html#metadata">TypeScript: Documentation - Decorators</a></li>
+<li><a href="https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata">TypeScript: TSConfig Reference - Docs on every TSConfig option</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>typescript</tag>
       </tags>
   </entry>
 </search>

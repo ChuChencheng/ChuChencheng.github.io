@@ -222,7 +222,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">70</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -277,6 +277,111 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/09/09/gulp-less-no-stopping-running-tasks-on-error/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/09/09/gulp-less-no-stopping-running-tasks-on-error/" class="post-title-link" itemprop="url">gulp-less解决遇到错误停止执行task</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-09-09 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-09T00:00:00+08:00">2016-09-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">构建工具</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/09/09/gulp-less-no-stopping-running-tasks-on-error/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/09/gulp-less-no-stopping-running-tasks-on-error/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="来龙去脉"><a href="#来龙去脉" class="headerlink" title="来龙去脉"></a>来龙去脉</h1><p>在用less+gulp开发时，有时候代码还没写完整，不小心保存了一下，然后gulp就开始执行gulp-less的task。<br>但是代码是有问题的，这时候会输出一个Potentially unhandled rejection，告诉你哪里出问题了，然后，<br>然后就挂了！！pipe就会停止输入数据，整个task就停止了。<br>特别是我用Sublime，设置了失去焦点自动保存，很容易出现这个问题。</p>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p><a target="_blank" rel="noopener" href="https://github.com/floatdrop/gulp-plumber">gulp-plumber</a>插件解决了这个问题。<br>插件作者的想法 <a target="_blank" rel="noopener" href="https://gist.github.com/floatdrop/8269868">Error management in gulp</a></p>
+<p>使用方法：</p>
+<p>先npm下载下来</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install gulp-plumber --save-dev</span><br></pre></td></tr></table></figure>
+<p>在gulpfile.js中，引入gulp-plumber，然后在处理less的task中加上：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> plumber = <span class="built_in">require</span>(<span class="string">&#x27;gulp-plumber&#x27;</span>);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">&#x27;less&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> gulp.src(<span class="string">&#x27;./less/*.less&#x27;</span>)</span><br><span class="line">        .pipe(plumber())  <span class="comment">//加上这句</span></span><br><span class="line">        .pipe(less())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">&#x27;./css&#x27;</span>))</span><br><span class="line">        .pipe(browserSync.stream());</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/09/09/gulp-less-no-stopping-running-tasks-on-error/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -386,106 +491,6 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/29/nodejs-send-mail/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CCC">
-      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CCC 的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/08/29/nodejs-send-mail/" class="post-title-link" itemprop="url">用Node.js发送邮件</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-08-29 00:00:00" itemprop="dateCreated datePublished" datetime="2016-08-29T00:00:00+08:00">2016-08-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2016/08/29/nodejs-send-mail/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/29/nodejs-send-mail/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><strong>本文讲的是用Node.js通过一个开启smtp的已有的邮箱账号发送邮件，而不是如何创建一个邮件服务器</strong></p>
-<h1 id="开启smtp服务"><a href="#开启smtp服务" class="headerlink" title="开启smtp服务"></a>开启smtp服务</h1><p>首先要去要使用的邮箱中设置开启smtp，才能正常发送邮件</p>
-<p>这边以163邮箱为例</p>
-<p><img src="http://img.blog.csdn.net/20160829152743891" alt="163mail set smtp"></p>
-<h1 id="安装Nodemailer模块"><a href="#安装Nodemailer模块" class="headerlink" title="安装Nodemailer模块"></a>安装Nodemailer模块</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install nodemailer --save-dev</span><br></pre></td></tr></table></figure>
-<h1 id="设置Nodemailer"><a href="#设置Nodemailer" class="headerlink" title="设置Nodemailer"></a>设置Nodemailer</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nodemailer = <span class="built_in">require</span>(<span class="string">&#x27;nodemailer&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//username替换为邮箱名，%40后面是邮件服务器的地址，比如163.com，password替换为邮箱密码（或独立密码，如果有设置的话），@后面填SMTP服务器地址，如163的smtp地址为smtp.163.com</span></span><br><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtps://username%40163.com:password@smtp.163.com&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> mailOptions = &#123;</span><br><span class="line">  <span class="keyword">from</span>: <span class="string">&#x27;example@163.com&#x27;</span>,  <span class="comment">//发件人</span></span><br><span class="line">  to: <span class="string">&#x27;abc@163.com, def@163.com&#x27;</span>,  <span class="comment">//收件人，可以设置多个</span></span><br><span class="line">  subject: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件主题</span></span><br><span class="line">  text: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件文本</span></span><br><span class="line">  html: <span class="string">&#x27;&#x27;</span>  <span class="comment">//html格式文本</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h1 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/08/29/nodejs-send-mail/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/29/how-to-install-mongodb-3.2-on-centos-rhel-and-fedora/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -561,6 +566,106 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/08/29/how-to-install-mongodb-3.2-on-centos-rhel-and-fedora/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/29/nodejs-send-mail/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/08/29/nodejs-send-mail/" class="post-title-link" itemprop="url">用Node.js发送邮件</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-08-29 00:00:00" itemprop="dateCreated datePublished" datetime="2016-08-29T00:00:00+08:00">2016-08-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/08/29/nodejs-send-mail/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/29/nodejs-send-mail/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><strong>本文讲的是用Node.js通过一个开启smtp的已有的邮箱账号发送邮件，而不是如何创建一个邮件服务器</strong></p>
+<h1 id="开启smtp服务"><a href="#开启smtp服务" class="headerlink" title="开启smtp服务"></a>开启smtp服务</h1><p>首先要去要使用的邮箱中设置开启smtp，才能正常发送邮件</p>
+<p>这边以163邮箱为例</p>
+<p><img src="http://img.blog.csdn.net/20160829152743891" alt="163mail set smtp"></p>
+<h1 id="安装Nodemailer模块"><a href="#安装Nodemailer模块" class="headerlink" title="安装Nodemailer模块"></a>安装Nodemailer模块</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install nodemailer --save-dev</span><br></pre></td></tr></table></figure>
+<h1 id="设置Nodemailer"><a href="#设置Nodemailer" class="headerlink" title="设置Nodemailer"></a>设置Nodemailer</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nodemailer = <span class="built_in">require</span>(<span class="string">&#x27;nodemailer&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//username替换为邮箱名，%40后面是邮件服务器的地址，比如163.com，password替换为邮箱密码（或独立密码，如果有设置的话），@后面填SMTP服务器地址，如163的smtp地址为smtp.163.com</span></span><br><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtps://username%40163.com:password@smtp.163.com&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> mailOptions = &#123;</span><br><span class="line">  <span class="keyword">from</span>: <span class="string">&#x27;example@163.com&#x27;</span>,  <span class="comment">//发件人</span></span><br><span class="line">  to: <span class="string">&#x27;abc@163.com, def@163.com&#x27;</span>,  <span class="comment">//收件人，可以设置多个</span></span><br><span class="line">  subject: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件主题</span></span><br><span class="line">  text: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件文本</span></span><br><span class="line">  html: <span class="string">&#x27;&#x27;</span>  <span class="comment">//html格式文本</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/08/29/nodejs-send-mail/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -2231,111 +2336,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/08/08/how-ECMAScript-get-this/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/05/JavaScript-Object-and-Function-type/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CCC">
-      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CCC 的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/08/05/JavaScript-Object-and-Function-type/" class="post-title-link" itemprop="url">JavaScript笔记——引用类型之Object类型和Function类型</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-08-05 00:00:00" itemprop="dateCreated datePublished" datetime="2016-08-05T00:00:00+08:00">2016-08-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2016/08/05/JavaScript-Object-and-Function-type/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/05/JavaScript-Object-and-Function-type/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><strong>《JavaScript高级程序设计》中介绍的几种JavaScript的引用类型，本文只记了Object跟Function类型</strong></p>
-<h1 id="Object类型"><a href="#Object类型" class="headerlink" title="Object类型"></a>Object类型</h1><h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var person &#x3D; new Object();</span><br><span class="line">var person &#x3D; &#123;&#125;;</span><br><span class="line">&#x2F;&#x2F;二者效果是一样的，但使用对象字面量表示法定义对象时不会调用Object的构造函数</span><br></pre></td></tr></table></figure>
-<h2 id="访问对象属性"><a href="#访问对象属性" class="headerlink" title="访问对象属性"></a>访问对象属性</h2><ul>
-<li>点表示法</li>
-<li>方括号表示法</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">person.name &#x3D; &#39;&#39;;</span><br><span class="line">person[&#39;name&#39;] &#x3D; &#39;&#39;;</span><br><span class="line">&#x2F;&#x2F; 方括号表示法能用变量来访问属性</span><br><span class="line">var propertyName &#x3D; &#39;name&#39;;</span><br><span class="line">person[propertyName] &#x3D; &#39;&#39;;</span><br><span class="line">&#x2F;&#x2F;若属性名包含会导致语法错误的字符或关键字、保留字，可以使用方括号表示法表示</span><br><span class="line">person[&#39;first name&#39;] &#x3D; &#39;&#39;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="Array类型"><a href="#Array类型" class="headerlink" title="Array类型"></a>Array类型</h1><h1 id="Date类型"><a href="#Date类型" class="headerlink" title="Date类型"></a>Date类型</h1><h1 id="RegExp类型"><a href="#RegExp类型" class="headerlink" title="RegExp类型"></a>RegExp类型</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/08/05/JavaScript-Object-and-Function-type/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
