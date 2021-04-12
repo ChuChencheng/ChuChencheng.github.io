@@ -491,6 +491,106 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/29/nodejs-send-mail/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/08/29/nodejs-send-mail/" class="post-title-link" itemprop="url">用Node.js发送邮件</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-08-29 00:00:00" itemprop="dateCreated datePublished" datetime="2016-08-29T00:00:00+08:00">2016-08-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/08/29/nodejs-send-mail/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/29/nodejs-send-mail/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><strong>本文讲的是用Node.js通过一个开启smtp的已有的邮箱账号发送邮件，而不是如何创建一个邮件服务器</strong></p>
+<h1 id="开启smtp服务"><a href="#开启smtp服务" class="headerlink" title="开启smtp服务"></a>开启smtp服务</h1><p>首先要去要使用的邮箱中设置开启smtp，才能正常发送邮件</p>
+<p>这边以163邮箱为例</p>
+<p><img src="http://img.blog.csdn.net/20160829152743891" alt="163mail set smtp"></p>
+<h1 id="安装Nodemailer模块"><a href="#安装Nodemailer模块" class="headerlink" title="安装Nodemailer模块"></a>安装Nodemailer模块</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install nodemailer --save-dev</span><br></pre></td></tr></table></figure>
+<h1 id="设置Nodemailer"><a href="#设置Nodemailer" class="headerlink" title="设置Nodemailer"></a>设置Nodemailer</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nodemailer = <span class="built_in">require</span>(<span class="string">&#x27;nodemailer&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//username替换为邮箱名，%40后面是邮件服务器的地址，比如163.com，password替换为邮箱密码（或独立密码，如果有设置的话），@后面填SMTP服务器地址，如163的smtp地址为smtp.163.com</span></span><br><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtps://username%40163.com:password@smtp.163.com&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> mailOptions = &#123;</span><br><span class="line">  <span class="keyword">from</span>: <span class="string">&#x27;example@163.com&#x27;</span>,  <span class="comment">//发件人</span></span><br><span class="line">  to: <span class="string">&#x27;abc@163.com, def@163.com&#x27;</span>,  <span class="comment">//收件人，可以设置多个</span></span><br><span class="line">  subject: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件主题</span></span><br><span class="line">  text: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件文本</span></span><br><span class="line">  html: <span class="string">&#x27;&#x27;</span>  <span class="comment">//html格式文本</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/08/29/nodejs-send-mail/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/29/how-to-install-mongodb-3.2-on-centos-rhel-and-fedora/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -566,106 +666,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/08/29/how-to-install-mongodb-3.2-on-centos-rhel-and-fedora/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/29/nodejs-send-mail/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CCC">
-      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CCC 的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/08/29/nodejs-send-mail/" class="post-title-link" itemprop="url">用Node.js发送邮件</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-08-29 00:00:00" itemprop="dateCreated datePublished" datetime="2016-08-29T00:00:00+08:00">2016-08-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2016/08/29/nodejs-send-mail/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/29/nodejs-send-mail/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><strong>本文讲的是用Node.js通过一个开启smtp的已有的邮箱账号发送邮件，而不是如何创建一个邮件服务器</strong></p>
-<h1 id="开启smtp服务"><a href="#开启smtp服务" class="headerlink" title="开启smtp服务"></a>开启smtp服务</h1><p>首先要去要使用的邮箱中设置开启smtp，才能正常发送邮件</p>
-<p>这边以163邮箱为例</p>
-<p><img src="http://img.blog.csdn.net/20160829152743891" alt="163mail set smtp"></p>
-<h1 id="安装Nodemailer模块"><a href="#安装Nodemailer模块" class="headerlink" title="安装Nodemailer模块"></a>安装Nodemailer模块</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install nodemailer --save-dev</span><br></pre></td></tr></table></figure>
-<h1 id="设置Nodemailer"><a href="#设置Nodemailer" class="headerlink" title="设置Nodemailer"></a>设置Nodemailer</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nodemailer = <span class="built_in">require</span>(<span class="string">&#x27;nodemailer&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//username替换为邮箱名，%40后面是邮件服务器的地址，比如163.com，password替换为邮箱密码（或独立密码，如果有设置的话），@后面填SMTP服务器地址，如163的smtp地址为smtp.163.com</span></span><br><span class="line"><span class="keyword">var</span> transport = nodemailer.createTransport(<span class="string">&#x27;smtps://username%40163.com:password@smtp.163.com&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> mailOptions = &#123;</span><br><span class="line">  <span class="keyword">from</span>: <span class="string">&#x27;example@163.com&#x27;</span>,  <span class="comment">//发件人</span></span><br><span class="line">  to: <span class="string">&#x27;abc@163.com, def@163.com&#x27;</span>,  <span class="comment">//收件人，可以设置多个</span></span><br><span class="line">  subject: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件主题</span></span><br><span class="line">  text: <span class="string">&#x27;&#x27;</span>,  <span class="comment">//邮件文本</span></span><br><span class="line">  html: <span class="string">&#x27;&#x27;</span>  <span class="comment">//html格式文本</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h1 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/08/29/nodejs-send-mail/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -899,6 +899,110 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/28/nodejs-cors-solution/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CCC">
+      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CCC 的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/08/28/nodejs-cors-solution/" class="post-title-link" itemprop="url">Node.js实现CORS跨域资源共享</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-08-28 00:00:00" itemprop="dateCreated datePublished" datetime="2016-08-28T00:00:00+08:00">2016-08-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/08/28/nodejs-cors-solution/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/28/nodejs-cors-solution/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="什么是CORS"><a href="#什么是CORS" class="headerlink" title="什么是CORS"></a>什么是CORS</h1><p>CORS(Cross-origin resource sharing)，跨域资源共享，是一份浏览器技术的规范，用来避开浏览器的同源策略</p>
+<p>简单来说就是解决跨域问题的除了jsonp外的另一种方法</p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS的wiki</a></p>
+<h1 id="如何使用CORS"><a href="#如何使用CORS" class="headerlink" title="如何使用CORS"></a>如何使用CORS</h1><p>只要服务端在响应时发送一个响应的标头即可</p>
+<p>浏览器端还是照常使用ajax，支持get，post</p>
+<h1 id="在Node-js上启用CORS"><a href="#在Node-js上启用CORS" class="headerlink" title="在Node.js上启用CORS"></a>在Node.js上启用CORS</h1><p>参照<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/7067966/how-to-allow-cors-in-express-node-js">StackOverflow上面的一个回答</a>，定义一个中间件来添加响应标头，然后在处理app.get（或post等）之前使用<br>（这位老兄告诉我们要善用next啊）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//CORS middleware</span></span><br><span class="line"><span class="keyword">var</span> allowCrossDomain = <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">    res.header(<span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="string">&#x27;http://example.com&#x27;</span>);</span><br><span class="line">    res.header(<span class="string">&#x27;Access-Control-Allow-Methods&#x27;</span>, <span class="string">&#x27;GET,PUT,POST,DELETE&#x27;</span>);</span><br><span class="line">    res.header(<span class="string">&#x27;Access-Control-Allow-Headers&#x27;</span>, <span class="string">&#x27;Content-Type&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    next();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">app.configure(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    app.use(express.bodyParser());</span><br><span class="line">    app.use(express.cookieParser());</span><br><span class="line">    app.use(express.session(&#123; <span class="attr">secret</span>: <span class="string">&#x27;cool beans&#x27;</span> &#125;));</span><br><span class="line">    app.use(express.methodOverride());</span><br><span class="line">    app.use(allowCrossDomain);</span><br><span class="line">    app.use(app.router);</span><br><span class="line">    app.use(express.static(__dirname + <span class="string">&#x27;/public&#x27;</span>));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/08/28/nodejs-cors-solution/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/28/mongoose-auto-pluralize-problem/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -974,110 +1078,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/08/28/mongoose-auto-pluralize-problem/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://chuchencheng.com/2016/08/28/nodejs-cors-solution/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CCC">
-      <meta itemprop="description" content="代码的能力是有极限的，越是玩弄代码，就越会发现代码的能力是有极限的。我不写代码啦，JOJO！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CCC 的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/08/28/nodejs-cors-solution/" class="post-title-link" itemprop="url">Node.js实现CORS跨域资源共享</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-08-28 00:00:00" itemprop="dateCreated datePublished" datetime="2016-08-28T00:00:00+08:00">2016-08-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2016/08/28/nodejs-cors-solution/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/28/nodejs-cors-solution/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="什么是CORS"><a href="#什么是CORS" class="headerlink" title="什么是CORS"></a>什么是CORS</h1><p>CORS(Cross-origin resource sharing)，跨域资源共享，是一份浏览器技术的规范，用来避开浏览器的同源策略</p>
-<p>简单来说就是解决跨域问题的除了jsonp外的另一种方法</p>
-<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS的wiki</a></p>
-<h1 id="如何使用CORS"><a href="#如何使用CORS" class="headerlink" title="如何使用CORS"></a>如何使用CORS</h1><p>只要服务端在响应时发送一个响应的标头即可</p>
-<p>浏览器端还是照常使用ajax，支持get，post</p>
-<h1 id="在Node-js上启用CORS"><a href="#在Node-js上启用CORS" class="headerlink" title="在Node.js上启用CORS"></a>在Node.js上启用CORS</h1><p>参照<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/7067966/how-to-allow-cors-in-express-node-js">StackOverflow上面的一个回答</a>，定义一个中间件来添加响应标头，然后在处理app.get（或post等）之前使用<br>（这位老兄告诉我们要善用next啊）</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//CORS middleware</span></span><br><span class="line"><span class="keyword">var</span> allowCrossDomain = <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">    res.header(<span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="string">&#x27;http://example.com&#x27;</span>);</span><br><span class="line">    res.header(<span class="string">&#x27;Access-Control-Allow-Methods&#x27;</span>, <span class="string">&#x27;GET,PUT,POST,DELETE&#x27;</span>);</span><br><span class="line">    res.header(<span class="string">&#x27;Access-Control-Allow-Headers&#x27;</span>, <span class="string">&#x27;Content-Type&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    next();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">app.configure(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    app.use(express.bodyParser());</span><br><span class="line">    app.use(express.cookieParser());</span><br><span class="line">    app.use(express.session(&#123; <span class="attr">secret</span>: <span class="string">&#x27;cool beans&#x27;</span> &#125;));</span><br><span class="line">    app.use(express.methodOverride());</span><br><span class="line">    app.use(allowCrossDomain);</span><br><span class="line">    app.use(app.router);</span><br><span class="line">    app.use(express.static(__dirname + <span class="string">&#x27;/public&#x27;</span>));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/08/28/nodejs-cors-solution/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
